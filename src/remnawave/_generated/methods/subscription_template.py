@@ -4,6 +4,7 @@
 from remnawave._generated.models import (
     CreateSubscriptionTemplateRequest,
     Host,
+    ReorderConfigProfilesRequest,
     Template,
     Templates,
     UpdateTemplateRequest,
@@ -38,6 +39,11 @@ DELETE_TEMPLATE: Operation[Host] = Operation(
     "/api/subscription-templates/{uuid}",
     Host,
 )
+REORDER_SUBSCRIPTION_TEMPLATES: Operation[Templates] = Operation(
+    "POST",
+    "/api/subscription-templates/actions/reorder",
+    Templates,
+)
 
 
 class SubscriptionTemplateApi(SyncGroup):
@@ -55,13 +61,19 @@ class SubscriptionTemplateApi(SyncGroup):
         """Create subscription template."""
         return self._executor.execute(CREATE_TEMPLATE, body=body)
 
-    def get_template_by_uuid(self) -> Template:
+    def get_template_by_uuid(self, uuid: str) -> Template:
         """Get subscription template by uuid."""
-        return self._executor.execute(GET_TEMPLATE_BY_UUID)
+        return self._executor.execute(GET_TEMPLATE_BY_UUID, path={"uuid": uuid})
 
     def delete_template(self, uuid: str) -> Host:
         """Delete subscription template."""
         return self._executor.execute(DELETE_TEMPLATE, path={"uuid": uuid})
+
+    def reorder_subscription_templates(
+        self, body: ReorderConfigProfilesRequest
+    ) -> Templates:
+        """Reorder subscription templates."""
+        return self._executor.execute(REORDER_SUBSCRIPTION_TEMPLATES, body=body)
 
 
 class AsyncSubscriptionTemplateApi(AsyncGroup):
@@ -79,12 +91,22 @@ class AsyncSubscriptionTemplateApi(AsyncGroup):
         """Create subscription template."""
         return await self._executor.execute(CREATE_TEMPLATE, body=body)
 
-    async def get_template_by_uuid(self) -> Template:
+    async def get_template_by_uuid(self, uuid: str) -> Template:
         """Get subscription template by uuid."""
-        return await self._executor.execute(GET_TEMPLATE_BY_UUID)
+        return await self._executor.execute(
+            GET_TEMPLATE_BY_UUID, path={"uuid": uuid}
+        )
 
     async def delete_template(self, uuid: str) -> Host:
         """Delete subscription template."""
         return await self._executor.execute(
             DELETE_TEMPLATE, path={"uuid": uuid}
+        )
+
+    async def reorder_subscription_templates(
+        self, body: ReorderConfigProfilesRequest
+    ) -> Templates:
+        """Reorder subscription templates."""
+        return await self._executor.execute(
+            REORDER_SUBSCRIPTION_TEMPLATES, body=body
         )

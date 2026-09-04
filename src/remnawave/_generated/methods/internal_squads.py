@@ -8,6 +8,7 @@ from remnawave._generated.models import (
     InternalSquadAccessibleNodes,
     InternalSquads,
     Node,
+    ReorderConfigProfilesRequest,
     UpdateInternalSquadRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -56,6 +57,11 @@ REMOVE_USERS_FROM_INTERNAL_SQUAD: Operation[Node] = Operation(
     "DELETE",
     "/api/internal-squads/{uuid}/bulk-actions/remove-users",
     Node,
+)
+REORDER_INTERNAL_SQUADS: Operation[InternalSquads] = Operation(
+    "POST",
+    "/api/internal-squads/actions/reorder",
+    InternalSquads,
 )
 
 
@@ -108,6 +114,12 @@ class InternalSquadsApi(SyncGroup):
             REMOVE_USERS_FROM_INTERNAL_SQUAD, path={"uuid": uuid}
         )
 
+    def reorder_internal_squads(
+        self, body: ReorderConfigProfilesRequest
+    ) -> InternalSquads:
+        """Reorder internal squads."""
+        return self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)
+
 
 class AsyncInternalSquadsApi(AsyncGroup):
     async def get_internal_squads(self) -> InternalSquads:
@@ -157,3 +169,9 @@ class AsyncInternalSquadsApi(AsyncGroup):
         return await self._executor.execute(
             REMOVE_USERS_FROM_INTERNAL_SQUAD, path={"uuid": uuid}
         )
+
+    async def reorder_internal_squads(
+        self, body: ReorderConfigProfilesRequest
+    ) -> InternalSquads:
+        """Reorder internal squads."""
+        return await self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)

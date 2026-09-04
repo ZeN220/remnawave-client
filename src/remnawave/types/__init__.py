@@ -49,6 +49,9 @@ from remnawave._generated.models import (
     BandwidthStatsBandwidthLast30Day as BandwidthStatsBandwidthLast30Day,
 )
 from remnawave._generated.models import (
+    BulkAllExtendExpirationDateRequest as BulkAllExtendExpirationDateRequest,
+)
+from remnawave._generated.models import (
     BulkAllUpdateUsersRequest as BulkAllUpdateUsersRequest,
 )
 from remnawave._generated.models import (
@@ -56,6 +59,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     BulkDeleteUsersByStatusRequest as BulkDeleteUsersByStatusRequest,
+)
+from remnawave._generated.models import (
+    BulkExtendExpirationDateRequest as BulkExtendExpirationDateRequest,
 )
 from remnawave._generated.models import (
     BulkUpdateUsersRequest as BulkUpdateUsersRequest,
@@ -160,7 +166,13 @@ from remnawave._generated.models import (
     ExternalSquad as ExternalSquad,
 )
 from remnawave._generated.models import (
+    ExternalSquadCustomRemark as ExternalSquadCustomRemark,
+)
+from remnawave._generated.models import (
     ExternalSquadHostOverride as ExternalSquadHostOverride,
+)
+from remnawave._generated.models import (
+    ExternalSquadHwidSetting as ExternalSquadHwidSetting,
 )
 from remnawave._generated.models import (
     ExternalSquadInfo as ExternalSquadInfo,
@@ -322,6 +334,9 @@ from remnawave._generated.models import (
     PasskeyPasskey as PasskeyPasskey,
 )
 from remnawave._generated.models import (
+    ProfileModificationRequest as ProfileModificationRequest,
+)
+from remnawave._generated.models import (
     PubKey as PubKey,
 )
 from remnawave._generated.models import (
@@ -349,6 +364,9 @@ from remnawave._generated.models import (
     RawSubscriptionByShortUuidRawHostProtocolOptionSs as RawSubscriptionByShortUuidRawHostProtocolOptionSs,
 )
 from remnawave._generated.models import (
+    RawSubscriptionByShortUuidRawHostRawSetting as RawSubscriptionByShortUuidRawHostRawSetting,
+)
+from remnawave._generated.models import (
     RemnawaveHealth as RemnawaveHealth,
 )
 from remnawave._generated.models import (
@@ -371,6 +389,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     RemnawaveSettingsTgAuthSetting as RemnawaveSettingsTgAuthSetting,
+)
+from remnawave._generated.models import (
+    ReorderConfigProfilesRequest as ReorderConfigProfilesRequest,
 )
 from remnawave._generated.models import (
     ReorderHostRequest as ReorderHostRequest,
@@ -454,12 +475,6 @@ from remnawave._generated.models import (
     Subscription as Subscription,
 )
 from remnawave._generated.models import (
-    SubscriptionInfo as SubscriptionInfo,
-)
-from remnawave._generated.models import (
-    SubscriptionInfoUser as SubscriptionInfoUser,
-)
-from remnawave._generated.models import (
     SubscriptionRequestHistoryStats as SubscriptionRequestHistoryStats,
 )
 from remnawave._generated.models import (
@@ -493,6 +508,9 @@ from remnawave._generated.models import (
     Templates as Templates,
 )
 from remnawave._generated.models import (
+    TopUsersPage as TopUsersPage,
+)
+from remnawave._generated.models import (
     TorrentBlockerReport as TorrentBlockerReport,
 )
 from remnawave._generated.models import (
@@ -523,6 +541,9 @@ from remnawave._generated.models import (
     UpdateNodeRequest as UpdateNodeRequest,
 )
 from remnawave._generated.models import (
+    UpdatePasskeyRequest as UpdatePasskeyRequest,
+)
+from remnawave._generated.models import (
     UpdateRemnawaveSettingsRequest as UpdateRemnawaveSettingsRequest,
 )
 from remnawave._generated.models import (
@@ -550,13 +571,10 @@ from remnawave._generated.models import (
     UserActiveInternalSquad as UserActiveInternalSquad,
 )
 from remnawave._generated.models import (
-    UserHapp as UserHapp,
-)
-from remnawave._generated.models import (
     UserHwidDevice as UserHwidDevice,
 )
 from remnawave._generated.models import (
-    UserLastConnectedNode as UserLastConnectedNode,
+    UserRef as UserRef,
 )
 from remnawave._generated.models import (
     UsersPage as UsersPage,
@@ -569,6 +587,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UserUsageByRange as UserUsageByRange,
+)
+from remnawave._generated.models import (
+    UserUserTraffic as UserUserTraffic,
 )
 from remnawave._generated.models import (
     VerifyPasskeyRegistration as VerifyPasskeyRegistration,

@@ -6,6 +6,7 @@ from typing import Any
 from remnawave._generated.models import (
     DeletePasskeyRequest,
     Passkey,
+    UpdatePasskeyRequest,
     VerifyPasskeyRegistration,
     VerifyPasskeyRegistrationRequest,
 )
@@ -34,6 +35,11 @@ DELETE_PASSKEY: Operation[Passkey] = Operation(
     "/api/passkeys",
     Passkey,
 )
+UPDATE_PASSKEY: Operation[Passkey] = Operation(
+    "PATCH",
+    "/api/passkeys",
+    Passkey,
+)
 
 
 class PasskeysApi(SyncGroup):
@@ -54,6 +60,10 @@ class PasskeysApi(SyncGroup):
     def delete_passkey(self, body: DeletePasskeyRequest) -> Passkey:
         """Delete a passkey by ID."""
         return self._executor.execute(DELETE_PASSKEY, body=body)
+
+    def update_passkey(self, body: UpdatePasskeyRequest) -> Passkey:
+        """Update passkey."""
+        return self._executor.execute(UPDATE_PASSKEY, body=body)
 
 
 class AsyncPasskeysApi(AsyncGroup):
@@ -76,3 +86,7 @@ class AsyncPasskeysApi(AsyncGroup):
     async def delete_passkey(self, body: DeletePasskeyRequest) -> Passkey:
         """Delete a passkey by ID."""
         return await self._executor.execute(DELETE_PASSKEY, body=body)
+
+    async def update_passkey(self, body: UpdatePasskeyRequest) -> Passkey:
+        """Update passkey."""
+        return await self._executor.execute(UPDATE_PASSKEY, body=body)

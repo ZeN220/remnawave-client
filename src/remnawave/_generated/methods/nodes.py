@@ -6,8 +6,10 @@ from remnawave._generated.models import (
     Host,
     Node,
     Node2,
+    ProfileModificationRequest,
     ReorderNodeRequest,
     RestartAllNodesRequestBody,
+    Tags,
     UpdateNodeRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -15,6 +17,11 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_ALL_NODES_TAGS: Operation[Tags] = Operation(
+    "GET",
+    "/api/nodes/tags",
+    Tags,
+)
 CREATE_NODE: Operation[Node2] = Operation(
     "POST",
     "/api/nodes",
@@ -70,9 +77,18 @@ REORDER_NODES: Operation[list[Node2]] = Operation(
     "/api/nodes/actions/reorder",
     list[Node2],
 )
+PROFILE_MODIFICATION: Operation[Node] = Operation(
+    "POST",
+    "/api/nodes/bulk-actions/profile-modification",
+    Node,
+)
 
 
 class NodesApi(SyncGroup):
+    def get_all_nodes_tags(self) -> Tags:
+        """Get all existing nodes tags."""
+        return self._executor.execute(GET_ALL_NODES_TAGS)
+
     def create_node(self, body: CreateNodeRequest) -> Node2:
         """Create a new node."""
         return self._executor.execute(CREATE_NODE, body=body)
@@ -117,8 +133,16 @@ class NodesApi(SyncGroup):
         """Reorder nodes."""
         return self._executor.execute(REORDER_NODES, body=body)
 
+    def profile_modification(self, body: ProfileModificationRequest) -> Node:
+        """Modify Inbounds & Profile for many nodes."""
+        return self._executor.execute(PROFILE_MODIFICATION, body=body)
+
 
 class AsyncNodesApi(AsyncGroup):
+    async def get_all_nodes_tags(self) -> Tags:
+        """Get all existing nodes tags."""
+        return await self._executor.execute(GET_ALL_NODES_TAGS)
+
     async def create_node(self, body: CreateNodeRequest) -> Node2:
         """Create a new node."""
         return await self._executor.execute(CREATE_NODE, body=body)
@@ -164,3 +188,9 @@ class AsyncNodesApi(AsyncGroup):
     async def reorder_nodes(self, body: ReorderNodeRequest) -> list[Node2]:
         """Reorder nodes."""
         return await self._executor.execute(REORDER_NODES, body=body)
+
+    async def profile_modification(
+        self, body: ProfileModificationRequest
+    ) -> Node:
+        """Modify Inbounds & Profile for many nodes."""
+        return await self._executor.execute(PROFILE_MODIFICATION, body=body)

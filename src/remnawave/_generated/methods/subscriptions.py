@@ -6,7 +6,6 @@ from collections.abc import AsyncIterator, Iterator
 from remnawave._generated.models import (
     RawSubscriptionByShortUuid,
     Subscription,
-    SubscriptionInfo,
     SubscriptionsPage,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -21,22 +20,20 @@ GET_ALL_SUBSCRIPTIONS: Operation[SubscriptionsPage] = Operation(
     SubscriptionsPage,
     pagination=Pagination(items_field="subscriptions", max_page_size=100),
 )
-GET_SUBSCRIPTION_BY_USERNAME: Operation[SubscriptionInfo] = Operation(
+GET_SUBSCRIPTION_BY_USERNAME: Operation[Subscription] = Operation(
     "GET",
     "/api/subscriptions/by-username/{username}",
-    SubscriptionInfo,
+    Subscription,
 )
-GET_SUBSCRIPTION_BY_SHORT_UUID_PROTECTED: Operation[SubscriptionInfo] = (
-    Operation(
-        "GET",
-        "/api/subscriptions/by-short-uuid/{shortUuid}",
-        SubscriptionInfo,
-    )
+GET_SUBSCRIPTION_BY_SHORT_UUID_PROTECTED: Operation[Subscription] = Operation(
+    "GET",
+    "/api/subscriptions/by-short-uuid/{shortUuid}",
+    Subscription,
 )
-GET_SUBSCRIPTION_BY_UUID: Operation[SubscriptionInfo] = Operation(
+GET_SUBSCRIPTION_BY_UUID: Operation[Subscription] = Operation(
     "GET",
     "/api/subscriptions/by-uuid/{uuid}",
-    SubscriptionInfo,
+    Subscription,
 )
 GET_RAW_SUBSCRIPTION_BY_SHORT_UUID: Operation[RawSubscriptionByShortUuid] = (
     Operation(
@@ -63,7 +60,7 @@ class SubscriptionsApi(SyncGroup):
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_ALL_SUBSCRIPTIONS, page_size)
 
-    def get_subscription_by_username(self, username: str) -> SubscriptionInfo:
+    def get_subscription_by_username(self, username: str) -> Subscription:
         """Get subscription by username."""
         return self._executor.execute(
             GET_SUBSCRIPTION_BY_USERNAME, path={"username": username}
@@ -71,14 +68,14 @@ class SubscriptionsApi(SyncGroup):
 
     def get_subscription_by_short_uuid_protected(
         self, short_uuid: str
-    ) -> SubscriptionInfo:
+    ) -> Subscription:
         """Get subscription by short uuid (protected route)."""
         return self._executor.execute(
             GET_SUBSCRIPTION_BY_SHORT_UUID_PROTECTED,
             path={"shortUuid": short_uuid},
         )
 
-    def get_subscription_by_uuid(self, uuid: str) -> SubscriptionInfo:
+    def get_subscription_by_uuid(self, uuid: str) -> Subscription:
         """Get subscription by uuid."""
         return self._executor.execute(
             GET_SUBSCRIPTION_BY_UUID, path={"uuid": uuid}
@@ -112,9 +109,7 @@ class AsyncSubscriptionsApi(AsyncGroup):
         async for item in self._paginate(GET_ALL_SUBSCRIPTIONS, page_size):
             yield item
 
-    async def get_subscription_by_username(
-        self, username: str
-    ) -> SubscriptionInfo:
+    async def get_subscription_by_username(self, username: str) -> Subscription:
         """Get subscription by username."""
         return await self._executor.execute(
             GET_SUBSCRIPTION_BY_USERNAME, path={"username": username}
@@ -122,14 +117,14 @@ class AsyncSubscriptionsApi(AsyncGroup):
 
     async def get_subscription_by_short_uuid_protected(
         self, short_uuid: str
-    ) -> SubscriptionInfo:
+    ) -> Subscription:
         """Get subscription by short uuid (protected route)."""
         return await self._executor.execute(
             GET_SUBSCRIPTION_BY_SHORT_UUID_PROTECTED,
             path={"shortUuid": short_uuid},
         )
 
-    async def get_subscription_by_uuid(self, uuid: str) -> SubscriptionInfo:
+    async def get_subscription_by_uuid(self, uuid: str) -> Subscription:
         """Get subscription by uuid."""
         return await self._executor.execute(
             GET_SUBSCRIPTION_BY_UUID, path={"uuid": uuid}

@@ -119,6 +119,12 @@ class DeletePasskeyRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class UpdatePasskeyRequest:
+    id: str
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
 class Login:
     access_token: str
 
@@ -191,46 +197,39 @@ class UserActiveInternalSquad:
 
 
 @dataclass(frozen=True, slots=True)
-class UserLastConnectedNode:
-    connected_at: datetime
-    node_name: str
-    country_code: str
-
-
-@dataclass(frozen=True, slots=True)
-class UserHapp:
-    crypto_link: str
+class UserUserTraffic:
+    used_traffic_bytes: int
+    lifetime_used_traffic_bytes: int
+    online_at: datetime | None
+    first_connected_at: datetime | None
+    last_connected_node_uuid: UUID | None
 
 
 @dataclass(frozen=True, slots=True)
 class User:
     uuid: UUID
+    id: int
     short_uuid: str
     username: str
-    used_traffic_bytes: int
-    lifetime_used_traffic_bytes: int
-    sub_last_user_agent: str | None
-    sub_last_opened_at: datetime | None
     expire_at: datetime
-    online_at: datetime | None
-    sub_revoked_at: datetime | None
-    last_traffic_reset_at: datetime | None
+    telegram_id: int | None
+    email: str | None
+    description: str | None
+    tag: str | None
+    hwid_device_limit: int | None
+    external_squad_uuid: UUID | None
     trojan_password: str = field(repr=False)
     vless_uuid: UUID = field(repr=False)
     ss_password: str = field(repr=False)
-    description: str | None
-    tag: str | None
-    telegram_id: int | None
-    email: str | None
-    hwid_device_limit: int | None
-    first_connected_at: datetime | None
+    sub_revoked_at: datetime | None
+    sub_last_user_agent: str | None
+    sub_last_opened_at: datetime | None
+    last_traffic_reset_at: datetime | None
     created_at: datetime
     updated_at: datetime
-    active_internal_squads: list[UserActiveInternalSquad]
-    external_squad_uuid: UUID | None
     subscription_url: str = field(repr=False)
-    last_connected_node: UserLastConnectedNode | None
-    happ: UserHapp
+    active_internal_squads: list[UserActiveInternalSquad]
+    user_traffic: UserUserTraffic
     status: UserStatus | None = None
     traffic_limit_bytes: int | None = None
     traffic_limit_strategy: UserTrafficLimitStrategy | None = None
@@ -377,6 +376,12 @@ class BulkUpdateUsersSquadsRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class BulkExtendExpirationDateRequest:
+    uuids: list[UUID]
+    extend_days: int
+
+
+@dataclass(frozen=True, slots=True)
 class Node:
     event_sent: bool
 
@@ -395,6 +400,11 @@ class BulkAllUpdateUsersRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class BulkAllExtendExpirationDateRequest:
+    extend_days: int
+
+
+@dataclass(frozen=True, slots=True)
 class UserUsageByRange:
     user_uuid: UUID
     node_uuid: UUID
@@ -405,7 +415,7 @@ class UserUsageByRange:
 
 
 @dataclass(frozen=True, slots=True)
-class SubscriptionInfoUser:
+class SubscriptionUser:
     short_uuid: str
     days_left: int
     traffic_used: str
@@ -414,29 +424,6 @@ class SubscriptionInfoUser:
     traffic_used_bytes: str
     traffic_limit_bytes: str
     lifetime_traffic_used_bytes: str
-    username: str
-    expires_at: datetime
-    is_active: bool
-    user_status: UserStatus
-    traffic_limit_strategy: UserTrafficLimitStrategy
-
-
-@dataclass(frozen=True, slots=True)
-class SubscriptionInfo:
-    is_found: bool
-    user: SubscriptionInfoUser
-    links: list[str]
-    ss_conf_links: dict[str, Any]
-    subscription_url: str
-    happ: UserHapp
-
-
-@dataclass(frozen=True, slots=True)
-class SubscriptionUser:
-    short_uuid: str
-    days_left: int
-    traffic_used: str
-    traffic_limit: str
     username: str
     expires_at: datetime
     is_active: bool
@@ -473,6 +460,12 @@ class RawSubscriptionByShortUuidRawHostPassword:
     ss_password: str
     trojan_password: str
     vless_password: str
+
+
+@dataclass(frozen=True, slots=True)
+class RawSubscriptionByShortUuidRawHostRawSetting:
+    header_type: str | None = None
+    request: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -523,7 +516,9 @@ class RawSubscriptionByShortUuidRawHost:
     sni: str | None = None
     spider_x: str | None = None
     tls: str | None = None
-    header_type: str | None = None
+    raw_settings: RawSubscriptionByShortUuidRawHostRawSetting | None = (
+        None
+    )
     additional_params: (
         RawSubscriptionByShortUuidRawHostAdditionalParam | None
     ) = None
@@ -541,6 +536,7 @@ class RawSubscriptionByShortUuidRawHost:
         RawSubscriptionByShortUuidRawHostProtocolOption | None
     ) = None
     db_data: RawSubscriptionByShortUuidRawHostDbData | None = None
+    xray_json_template: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -554,6 +550,7 @@ class RawSubscriptionByShortUuid:
 @dataclass(frozen=True, slots=True)
 class Template:
     uuid: UUID
+    view_position: int
     name: str
     template_type: TemplateTemplateType
     template_json: Any
@@ -578,6 +575,17 @@ class UpdateTemplateRequest:
 class CreateSubscriptionTemplateRequest:
     name: str
     template_type: TemplateTemplateType
+
+
+@dataclass(frozen=True, slots=True)
+class ReorderHostRequestHost:
+    view_position: int
+    uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
+class ReorderConfigProfilesRequest:
+    items: list[ReorderHostRequestHost]
 
 
 @dataclass(frozen=True, slots=True)
@@ -635,6 +643,7 @@ class ConfigProfileNode:
 @dataclass(frozen=True, slots=True)
 class ConfigProfile:
     uuid: UUID
+    view_position: int
     name: str
     config: Any
     inbounds: list[ConfigProfileInbound]
@@ -713,6 +722,7 @@ class InternalSquadInfo:
 @dataclass(frozen=True, slots=True)
 class InternalSquad:
     uuid: UUID
+    view_position: int
     name: str
     info: InternalSquadInfo
     inbounds: list[ConfigProfileInbound]
@@ -773,7 +783,6 @@ class ExternalSquadSubscriptionSetting:
     profile_update_interval: int | None = None
     is_profile_webpage_url_enabled: bool | None = None
     serve_json_at_base_subscription: bool | None = None
-    add_username_to_base_subscription: bool | None = None
     is_show_custom_remarks: bool | None = None
     happ_announce: str | None = None
     happ_routing: str | None = None
@@ -787,14 +796,33 @@ class ExternalSquadHostOverride:
 
 
 @dataclass(frozen=True, slots=True)
+class ExternalSquadHwidSetting:
+    enabled: bool
+    fallback_device_limit: int
+    max_devices_announce: str | None
+
+
+@dataclass(frozen=True, slots=True)
+class ExternalSquadCustomRemark:
+    expired_users: list[str]
+    limited_users: list[str]
+    disabled_users: list[str]
+    empty_hosts: list[str]
+    empty_internal_squads: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class ExternalSquad:
     uuid: UUID
+    view_position: int
     name: str
     info: ExternalSquadInfo
     templates: list[ExternalSquadTemplate]
     subscription_settings: ExternalSquadSubscriptionSetting | None
     host_overrides: ExternalSquadHostOverride | None
     response_headers: dict[str, Any] | None
+    hwid_settings: ExternalSquadHwidSetting | None
+    custom_remarks: ExternalSquadCustomRemark | None
     created_at: datetime
     updated_at: datetime
 
@@ -812,7 +840,6 @@ class UpdateExternalSquadRequestSubscriptionSetting:
     profile_update_interval: Omittable[int] = OMITTED
     is_profile_webpage_url_enabled: Omittable[bool] = OMITTED
     serve_json_at_base_subscription: Omittable[bool] = OMITTED
-    add_username_to_base_subscription: Omittable[bool] = OMITTED
     is_show_custom_remarks: Omittable[bool] = OMITTED
     happ_announce: Omittable[str | None] = OMITTED
     happ_routing: Omittable[str | None] = OMITTED
@@ -835,6 +862,8 @@ class UpdateExternalSquadRequest:
     ] = OMITTED
     host_overrides: Omittable[UpdateExternalSquadRequestHostOverride] = OMITTED
     response_headers: Omittable[dict[str, Any] | None] = OMITTED
+    hwid_settings: Omittable[ExternalSquadHwidSetting | None] = OMITTED
+    custom_remarks: Omittable[ExternalSquadCustomRemark | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -867,8 +896,6 @@ class Node2:
     is_connected: bool
     is_disabled: bool
     is_connecting: bool
-    is_node_online: bool
-    is_xray_running: bool
     last_status_change: datetime | None
     last_status_message: str | None
     xray_version: str | None
@@ -883,6 +910,7 @@ class Node2:
     view_position: int
     country_code: str
     consumption_multiplier: float
+    tags: list[str]
     cpu_count: int | None
     cpu_model: str | None
     total_ram: str | None
@@ -912,6 +940,7 @@ class CreateNodeRequest:
     country_code: Omittable[str] = OMITTED
     consumption_multiplier: Omittable[float] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -928,6 +957,7 @@ class UpdateNodeRequest:
     consumption_multiplier: Omittable[float] = OMITTED
     config_profile: Omittable[CreateNodeRequestConfigProfile] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -936,14 +966,14 @@ class RestartAllNodesRequestBody:
 
 
 @dataclass(frozen=True, slots=True)
-class ReorderHostRequestHost:
-    view_position: int
-    uuid: UUID
+class ReorderNodeRequest:
+    nodes: list[ReorderHostRequestHost]
 
 
 @dataclass(frozen=True, slots=True)
-class ReorderNodeRequest:
-    nodes: list[ReorderHostRequestHost]
+class ProfileModificationRequest:
+    uuids: list[UUID]
+    config_profile: CreateNodeRequestConfigProfile
 
 
 @dataclass(frozen=True, slots=True)
@@ -974,10 +1004,13 @@ class Host2:
     shuffle_host: bool
     mihomo_x25519: bool
     nodes: list[UUID]
+    xray_json_template_uuid: UUID | None
+    excluded_internal_squads: list[UUID]
     is_disabled: bool | None = None
     security_layer: HostSecurityLayer | None = None
     is_hidden: bool | None = None
     override_sni_from_address: bool | None = None
+    keep_sni_blank: bool | None = None
     allow_insecure: bool | None = None
 
 
@@ -1007,11 +1040,14 @@ class CreateHostRequest:
     tag: Omittable[str | None] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
     override_sni_from_address: Omittable[bool] = OMITTED
+    keep_sni_blank: Omittable[bool] = OMITTED
     allow_insecure: Omittable[bool] = OMITTED
     vless_route_id: Omittable[int | None] = OMITTED
     shuffle_host: Omittable[bool] = OMITTED
     mihomo_x25519: Omittable[bool] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
+    xray_json_template_uuid: Omittable[UUID | None] = OMITTED
+    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1035,11 +1071,14 @@ class UpdateHostRequest:
     tag: Omittable[str | None] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
     override_sni_from_address: Omittable[bool] = OMITTED
+    keep_sni_blank: Omittable[bool] = OMITTED
     vless_route_id: Omittable[int | None] = OMITTED
     allow_insecure: Omittable[bool] = OMITTED
     shuffle_host: Omittable[bool] = OMITTED
     mihomo_x25519: Omittable[bool] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
+    xray_json_template_uuid: Omittable[UUID | None] = OMITTED
+    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1156,6 +1195,20 @@ class HwidDevicesStats:
     by_platform: list[HwidDevicesStatsByPlatform]
     by_app: list[HwidDevicesStatsByApp]
     stats: HwidDevicesStatsStat
+
+
+@dataclass(frozen=True, slots=True)
+class UserRef:
+    user_uuid: UUID
+    id: int
+    username: str
+    devices_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class TopUsersPage:
+    users: list[UserRef]
+    total: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -1342,7 +1395,6 @@ class StatsMemory:
 class StatsUser:
     status_counts: dict[str, Any]
     total_users: int
-    total_traffic_bytes: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -1356,6 +1408,7 @@ class StatsOnlineStat:
 @dataclass(frozen=True, slots=True)
 class StatsNode:
     total_online: int
+    total_bytes_lifetime: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -1541,16 +1594,14 @@ class SubscriptionSettings:
     profile_update_interval: int
     is_profile_webpage_url_enabled: bool
     serve_json_at_base_subscription: bool
-    add_username_to_base_subscription: bool
     is_show_custom_remarks: bool
+    custom_remarks: ExternalSquadCustomRemark
     happ_announce: str | None
     happ_routing: str | None
-    expired_users_remarks: list[str]
-    limited_users_remarks: list[str]
-    disabled_users_remarks: list[str]
     custom_response_headers: dict[str, Any] | None
     randomize_hosts: bool
     response_rules: SubscriptionSettingsResponseRule | None
+    hwid_settings: ExternalSquadHwidSetting | None
     created_at: datetime
     updated_at: datetime
 
@@ -1563,13 +1614,11 @@ class UpdateSubscriptionSettingsRequest:
     profile_update_interval: Omittable[int] = OMITTED
     is_profile_webpage_url_enabled: Omittable[bool] = OMITTED
     serve_json_at_base_subscription: Omittable[bool] = OMITTED
-    add_username_to_base_subscription: Omittable[bool] = OMITTED
-    is_show_custom_remarks: Omittable[bool] = OMITTED
     happ_announce: Omittable[str | None] = OMITTED
     happ_routing: Omittable[str | None] = OMITTED
-    expired_users_remarks: Omittable[list[str]] = OMITTED
-    limited_users_remarks: Omittable[list[str]] = OMITTED
-    disabled_users_remarks: Omittable[list[str]] = OMITTED
+    is_show_custom_remarks: Omittable[bool] = OMITTED
+    custom_remarks: Omittable[ExternalSquadCustomRemark] = OMITTED
     custom_response_headers: Omittable[dict[str, Any]] = OMITTED
     randomize_hosts: Omittable[bool] = OMITTED
     response_rules: Omittable[DebugSrrMatcherRequestResponseRule] = OMITTED
+    hwid_settings: Omittable[ExternalSquadHwidSetting] = OMITTED

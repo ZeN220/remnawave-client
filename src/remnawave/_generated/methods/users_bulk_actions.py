@@ -2,9 +2,11 @@
 """Users Bulk Actions Controller."""
 
 from remnawave._generated.models import (
+    BulkAllExtendExpirationDateRequest,
     BulkAllUpdateUsersRequest,
     BulkDeleteHostsRequest,
     BulkDeleteUsersByStatusRequest,
+    BulkExtendExpirationDateRequest,
     BulkUpdateUsersRequest,
     BulkUpdateUsersSquadsRequest,
     DeleteUsers,
@@ -45,6 +47,11 @@ BULK_UPDATE_USERS_INTERNAL_SQUADS: Operation[DeleteUsers] = Operation(
     "/api/users/bulk/update-squads",
     DeleteUsers,
 )
+BULK_EXTEND_EXPIRATION_DATE: Operation[DeleteUsers] = Operation(
+    "POST",
+    "/api/users/bulk/extend-expiration-date",
+    DeleteUsers,
+)
 BULK_UPDATE_ALL_USERS: Operation[Node] = Operation(
     "POST",
     "/api/users/bulk/all/update",
@@ -53,6 +60,11 @@ BULK_UPDATE_ALL_USERS: Operation[Node] = Operation(
 BULK_ALL_RESET_USER_TRAFFIC: Operation[Node] = Operation(
     "POST",
     "/api/users/bulk/all/reset-traffic",
+    Node,
+)
+BULK_ALL_EXTEND_EXPIRATION_DATE: Operation[Node] = Operation(
+    "POST",
+    "/api/users/bulk/all/extend-expiration-date",
     Node,
 )
 
@@ -92,6 +104,12 @@ class UsersBulkActionsApi(SyncGroup):
             BULK_UPDATE_USERS_INTERNAL_SQUADS, body=body
         )
 
+    def bulk_extend_expiration_date(
+        self, body: BulkExtendExpirationDateRequest
+    ) -> DeleteUsers:
+        """Bulk Extend Users Expiration Date."""
+        return self._executor.execute(BULK_EXTEND_EXPIRATION_DATE, body=body)
+
     def bulk_update_all_users(self, body: BulkAllUpdateUsersRequest) -> Node:
         """Bulk update all users."""
         return self._executor.execute(BULK_UPDATE_ALL_USERS, body=body)
@@ -99,6 +117,14 @@ class UsersBulkActionsApi(SyncGroup):
     def bulk_all_reset_user_traffic(self) -> Node:
         """Bulk Reset All Users Traffic."""
         return self._executor.execute(BULK_ALL_RESET_USER_TRAFFIC)
+
+    def bulk_all_extend_expiration_date(
+        self, body: BulkAllExtendExpirationDateRequest
+    ) -> Node:
+        """Bulk Extend All Users Expiration Date."""
+        return self._executor.execute(
+            BULK_ALL_EXTEND_EXPIRATION_DATE, body=body
+        )
 
 
 class AsyncUsersBulkActionsApi(AsyncGroup):
@@ -144,6 +170,14 @@ class AsyncUsersBulkActionsApi(AsyncGroup):
             BULK_UPDATE_USERS_INTERNAL_SQUADS, body=body
         )
 
+    async def bulk_extend_expiration_date(
+        self, body: BulkExtendExpirationDateRequest
+    ) -> DeleteUsers:
+        """Bulk Extend Users Expiration Date."""
+        return await self._executor.execute(
+            BULK_EXTEND_EXPIRATION_DATE, body=body
+        )
+
     async def bulk_update_all_users(
         self, body: BulkAllUpdateUsersRequest
     ) -> Node:
@@ -153,3 +187,11 @@ class AsyncUsersBulkActionsApi(AsyncGroup):
     async def bulk_all_reset_user_traffic(self) -> Node:
         """Bulk Reset All Users Traffic."""
         return await self._executor.execute(BULK_ALL_RESET_USER_TRAFFIC)
+
+    async def bulk_all_extend_expiration_date(
+        self, body: BulkAllExtendExpirationDateRequest
+    ) -> Node:
+        """Bulk Extend All Users Expiration Date."""
+        return await self._executor.execute(
+            BULK_ALL_EXTEND_EXPIRATION_DATE, body=body
+        )

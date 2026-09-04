@@ -7,6 +7,7 @@ from remnawave._generated.models import (
     CreateConfigProfileRequest,
     Host,
     Inbounds,
+    ReorderConfigProfilesRequest,
     UpdateConfigProfileRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -53,6 +54,11 @@ GET_COMPUTED_CONFIG_PROFILE_BY_UUID: Operation[ConfigProfile] = Operation(
     "GET",
     "/api/config-profiles/{uuid}/computed-config",
     ConfigProfile,
+)
+REORDER_CONFIG_PROFILES: Operation[ConfigProfiles] = Operation(
+    "POST",
+    "/api/config-profiles/actions/reorder",
+    ConfigProfiles,
 )
 
 
@@ -101,6 +107,12 @@ class ConfigProfilesApi(SyncGroup):
             GET_COMPUTED_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
         )
 
+    def reorder_config_profiles(
+        self, body: ReorderConfigProfilesRequest
+    ) -> ConfigProfiles:
+        """Reorder config profiles."""
+        return self._executor.execute(REORDER_CONFIG_PROFILES, body=body)
+
 
 class AsyncConfigProfilesApi(AsyncGroup):
     async def get_config_profiles(self) -> ConfigProfiles:
@@ -148,3 +160,9 @@ class AsyncConfigProfilesApi(AsyncGroup):
         return await self._executor.execute(
             GET_COMPUTED_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
         )
+
+    async def reorder_config_profiles(
+        self, body: ReorderConfigProfilesRequest
+    ) -> ConfigProfiles:
+        """Reorder config profiles."""
+        return await self._executor.execute(REORDER_CONFIG_PROFILES, body=body)

@@ -10,7 +10,9 @@ from remnawave._generated.models import (
     Device,
     HwidDevices,
     HwidDevicesStats,
+    TopUsersPage,
     UserHwidDevice,
+    UserRef,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -43,6 +45,12 @@ GET_HWID_DEVICES_STATS: Operation[HwidDevicesStats] = Operation(
     "GET",
     "/api/hwid/devices/stats",
     HwidDevicesStats,
+)
+GET_TOP_USERS_BY_HWID_DEVICES: Operation[TopUsersPage] = Operation(
+    "GET",
+    "/api/hwid/devices/top-users",
+    TopUsersPage,
+    pagination=Pagination(items_field="users", max_page_size=100),
 )
 GET_USER_HWID_DEVICES: Operation[UserHwidDevice] = Operation(
     "GET",
@@ -88,6 +96,21 @@ class HwidUserDevicesApi(SyncGroup):
     def get_hwid_devices_stats(self) -> HwidDevicesStats:
         """Get HWID devices stats."""
         return self._executor.execute(GET_HWID_DEVICES_STATS)
+
+    def get_top_users_by_hwid_devices(
+        self, *, size: int | None = None, start: int | None = None
+    ) -> TopUsersPage:
+        """Get top users by HWID devices."""
+        return self._executor.execute(
+            GET_TOP_USERS_BY_HWID_DEVICES, query={"size": size, "start": start}
+        )
+
+    def iter_top_users_by_hwid_devices(
+        self,
+        page_size: int | None = None,
+    ) -> Iterator[UserRef]:
+        """Все страницы одним ленивым потоком."""
+        yield from self._paginate(GET_TOP_USERS_BY_HWID_DEVICES, page_size)
 
     def get_user_hwid_devices(self, user_uuid: str) -> UserHwidDevice:
         """Get user HWID devices."""
@@ -136,6 +159,24 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
     async def get_hwid_devices_stats(self) -> HwidDevicesStats:
         """Get HWID devices stats."""
         return await self._executor.execute(GET_HWID_DEVICES_STATS)
+
+    async def get_top_users_by_hwid_devices(
+        self, *, size: int | None = None, start: int | None = None
+    ) -> TopUsersPage:
+        """Get top users by HWID devices."""
+        return await self._executor.execute(
+            GET_TOP_USERS_BY_HWID_DEVICES, query={"size": size, "start": start}
+        )
+
+    async def iter_top_users_by_hwid_devices(
+        self,
+        page_size: int | None = None,
+    ) -> AsyncIterator[UserRef]:
+        """Все страницы одним ленивым потоком."""
+        async for item in self._paginate(
+            GET_TOP_USERS_BY_HWID_DEVICES, page_size
+        ):
+            yield item
 
     async def get_user_hwid_devices(self, user_uuid: str) -> UserHwidDevice:
         """Get user HWID devices."""

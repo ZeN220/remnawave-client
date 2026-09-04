@@ -7,6 +7,7 @@ from remnawave._generated.models import (
     ExternalSquads,
     Host,
     Node,
+    ReorderConfigProfilesRequest,
     UpdateExternalSquadRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -48,6 +49,11 @@ REMOVE_USERS_FROM_EXTERNAL_SQUAD: Operation[Node] = Operation(
     "DELETE",
     "/api/external-squads/{uuid}/bulk-actions/remove-users",
     Node,
+)
+REORDER_EXTERNAL_SQUADS: Operation[ExternalSquads] = Operation(
+    "POST",
+    "/api/external-squads/actions/reorder",
+    ExternalSquads,
 )
 
 
@@ -92,6 +98,12 @@ class ExternalSquadsApi(SyncGroup):
             REMOVE_USERS_FROM_EXTERNAL_SQUAD, path={"uuid": uuid}
         )
 
+    def reorder_external_squads(
+        self, body: ReorderConfigProfilesRequest
+    ) -> ExternalSquads:
+        """Reorder external squads."""
+        return self._executor.execute(REORDER_EXTERNAL_SQUADS, body=body)
+
 
 class AsyncExternalSquadsApi(AsyncGroup):
     async def get_external_squads(self) -> ExternalSquads:
@@ -133,3 +145,9 @@ class AsyncExternalSquadsApi(AsyncGroup):
         return await self._executor.execute(
             REMOVE_USERS_FROM_EXTERNAL_SQUAD, path={"uuid": uuid}
         )
+
+    async def reorder_external_squads(
+        self, body: ReorderConfigProfilesRequest
+    ) -> ExternalSquads:
+        """Reorder external squads."""
+        return await self._executor.execute(REORDER_EXTERNAL_SQUADS, body=body)

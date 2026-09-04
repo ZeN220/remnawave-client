@@ -5,7 +5,7 @@ from remnawave._generated.enums import (
     SubscriptionControllerGetSubscriptionByClientType,
 )
 from remnawave._generated.models import (
-    SubscriptionInfo,
+    Subscription,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -13,10 +13,10 @@ from remnawave.operations import (
     RawOperation,
 )
 
-GET_SUBSCRIPTION_INFO_BY_SHORT_UUID: Operation[SubscriptionInfo] = Operation(
+GET_SUBSCRIPTION_INFO_BY_SHORT_UUID: Operation[Subscription] = Operation(
     "GET",
     "/api/sub/{shortUuid}/info",
-    SubscriptionInfo,
+    Subscription,
 )
 GET_SUBSCRIPTION = RawOperation("GET", "/api/sub/{shortUuid}")
 GET_SUBSCRIPTION_BY_CLIENT_TYPE = RawOperation(
@@ -30,7 +30,7 @@ GET_SUBSCRIPTION_WITH_TYPE = RawOperation(
 class SubscriptionApi(SyncGroup):
     def get_subscription_info_by_short_uuid(
         self, short_uuid: str
-    ) -> SubscriptionInfo:
+    ) -> Subscription:
         """Get Subscription Info by Short UUID."""
         return self._executor.execute(
             GET_SUBSCRIPTION_INFO_BY_SHORT_UUID, path={"shortUuid": short_uuid}
@@ -67,7 +67,7 @@ class SubscriptionApi(SyncGroup):
 class AsyncSubscriptionApi(AsyncGroup):
     async def get_subscription_info_by_short_uuid(
         self, short_uuid: str
-    ) -> SubscriptionInfo:
+    ) -> Subscription:
         """Get Subscription Info by Short UUID."""
         return await self._executor.execute(
             GET_SUBSCRIPTION_INFO_BY_SHORT_UUID, path={"shortUuid": short_uuid}

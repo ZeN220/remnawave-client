@@ -73,6 +73,11 @@ GET_USER_BY_USERNAME: Operation[User] = Operation(
     "/api/users/by-username/{username}",
     User,
 )
+GET_USER_BY_ID: Operation[User] = Operation(
+    "GET",
+    "/api/users/by-id/{id}",
+    User,
+)
 GET_USER_BY_TELEGRAM_ID: Operation[list[User]] = Operation(
     "GET",
     "/api/users/by-telegram-id/{telegramId}",
@@ -171,6 +176,10 @@ class UsersApi(SyncGroup):
         return self._executor.execute(
             GET_USER_BY_USERNAME, path={"username": username}
         )
+
+    def get_user_by_id(self, id: str) -> User:
+        """Get user by ID."""
+        return self._executor.execute(GET_USER_BY_ID, path={"id": id})
 
     def get_user_by_telegram_id(self, telegram_id: str) -> list[User]:
         """Get users by telegram ID."""
@@ -271,6 +280,10 @@ class AsyncUsersApi(AsyncGroup):
         return await self._executor.execute(
             GET_USER_BY_USERNAME, path={"username": username}
         )
+
+    async def get_user_by_id(self, id: str) -> User:
+        """Get user by ID."""
+        return await self._executor.execute(GET_USER_BY_ID, path={"id": id})
 
     async def get_user_by_telegram_id(self, telegram_id: str) -> list[User]:
         """Get users by telegram ID."""
