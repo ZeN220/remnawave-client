@@ -404,8 +404,10 @@ class UserSubscriptionRequestHistoryRecord:
     id: int
     user_id: int
     request_at: datetime
+    srr_response_type: str
     request_ip: str | None = None
     user_agent: str | None = None
+    srr_rule_name: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1043,6 +1045,7 @@ class NodeVersion:
 @dataclass(frozen=True, slots=True)
 class Node:
     uuid: UUID
+    id: int
     name: str
     address: str
     port: int | None
@@ -1726,6 +1729,8 @@ class CreateInfraBillingNodeBody:
 class SubscriptionRequest:
     id: int
     user_id: int
+    srr_response_type: str
+    srr_rule_name: str | None
     request_ip: str | None
     user_agent: str | None
     request_at: datetime
