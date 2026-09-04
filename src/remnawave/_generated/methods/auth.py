@@ -5,12 +5,12 @@ from typing import Any
 
 from remnawave._generated.models import (
     Login,
-    LoginRequest,
+    LoginBody,
     OAuth2Authorize,
-    OAuth2AuthorizeRequest,
-    OAuth2CallbackRequest,
+    OAuth2AuthorizeBody,
+    OAuth2CallbackBody,
     Status,
-    VerifyPasskeyRegistrationRequest,
+    VerifyPasskeyRegistrationBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -55,11 +55,11 @@ PASSKEY_AUTHENTICATION_VERIFY: Operation[Login] = Operation(
 
 
 class AuthApi(SyncGroup):
-    def login(self, body: LoginRequest) -> Login:
+    def login(self, body: LoginBody) -> Login:
         """Login as superadmin."""
         return self._executor.execute(LOGIN, body=body)
 
-    def register(self, body: LoginRequest) -> Login:
+    def register(self, body: LoginBody) -> Login:
         """Register as superadmin."""
         return self._executor.execute(REGISTER, body=body)
 
@@ -67,11 +67,11 @@ class AuthApi(SyncGroup):
         """Get the status of the authentication."""
         return self._executor.execute(GET_STATUS)
 
-    def oauth2_authorize(self, body: OAuth2AuthorizeRequest) -> OAuth2Authorize:
+    def oauth2_authorize(self, body: OAuth2AuthorizeBody) -> OAuth2Authorize:
         """Initiate OAuth2 authorization."""
         return self._executor.execute(OAUTH2_AUTHORIZE, body=body)
 
-    def oauth2_callback(self, body: OAuth2CallbackRequest) -> Login:
+    def oauth2_callback(self, body: OAuth2CallbackBody) -> Login:
         """Callback from OAuth2."""
         return self._executor.execute(OAUTH2_CALLBACK, body=body)
 
@@ -80,18 +80,18 @@ class AuthApi(SyncGroup):
         return self._executor.execute(PASSKEY_AUTHENTICATION_OPTIONS)
 
     def passkey_authentication_verify(
-        self, body: VerifyPasskeyRegistrationRequest
+        self, body: VerifyPasskeyRegistrationBody
     ) -> Login:
         """Verify the authentication for passkey."""
         return self._executor.execute(PASSKEY_AUTHENTICATION_VERIFY, body=body)
 
 
 class AsyncAuthApi(AsyncGroup):
-    async def login(self, body: LoginRequest) -> Login:
+    async def login(self, body: LoginBody) -> Login:
         """Login as superadmin."""
         return await self._executor.execute(LOGIN, body=body)
 
-    async def register(self, body: LoginRequest) -> Login:
+    async def register(self, body: LoginBody) -> Login:
         """Register as superadmin."""
         return await self._executor.execute(REGISTER, body=body)
 
@@ -100,12 +100,12 @@ class AsyncAuthApi(AsyncGroup):
         return await self._executor.execute(GET_STATUS)
 
     async def oauth2_authorize(
-        self, body: OAuth2AuthorizeRequest
+        self, body: OAuth2AuthorizeBody
     ) -> OAuth2Authorize:
         """Initiate OAuth2 authorization."""
         return await self._executor.execute(OAUTH2_AUTHORIZE, body=body)
 
-    async def oauth2_callback(self, body: OAuth2CallbackRequest) -> Login:
+    async def oauth2_callback(self, body: OAuth2CallbackBody) -> Login:
         """Callback from OAuth2."""
         return await self._executor.execute(OAUTH2_CALLBACK, body=body)
 
@@ -114,7 +114,7 @@ class AsyncAuthApi(AsyncGroup):
         return await self._executor.execute(PASSKEY_AUTHENTICATION_OPTIONS)
 
     async def passkey_authentication_verify(
-        self, body: VerifyPasskeyRegistrationRequest
+        self, body: VerifyPasskeyRegistrationBody
     ) -> Login:
         """Verify the authentication for passkey."""
         return await self._executor.execute(

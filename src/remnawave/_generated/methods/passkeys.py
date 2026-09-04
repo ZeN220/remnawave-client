@@ -4,14 +4,15 @@
 from typing import Any
 
 from remnawave._generated.models import (
-    DeletePasskeyRequest,
+    DeletePasskeyBody,
     Passkey,
-    UpdatePasskeyRequest,
+    UpdatePasskeyBody,
     VerifyPasskeyRegistration,
-    VerifyPasskeyRegistrationRequest,
+    VerifyPasskeyRegistrationBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
+    NoContentOperation,
     Operation,
 )
 
@@ -30,11 +31,7 @@ GET_ACTIVE_PASSKEYS: Operation[Passkey] = Operation(
     "/api/passkeys",
     Passkey,
 )
-DELETE_PASSKEY: Operation[Passkey] = Operation(
-    "DELETE",
-    "/api/passkeys",
-    Passkey,
-)
+DELETE_PASSKEY = NoContentOperation("DELETE", "/api/passkeys")
 UPDATE_PASSKEY: Operation[Passkey] = Operation(
     "PATCH",
     "/api/passkeys",
@@ -48,20 +45,20 @@ class PasskeysApi(SyncGroup):
         return self._executor.execute(PASSKEY_REGISTRATION_OPTIONS)
 
     def passkey_registration_verify(
-        self, body: VerifyPasskeyRegistrationRequest
+        self, body: VerifyPasskeyRegistrationBody
     ) -> VerifyPasskeyRegistration:
         """Verify registration for passkey."""
         return self._executor.execute(PASSKEY_REGISTRATION_VERIFY, body=body)
 
     def get_active_passkeys(self) -> Passkey:
-        """Get all passkeys."""
+        """Get passkeys."""
         return self._executor.execute(GET_ACTIVE_PASSKEYS)
 
-    def delete_passkey(self, body: DeletePasskeyRequest) -> Passkey:
+    def delete_passkey(self, body: DeletePasskeyBody) -> None:
         """Delete a passkey by ID."""
         return self._executor.execute(DELETE_PASSKEY, body=body)
 
-    def update_passkey(self, body: UpdatePasskeyRequest) -> Passkey:
+    def update_passkey(self, body: UpdatePasskeyBody) -> Passkey:
         """Update passkey."""
         return self._executor.execute(UPDATE_PASSKEY, body=body)
 
@@ -72,7 +69,7 @@ class AsyncPasskeysApi(AsyncGroup):
         return await self._executor.execute(PASSKEY_REGISTRATION_OPTIONS)
 
     async def passkey_registration_verify(
-        self, body: VerifyPasskeyRegistrationRequest
+        self, body: VerifyPasskeyRegistrationBody
     ) -> VerifyPasskeyRegistration:
         """Verify registration for passkey."""
         return await self._executor.execute(
@@ -80,13 +77,13 @@ class AsyncPasskeysApi(AsyncGroup):
         )
 
     async def get_active_passkeys(self) -> Passkey:
-        """Get all passkeys."""
+        """Get passkeys."""
         return await self._executor.execute(GET_ACTIVE_PASSKEYS)
 
-    async def delete_passkey(self, body: DeletePasskeyRequest) -> Passkey:
+    async def delete_passkey(self, body: DeletePasskeyBody) -> None:
         """Delete a passkey by ID."""
         return await self._executor.execute(DELETE_PASSKEY, body=body)
 
-    async def update_passkey(self, body: UpdatePasskeyRequest) -> Passkey:
+    async def update_passkey(self, body: UpdatePasskeyBody) -> Passkey:
         """Update passkey."""
         return await self._executor.execute(UPDATE_PASSKEY, body=body)

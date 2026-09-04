@@ -2,14 +2,17 @@
 """HWID User Devices Controller."""
 
 from collections.abc import AsyncIterator, Iterator
+from typing import Any
 
 from remnawave._generated.models import (
-    CreateUserHwidDeviceRequest,
-    DeleteAllUserHwidDevicesRequest,
-    DeleteUserHwidDeviceRequest,
+    CreateUserHwidDeviceBody,
+    DeleteAllUserHwidDevicesBody,
+    DeleteUserHwidDeviceBody,
     Device,
-    HwidDevices,
+    HwidDevicesPage,
     HwidDevicesStats,
+    QueryFilter,
+    QuerySort,
     TopUserByDevices,
     TopUsersPage,
     UserHwidDevice,
@@ -20,11 +23,11 @@ from remnawave.operations import (
     Pagination,
 )
 
-GET_ALL_USERS: Operation[HwidDevices] = Operation(
+GET_ALL_USERS: Operation[HwidDevicesPage] = Operation(
     "GET",
     "/api/hwid/devices",
-    HwidDevices,
-    pagination=Pagination(items_field="devices", max_page_size=100),
+    HwidDevicesPage,
+    pagination=Pagination(items_field="devices", max_page_size=1000),
 )
 CREATE_USER_HWID_DEVICE: Operation[UserHwidDevice] = Operation(
     "POST",
@@ -54,18 +57,33 @@ GET_TOP_USERS_BY_HWID_DEVICES: Operation[TopUsersPage] = Operation(
 )
 GET_USER_HWID_DEVICES: Operation[UserHwidDevice] = Operation(
     "GET",
-    "/api/hwid/devices/{userUuid}",
+    "/api/hwid/devices/{userId}",
     UserHwidDevice,
 )
 
 
 class HwidUserDevicesApi(SyncGroup):
     def get_all_users(
-        self, *, size: int | None = None, start: int | None = None
-    ) -> HwidDevices:
-        """Get all HWID devices."""
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
+    ) -> HwidDevicesPage:
+        """Get HWID devices."""
         return self._executor.execute(
-            GET_ALL_USERS, query={"size": size, "start": start}
+            GET_ALL_USERS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
     def iter_all_users(
@@ -76,19 +94,19 @@ class HwidUserDevicesApi(SyncGroup):
         yield from self._paginate(GET_ALL_USERS, page_size)
 
     def create_user_hwid_device(
-        self, body: CreateUserHwidDeviceRequest
+        self, body: CreateUserHwidDeviceBody
     ) -> UserHwidDevice:
         """Create a user HWID device."""
         return self._executor.execute(CREATE_USER_HWID_DEVICE, body=body)
 
     def delete_user_hwid_device(
-        self, body: DeleteUserHwidDeviceRequest
+        self, body: DeleteUserHwidDeviceBody
     ) -> UserHwidDevice:
         """Delete a user HWID device."""
         return self._executor.execute(DELETE_USER_HWID_DEVICE, body=body)
 
     def delete_all_user_hwid_devices(
-        self, body: DeleteAllUserHwidDevicesRequest
+        self, body: DeleteAllUserHwidDevicesBody
     ) -> UserHwidDevice:
         """Delete all user HWID devices."""
         return self._executor.execute(DELETE_ALL_USER_HWID_DEVICES, body=body)
@@ -98,11 +116,11 @@ class HwidUserDevicesApi(SyncGroup):
         return self._executor.execute(GET_HWID_DEVICES_STATS)
 
     def get_top_users_by_hwid_devices(
-        self, *, size: int | None = None, start: int | None = None
+        self, *, start: int | None = None, size: int | None = None
     ) -> TopUsersPage:
         """Get top users by HWID devices."""
         return self._executor.execute(
-            GET_TOP_USERS_BY_HWID_DEVICES, query={"size": size, "start": start}
+            GET_TOP_USERS_BY_HWID_DEVICES, query={"start": start, "size": size}
         )
 
     def iter_top_users_by_hwid_devices(
@@ -112,20 +130,35 @@ class HwidUserDevicesApi(SyncGroup):
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TOP_USERS_BY_HWID_DEVICES, page_size)
 
-    def get_user_hwid_devices(self, user_uuid: str) -> UserHwidDevice:
+    def get_user_hwid_devices(self, user_id: int) -> UserHwidDevice:
         """Get user HWID devices."""
         return self._executor.execute(
-            GET_USER_HWID_DEVICES, path={"userUuid": user_uuid}
+            GET_USER_HWID_DEVICES, path={"userId": user_id}
         )
 
 
 class AsyncHwidUserDevicesApi(AsyncGroup):
     async def get_all_users(
-        self, *, size: int | None = None, start: int | None = None
-    ) -> HwidDevices:
-        """Get all HWID devices."""
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
+    ) -> HwidDevicesPage:
+        """Get HWID devices."""
         return await self._executor.execute(
-            GET_ALL_USERS, query={"size": size, "start": start}
+            GET_ALL_USERS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
     async def iter_all_users(
@@ -137,19 +170,19 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
             yield item
 
     async def create_user_hwid_device(
-        self, body: CreateUserHwidDeviceRequest
+        self, body: CreateUserHwidDeviceBody
     ) -> UserHwidDevice:
         """Create a user HWID device."""
         return await self._executor.execute(CREATE_USER_HWID_DEVICE, body=body)
 
     async def delete_user_hwid_device(
-        self, body: DeleteUserHwidDeviceRequest
+        self, body: DeleteUserHwidDeviceBody
     ) -> UserHwidDevice:
         """Delete a user HWID device."""
         return await self._executor.execute(DELETE_USER_HWID_DEVICE, body=body)
 
     async def delete_all_user_hwid_devices(
-        self, body: DeleteAllUserHwidDevicesRequest
+        self, body: DeleteAllUserHwidDevicesBody
     ) -> UserHwidDevice:
         """Delete all user HWID devices."""
         return await self._executor.execute(
@@ -161,11 +194,11 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         return await self._executor.execute(GET_HWID_DEVICES_STATS)
 
     async def get_top_users_by_hwid_devices(
-        self, *, size: int | None = None, start: int | None = None
+        self, *, start: int | None = None, size: int | None = None
     ) -> TopUsersPage:
         """Get top users by HWID devices."""
         return await self._executor.execute(
-            GET_TOP_USERS_BY_HWID_DEVICES, query={"size": size, "start": start}
+            GET_TOP_USERS_BY_HWID_DEVICES, query={"start": start, "size": size}
         )
 
     async def iter_top_users_by_hwid_devices(
@@ -178,8 +211,8 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         ):
             yield item
 
-    async def get_user_hwid_devices(self, user_uuid: str) -> UserHwidDevice:
+    async def get_user_hwid_devices(self, user_id: int) -> UserHwidDevice:
         """Get user HWID devices."""
         return await self._executor.execute(
-            GET_USER_HWID_DEVICES, path={"userUuid": user_uuid}
+            GET_USER_HWID_DEVICES, path={"userId": user_id}
         )

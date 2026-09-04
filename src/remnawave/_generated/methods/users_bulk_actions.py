@@ -2,126 +2,94 @@
 """Users Bulk Actions Controller."""
 
 from remnawave._generated.models import (
-    BulkAllExtendExpirationDateRequest,
-    BulkAllUpdateUsersRequest,
-    BulkDeleteHostsRequest,
-    BulkDeleteUsersByStatusRequest,
-    BulkExtendExpirationDateRequest,
-    BulkUpdateUsersRequest,
-    BulkUpdateUsersSquadsRequest,
-    DeleteUsers,
-    Node,
+    BulkAllExtendExpirationDateBody,
+    BulkAllUpdateUsersBody,
+    BulkDeleteUsersBody,
+    BulkDeleteUsersByStatusBody,
+    BulkExtendExpirationDateBody,
+    BulkUpdateUsersBody,
+    BulkUpdateUsersSquadsBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
-    Operation,
+    NoContentOperation,
 )
 
-BULK_DELETE_USERS_BY_STATUS: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/delete-by-status",
-    DeleteUsers,
+BULK_DELETE_USERS_BY_STATUS = NoContentOperation(
+    "POST", "/api/users/bulk/delete-by-status"
 )
-BULK_DELETE_USERS: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/delete",
-    DeleteUsers,
+BULK_DELETE_USERS = NoContentOperation("POST", "/api/users/bulk/delete")
+BULK_REVOKE_USERS_SUBSCRIPTION = NoContentOperation(
+    "POST", "/api/users/bulk/revoke-subscription"
 )
-BULK_REVOKE_USERS_SUBSCRIPTION: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/revoke-subscription",
-    DeleteUsers,
+BULK_RESET_USER_TRAFFIC = NoContentOperation(
+    "POST", "/api/users/bulk/reset-traffic"
 )
-BULK_RESET_USER_TRAFFIC: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/reset-traffic",
-    DeleteUsers,
+BULK_UPDATE_USERS = NoContentOperation("POST", "/api/users/bulk/update")
+BULK_UPDATE_USERS_INTERNAL_SQUADS = NoContentOperation(
+    "POST", "/api/users/bulk/update-squads"
 )
-BULK_UPDATE_USERS: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/update",
-    DeleteUsers,
+BULK_EXTEND_EXPIRATION_DATE = NoContentOperation(
+    "POST", "/api/users/bulk/extend-expiration-date"
 )
-BULK_UPDATE_USERS_INTERNAL_SQUADS: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/update-squads",
-    DeleteUsers,
+BULK_UPDATE_ALL_USERS = NoContentOperation("POST", "/api/users/bulk/all/update")
+BULK_ALL_RESET_USER_TRAFFIC = NoContentOperation(
+    "POST", "/api/users/bulk/all/reset-traffic"
 )
-BULK_EXTEND_EXPIRATION_DATE: Operation[DeleteUsers] = Operation(
-    "POST",
-    "/api/users/bulk/extend-expiration-date",
-    DeleteUsers,
-)
-BULK_UPDATE_ALL_USERS: Operation[Node] = Operation(
-    "POST",
-    "/api/users/bulk/all/update",
-    Node,
-)
-BULK_ALL_RESET_USER_TRAFFIC: Operation[Node] = Operation(
-    "POST",
-    "/api/users/bulk/all/reset-traffic",
-    Node,
-)
-BULK_ALL_EXTEND_EXPIRATION_DATE: Operation[Node] = Operation(
-    "POST",
-    "/api/users/bulk/all/extend-expiration-date",
-    Node,
+BULK_ALL_EXTEND_EXPIRATION_DATE = NoContentOperation(
+    "POST", "/api/users/bulk/all/extend-expiration-date"
 )
 
 
 class UsersBulkActionsApi(SyncGroup):
     def bulk_delete_users_by_status(
-        self, body: BulkDeleteUsersByStatusRequest
-    ) -> DeleteUsers:
+        self, body: BulkDeleteUsersByStatusBody
+    ) -> None:
         """Bulk delete users by status."""
         return self._executor.execute(BULK_DELETE_USERS_BY_STATUS, body=body)
 
-    def bulk_delete_users(self, body: BulkDeleteHostsRequest) -> DeleteUsers:
-        """Bulk delete users by UUIDs."""
+    def bulk_delete_users(self, body: BulkDeleteUsersBody) -> None:
+        """Bulk delete users by User IDs."""
         return self._executor.execute(BULK_DELETE_USERS, body=body)
 
-    def bulk_revoke_users_subscription(
-        self, body: BulkDeleteHostsRequest
-    ) -> DeleteUsers:
-        """Revoke users subscription by User UUIDs."""
+    def bulk_revoke_users_subscription(self, body: BulkDeleteUsersBody) -> None:
+        """Revoke users subscription by User IDs."""
         return self._executor.execute(BULK_REVOKE_USERS_SUBSCRIPTION, body=body)
 
-    def bulk_reset_user_traffic(
-        self, body: BulkDeleteHostsRequest
-    ) -> DeleteUsers:
-        """Bulk reset traffic users by UUIDs."""
+    def bulk_reset_user_traffic(self, body: BulkDeleteUsersBody) -> None:
+        """Bulk reset traffic users by User IDs."""
         return self._executor.execute(BULK_RESET_USER_TRAFFIC, body=body)
 
-    def bulk_update_users(self, body: BulkUpdateUsersRequest) -> DeleteUsers:
-        """Bulk update users by UUIDs."""
+    def bulk_update_users(self, body: BulkUpdateUsersBody) -> None:
+        """Bulk update users by User IDs."""
         return self._executor.execute(BULK_UPDATE_USERS, body=body)
 
     def bulk_update_users_internal_squads(
-        self, body: BulkUpdateUsersSquadsRequest
-    ) -> DeleteUsers:
-        """Bulk update users internal squads by UUIDs."""
+        self, body: BulkUpdateUsersSquadsBody
+    ) -> None:
+        """Bulk update users internal squads by User IDs."""
         return self._executor.execute(
             BULK_UPDATE_USERS_INTERNAL_SQUADS, body=body
         )
 
     def bulk_extend_expiration_date(
-        self, body: BulkExtendExpirationDateRequest
-    ) -> DeleteUsers:
-        """Bulk Extend Users Expiration Date."""
+        self, body: BulkExtendExpirationDateBody
+    ) -> None:
+        """Extend expiration date for specified users by days."""
         return self._executor.execute(BULK_EXTEND_EXPIRATION_DATE, body=body)
 
-    def bulk_update_all_users(self, body: BulkAllUpdateUsersRequest) -> Node:
+    def bulk_update_all_users(self, body: BulkAllUpdateUsersBody) -> None:
         """Bulk update all users."""
         return self._executor.execute(BULK_UPDATE_ALL_USERS, body=body)
 
-    def bulk_all_reset_user_traffic(self) -> Node:
-        """Bulk Reset All Users Traffic."""
+    def bulk_all_reset_user_traffic(self) -> None:
+        """Reset user used traffic for all users."""
         return self._executor.execute(BULK_ALL_RESET_USER_TRAFFIC)
 
     def bulk_all_extend_expiration_date(
-        self, body: BulkAllExtendExpirationDateRequest
-    ) -> Node:
-        """Bulk Extend All Users Expiration Date."""
+        self, body: BulkAllExtendExpirationDateBody
+    ) -> None:
+        """Extend expiration date for all users by days."""
         return self._executor.execute(
             BULK_ALL_EXTEND_EXPIRATION_DATE, body=body
         )
@@ -129,69 +97,61 @@ class UsersBulkActionsApi(SyncGroup):
 
 class AsyncUsersBulkActionsApi(AsyncGroup):
     async def bulk_delete_users_by_status(
-        self, body: BulkDeleteUsersByStatusRequest
-    ) -> DeleteUsers:
+        self, body: BulkDeleteUsersByStatusBody
+    ) -> None:
         """Bulk delete users by status."""
         return await self._executor.execute(
             BULK_DELETE_USERS_BY_STATUS, body=body
         )
 
-    async def bulk_delete_users(
-        self, body: BulkDeleteHostsRequest
-    ) -> DeleteUsers:
-        """Bulk delete users by UUIDs."""
+    async def bulk_delete_users(self, body: BulkDeleteUsersBody) -> None:
+        """Bulk delete users by User IDs."""
         return await self._executor.execute(BULK_DELETE_USERS, body=body)
 
     async def bulk_revoke_users_subscription(
-        self, body: BulkDeleteHostsRequest
-    ) -> DeleteUsers:
-        """Revoke users subscription by User UUIDs."""
+        self, body: BulkDeleteUsersBody
+    ) -> None:
+        """Revoke users subscription by User IDs."""
         return await self._executor.execute(
             BULK_REVOKE_USERS_SUBSCRIPTION, body=body
         )
 
-    async def bulk_reset_user_traffic(
-        self, body: BulkDeleteHostsRequest
-    ) -> DeleteUsers:
-        """Bulk reset traffic users by UUIDs."""
+    async def bulk_reset_user_traffic(self, body: BulkDeleteUsersBody) -> None:
+        """Bulk reset traffic users by User IDs."""
         return await self._executor.execute(BULK_RESET_USER_TRAFFIC, body=body)
 
-    async def bulk_update_users(
-        self, body: BulkUpdateUsersRequest
-    ) -> DeleteUsers:
-        """Bulk update users by UUIDs."""
+    async def bulk_update_users(self, body: BulkUpdateUsersBody) -> None:
+        """Bulk update users by User IDs."""
         return await self._executor.execute(BULK_UPDATE_USERS, body=body)
 
     async def bulk_update_users_internal_squads(
-        self, body: BulkUpdateUsersSquadsRequest
-    ) -> DeleteUsers:
-        """Bulk update users internal squads by UUIDs."""
+        self, body: BulkUpdateUsersSquadsBody
+    ) -> None:
+        """Bulk update users internal squads by User IDs."""
         return await self._executor.execute(
             BULK_UPDATE_USERS_INTERNAL_SQUADS, body=body
         )
 
     async def bulk_extend_expiration_date(
-        self, body: BulkExtendExpirationDateRequest
-    ) -> DeleteUsers:
-        """Bulk Extend Users Expiration Date."""
+        self, body: BulkExtendExpirationDateBody
+    ) -> None:
+        """Extend expiration date for specified users by days."""
         return await self._executor.execute(
             BULK_EXTEND_EXPIRATION_DATE, body=body
         )
 
-    async def bulk_update_all_users(
-        self, body: BulkAllUpdateUsersRequest
-    ) -> Node:
+    async def bulk_update_all_users(self, body: BulkAllUpdateUsersBody) -> None:
         """Bulk update all users."""
         return await self._executor.execute(BULK_UPDATE_ALL_USERS, body=body)
 
-    async def bulk_all_reset_user_traffic(self) -> Node:
-        """Bulk Reset All Users Traffic."""
+    async def bulk_all_reset_user_traffic(self) -> None:
+        """Reset user used traffic for all users."""
         return await self._executor.execute(BULK_ALL_RESET_USER_TRAFFIC)
 
     async def bulk_all_extend_expiration_date(
-        self, body: BulkAllExtendExpirationDateRequest
-    ) -> Node:
-        """Bulk Extend All Users Expiration Date."""
+        self, body: BulkAllExtendExpirationDateBody
+    ) -> None:
+        """Extend expiration date for all users by days."""
         return await self._executor.execute(
             BULK_ALL_EXTEND_EXPIRATION_DATE, body=body
         )

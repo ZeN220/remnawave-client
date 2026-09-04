@@ -2,27 +2,27 @@
 """Keygen Controller."""
 
 from remnawave._generated.models import (
-    PubKey,
+    NodeSecretKey,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
     Operation,
 )
 
-GENERATE_KEY: Operation[PubKey] = Operation(
+GENERATE_KEY: Operation[NodeSecretKey] = Operation(
     "GET",
     "/api/keygen",
-    PubKey,
+    NodeSecretKey,
 )
 
 
 class KeygenApi(SyncGroup):
-    def generate_key(self) -> PubKey:
+    def generate_key(self) -> NodeSecretKey:
         """Get SECRET_KEY for Remnawave Node."""
         return self._executor.execute(GENERATE_KEY)
 
 
 class AsyncKeygenApi(AsyncGroup):
-    async def generate_key(self) -> PubKey:
+    async def generate_key(self) -> NodeSecretKey:
         """Get SECRET_KEY for Remnawave Node."""
         return await self._executor.execute(GENERATE_KEY)

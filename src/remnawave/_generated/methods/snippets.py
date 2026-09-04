@@ -2,12 +2,13 @@
 """Snippets Controller."""
 
 from remnawave._generated.models import (
-    CreateSnippetRequest,
-    DeleteSnippetRequest,
+    CreateSnippetBody,
+    DeleteSnippetBody,
     Snippet,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
+    NoContentOperation,
     Operation,
 )
 
@@ -16,11 +17,7 @@ GET_SNIPPETS: Operation[Snippet] = Operation(
     "/api/snippets",
     Snippet,
 )
-DELETE_SNIPPET_BY_NAME: Operation[Snippet] = Operation(
-    "DELETE",
-    "/api/snippets",
-    Snippet,
-)
+DELETE_SNIPPET_BY_NAME = NoContentOperation("DELETE", "/api/snippets")
 CREATE_SNIPPET: Operation[Snippet] = Operation(
     "POST",
     "/api/snippets",
@@ -38,15 +35,15 @@ class SnippetsApi(SyncGroup):
         """Get snippets."""
         return self._executor.execute(GET_SNIPPETS)
 
-    def delete_snippet_by_name(self, body: DeleteSnippetRequest) -> Snippet:
+    def delete_snippet_by_name(self, body: DeleteSnippetBody) -> None:
         """Delete snippet."""
         return self._executor.execute(DELETE_SNIPPET_BY_NAME, body=body)
 
-    def create_snippet(self, body: CreateSnippetRequest) -> Snippet:
+    def create_snippet(self, body: CreateSnippetBody) -> Snippet:
         """Create snippet."""
         return self._executor.execute(CREATE_SNIPPET, body=body)
 
-    def update_snippet(self, body: CreateSnippetRequest) -> Snippet:
+    def update_snippet(self, body: CreateSnippetBody) -> Snippet:
         """Update snippet."""
         return self._executor.execute(UPDATE_SNIPPET, body=body)
 
@@ -56,16 +53,14 @@ class AsyncSnippetsApi(AsyncGroup):
         """Get snippets."""
         return await self._executor.execute(GET_SNIPPETS)
 
-    async def delete_snippet_by_name(
-        self, body: DeleteSnippetRequest
-    ) -> Snippet:
+    async def delete_snippet_by_name(self, body: DeleteSnippetBody) -> None:
         """Delete snippet."""
         return await self._executor.execute(DELETE_SNIPPET_BY_NAME, body=body)
 
-    async def create_snippet(self, body: CreateSnippetRequest) -> Snippet:
+    async def create_snippet(self, body: CreateSnippetBody) -> Snippet:
         """Create snippet."""
         return await self._executor.execute(CREATE_SNIPPET, body=body)
 
-    async def update_snippet(self, body: CreateSnippetRequest) -> Snippet:
+    async def update_snippet(self, body: CreateSnippetBody) -> Snippet:
         """Update snippet."""
         return await self._executor.execute(UPDATE_SNIPPET, body=body)

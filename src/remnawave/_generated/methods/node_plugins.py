@@ -2,23 +2,26 @@
 """Node Plugins Controller."""
 
 from collections.abc import AsyncIterator, Iterator
+from typing import Any
+from uuid import UUID
 
 from remnawave._generated.models import (
-    CloneNodePluginRequest,
-    DeleteSnippetRequest,
-    Host,
-    Node,
+    CloneNodePluginBody,
+    DeleteSnippetBody,
     NodePlugin,
     NodePlugins,
-    PluginExecutorRequest,
-    ReorderNodePluginsRequest,
+    PluginExecutorBody,
+    QueryFilter,
+    QuerySort,
+    ReorderNodePluginsBody,
     TorrentBlockerReport,
     TorrentBlockerReportsPage,
     TorrentBlockerReportsStats,
-    UpdateNodePluginRequest,
+    UpdateNodePluginBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
+    NoContentOperation,
     Operation,
     Pagination,
 )
@@ -27,7 +30,7 @@ GET_TORRENT_BLOCKER_REPORTS: Operation[TorrentBlockerReportsPage] = Operation(
     "GET",
     "/api/node-plugins/torrent-blocker",
     TorrentBlockerReportsPage,
-    pagination=Pagination(items_field="records", max_page_size=100),
+    pagination=Pagination(items_field="records", max_page_size=1000),
 )
 GET_TORRENT_BLOCKER_REPORTS_STATS: Operation[TorrentBlockerReportsStats] = (
     Operation(
@@ -36,12 +39,8 @@ GET_TORRENT_BLOCKER_REPORTS_STATS: Operation[TorrentBlockerReportsStats] = (
         TorrentBlockerReportsStats,
     )
 )
-TRUNCATE_TORRENT_BLOCKER_REPORTS: Operation[TorrentBlockerReportsPage] = (
-    Operation(
-        "DELETE",
-        "/api/node-plugins/torrent-blocker/truncate",
-        TorrentBlockerReportsPage,
-    )
+TRUNCATE_TORRENT_BLOCKER_REPORTS = NoContentOperation(
+    "DELETE", "/api/node-plugins/torrent-blocker/truncate"
 )
 GET_ALL_CONFIGS: Operation[NodePlugins] = Operation(
     "GET",
@@ -63,11 +62,7 @@ GET_CONFIG_BY_UUID: Operation[NodePlugin] = Operation(
     "/api/node-plugins/{uuid}",
     NodePlugin,
 )
-DELETE_CONFIG: Operation[Host] = Operation(
-    "DELETE",
-    "/api/node-plugins/{uuid}",
-    Host,
-)
+DELETE_CONFIG = NoContentOperation("DELETE", "/api/node-plugins/{uuid}")
 REORDER_NODE_PLUGINS: Operation[NodePlugins] = Operation(
     "POST",
     "/api/node-plugins/actions/reorder",
@@ -78,20 +73,31 @@ CLONE_NODE_PLUGIN: Operation[NodePlugin] = Operation(
     "/api/node-plugins/actions/clone",
     NodePlugin,
 )
-PLUGIN_EXECUTOR: Operation[Node] = Operation(
-    "POST",
-    "/api/node-plugins/executor",
-    Node,
-)
+PLUGIN_EXECUTOR = NoContentOperation("POST", "/api/node-plugins/executor")
 
 
 class NodePluginsApi(SyncGroup):
     def get_torrent_blocker_reports(
-        self, *, size: int | None = None, start: int | None = None
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
     ) -> TorrentBlockerReportsPage:
         """Get Torrent Blocker Reports."""
         return self._executor.execute(
-            GET_TORRENT_BLOCKER_REPORTS, query={"size": size, "start": start}
+            GET_TORRENT_BLOCKER_REPORTS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
     def iter_torrent_blocker_reports(
@@ -105,7 +111,7 @@ class NodePluginsApi(SyncGroup):
         """Get Torrent Blocker Reports Stats."""
         return self._executor.execute(GET_TORRENT_BLOCKER_REPORTS_STATS)
 
-    def truncate_torrent_blocker_reports(self) -> TorrentBlockerReportsPage:
+    def truncate_torrent_blocker_reports(self) -> None:
         """Truncate Torrent Blocker Reports."""
         return self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
@@ -113,44 +119,57 @@ class NodePluginsApi(SyncGroup):
         """Get all Node Plugins."""
         return self._executor.execute(GET_ALL_CONFIGS)
 
-    def update_config(self, body: UpdateNodePluginRequest) -> NodePlugin:
+    def update_config(self, body: UpdateNodePluginBody) -> NodePlugin:
         """Update Node Plugin."""
         return self._executor.execute(UPDATE_CONFIG, body=body)
 
-    def create_config(self, body: DeleteSnippetRequest) -> NodePlugin:
+    def create_config(self, body: DeleteSnippetBody) -> NodePlugin:
         """Create Node Plugin."""
         return self._executor.execute(CREATE_CONFIG, body=body)
 
-    def get_config_by_uuid(self, uuid: str) -> NodePlugin:
+    def get_config_by_uuid(self, uuid: UUID) -> NodePlugin:
         """Get Node Plugin by uuid."""
         return self._executor.execute(GET_CONFIG_BY_UUID, path={"uuid": uuid})
 
-    def delete_config(self, uuid: str) -> Host:
+    def delete_config(self, uuid: UUID) -> None:
         """Delete Node Plugin."""
         return self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
-    def reorder_node_plugins(
-        self, body: ReorderNodePluginsRequest
-    ) -> NodePlugins:
+    def reorder_node_plugins(self, body: ReorderNodePluginsBody) -> NodePlugins:
         """Reorder Node Plugins."""
         return self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
-    def clone_node_plugin(self, body: CloneNodePluginRequest) -> NodePlugin:
+    def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
         """Clone Node Plugin."""
         return self._executor.execute(CLONE_NODE_PLUGIN, body=body)
 
-    def plugin_executor(self, body: PluginExecutorRequest) -> Node:
+    def plugin_executor(self, body: PluginExecutorBody) -> None:
         """Execute command on node plugins."""
         return self._executor.execute(PLUGIN_EXECUTOR, body=body)
 
 
 class AsyncNodePluginsApi(AsyncGroup):
     async def get_torrent_blocker_reports(
-        self, *, size: int | None = None, start: int | None = None
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
     ) -> TorrentBlockerReportsPage:
         """Get Torrent Blocker Reports."""
         return await self._executor.execute(
-            GET_TORRENT_BLOCKER_REPORTS, query={"size": size, "start": start}
+            GET_TORRENT_BLOCKER_REPORTS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
     async def iter_torrent_blocker_reports(
@@ -169,9 +188,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Get Torrent Blocker Reports Stats."""
         return await self._executor.execute(GET_TORRENT_BLOCKER_REPORTS_STATS)
 
-    async def truncate_torrent_blocker_reports(
-        self,
-    ) -> TorrentBlockerReportsPage:
+    async def truncate_torrent_blocker_reports(self) -> None:
         """Truncate Torrent Blocker Reports."""
         return await self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
@@ -179,36 +196,34 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Get all Node Plugins."""
         return await self._executor.execute(GET_ALL_CONFIGS)
 
-    async def update_config(self, body: UpdateNodePluginRequest) -> NodePlugin:
+    async def update_config(self, body: UpdateNodePluginBody) -> NodePlugin:
         """Update Node Plugin."""
         return await self._executor.execute(UPDATE_CONFIG, body=body)
 
-    async def create_config(self, body: DeleteSnippetRequest) -> NodePlugin:
+    async def create_config(self, body: DeleteSnippetBody) -> NodePlugin:
         """Create Node Plugin."""
         return await self._executor.execute(CREATE_CONFIG, body=body)
 
-    async def get_config_by_uuid(self, uuid: str) -> NodePlugin:
+    async def get_config_by_uuid(self, uuid: UUID) -> NodePlugin:
         """Get Node Plugin by uuid."""
         return await self._executor.execute(
             GET_CONFIG_BY_UUID, path={"uuid": uuid}
         )
 
-    async def delete_config(self, uuid: str) -> Host:
+    async def delete_config(self, uuid: UUID) -> None:
         """Delete Node Plugin."""
         return await self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
     async def reorder_node_plugins(
-        self, body: ReorderNodePluginsRequest
+        self, body: ReorderNodePluginsBody
     ) -> NodePlugins:
         """Reorder Node Plugins."""
         return await self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
-    async def clone_node_plugin(
-        self, body: CloneNodePluginRequest
-    ) -> NodePlugin:
+    async def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
         """Clone Node Plugin."""
         return await self._executor.execute(CLONE_NODE_PLUGIN, body=body)
 
-    async def plugin_executor(self, body: PluginExecutorRequest) -> Node:
+    async def plugin_executor(self, body: PluginExecutorBody) -> None:
         """Execute command on node plugins."""
         return await self._executor.execute(PLUGIN_EXECUTOR, body=body)

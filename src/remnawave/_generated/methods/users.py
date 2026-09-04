@@ -2,14 +2,22 @@
 """Users Controller."""
 
 from collections.abc import AsyncIterator, Iterator
+from typing import Any
+from uuid import UUID
 
+from remnawave._generated.enums import (
+    UserStatus,
+    UserTrafficLimitStrategy,
+)
 from remnawave._generated.models import (
-    CreateUserRequest,
-    Host,
-    ResolveUserRequestBody,
+    CreateUserBody,
+    ExtendUserBody,
+    HostsTags,
+    QueryFilter,
+    QuerySort,
+    ResolveUserBody,
     RevokeUserSubscriptionBody,
-    Tags,
-    UpdateUserRequest,
+    UpdateUserBody,
     User,
     UserAccessibleNodes,
     UserRef,
@@ -19,6 +27,7 @@ from remnawave._generated.models import (
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
+    NoContentOperation,
     Operation,
     Pagination,
 )
@@ -33,20 +42,16 @@ UPDATE_USER: Operation[User] = Operation(
     "/api/users",
     User,
 )
-GET_ALL_USERS: Operation[UsersPage] = Operation(
+GET_USERS: Operation[UsersPage] = Operation(
     "GET",
     "/api/users",
     UsersPage,
-    pagination=Pagination(items_field="users", max_page_size=100),
+    pagination=Pagination(items_field="users", max_page_size=1000),
 )
-DELETE_USER: Operation[Host] = Operation(
-    "DELETE",
-    "/api/users/{uuid}",
-    Host,
-)
-GET_USER_BY_UUID: Operation[User] = Operation(
+DELETE_USER = NoContentOperation("DELETE", "/api/users/{userId}")
+GET_USER_BY_ID: Operation[User] = Operation(
     "GET",
-    "/api/users/{uuid}",
+    "/api/users/{userId}",
     User,
 )
 GET_USERS_STREAM: Operation[UsersStream] = Operation(
@@ -54,21 +59,21 @@ GET_USERS_STREAM: Operation[UsersStream] = Operation(
     "/api/users/stream",
     UsersStream,
 )
-GET_ALL_TAGS: Operation[Tags] = Operation(
+GET_USERS_TAGS: Operation[HostsTags] = Operation(
     "GET",
     "/api/users/tags",
-    Tags,
+    HostsTags,
 )
 GET_USER_ACCESSIBLE_NODES: Operation[UserAccessibleNodes] = Operation(
     "GET",
-    "/api/users/{uuid}/accessible-nodes",
+    "/api/users/{userId}/accessible-nodes",
     UserAccessibleNodes,
 )
 GET_USER_SUBSCRIPTION_REQUEST_HISTORY: Operation[
     UserSubscriptionRequestHistory
 ] = Operation(
     "GET",
-    "/api/users/{uuid}/subscription-request-history",
+    "/api/users/{userId}/subscription-request-history",
     UserSubscriptionRequestHistory,
 )
 GET_USER_BY_SHORT_UUID: Operation[User] = Operation(
@@ -81,44 +86,29 @@ GET_USER_BY_USERNAME: Operation[User] = Operation(
     "/api/users/by-username/{username}",
     User,
 )
-GET_USER_BY_ID: Operation[User] = Operation(
-    "GET",
-    "/api/users/by-id/{id}",
-    User,
-)
-GET_USER_BY_TELEGRAM_ID: Operation[list[User]] = Operation(
-    "GET",
-    "/api/users/by-telegram-id/{telegramId}",
-    list[User],
-)
-GET_USERS_BY_EMAIL: Operation[list[User]] = Operation(
-    "GET",
-    "/api/users/by-email/{email}",
-    list[User],
-)
-GET_USERS_BY_TAG: Operation[list[User]] = Operation(
-    "GET",
-    "/api/users/by-tag/{tag}",
-    list[User],
-)
 REVOKE_USER_SUBSCRIPTION: Operation[User] = Operation(
     "POST",
-    "/api/users/{uuid}/actions/revoke",
+    "/api/users/{userId}/actions/revoke",
     User,
 )
 DISABLE_USER: Operation[User] = Operation(
     "POST",
-    "/api/users/{uuid}/actions/disable",
+    "/api/users/{userId}/actions/disable",
     User,
 )
 ENABLE_USER: Operation[User] = Operation(
     "POST",
-    "/api/users/{uuid}/actions/enable",
+    "/api/users/{userId}/actions/enable",
     User,
 )
 RESET_USER_TRAFFIC: Operation[User] = Operation(
     "POST",
-    "/api/users/{uuid}/actions/reset-traffic",
+    "/api/users/{userId}/actions/reset-traffic",
+    User,
+)
+EXTEND_USER_EXPIRATION_DATE: Operation[User] = Operation(
+    "POST",
+    "/api/users/{userId}/actions/extend",
     User,
 )
 RESOLVE_USER: Operation[UserRef] = Operation(
@@ -129,61 +119,98 @@ RESOLVE_USER: Operation[UserRef] = Operation(
 
 
 class UsersApi(SyncGroup):
-    def create_user(self, body: CreateUserRequest) -> User:
+    def create_user(self, body: CreateUserBody) -> User:
         """Create a new user."""
         return self._executor.execute(CREATE_USER, body=body)
 
-    def update_user(self, body: UpdateUserRequest) -> User:
-        """Update a user by UUID or username."""
+    def update_user(self, body: UpdateUserBody) -> User:
+        """Update a user."""
         return self._executor.execute(UPDATE_USER, body=body)
 
-    def get_all_users(
-        self, *, size: int | None = None, start: int | None = None
+    def get_users(
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
     ) -> UsersPage:
         """Get all users using offset-based pagination."""
         return self._executor.execute(
-            GET_ALL_USERS, query={"size": size, "start": start}
+            GET_USERS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
-    def iter_all_users(
+    def iter_users(
         self,
         page_size: int | None = None,
     ) -> Iterator[User]:
         """Все страницы одним ленивым потоком."""
-        yield from self._paginate(GET_ALL_USERS, page_size)
+        yield from self._paginate(GET_USERS, page_size)
 
-    def delete_user(self, uuid: str) -> Host:
+    def delete_user(self, user_id: int) -> None:
         """Delete user."""
-        return self._executor.execute(DELETE_USER, path={"uuid": uuid})
+        return self._executor.execute(DELETE_USER, path={"userId": user_id})
 
-    def get_user_by_uuid(self, uuid: str) -> User:
-        """Get user by UUID."""
-        return self._executor.execute(GET_USER_BY_UUID, path={"uuid": uuid})
+    def get_user_by_id(self, user_id: int) -> User:
+        """Get user by ID."""
+        return self._executor.execute(GET_USER_BY_ID, path={"userId": user_id})
 
     def get_users_stream(
-        self, *, size: int | None = None, cursor: str | None = None
+        self,
+        *,
+        cursor: int | None = None,
+        size: int | None = None,
+        status: UserStatus | None = None,
+        traffic_limit_strategy: UserTrafficLimitStrategy | None = None,
+        telegram_id: str | None = None,
+        email: str | None = None,
+        tag: str | None = None,
+        external_squad_uuid: UUID | None = None,
     ) -> UsersStream:
-        """Get all users using cursor-based (keyset) pagination."""
+        """
+        Get all users using cursor-based (keyset) pagination with
+        filtering options.
+        """
         return self._executor.execute(
-            GET_USERS_STREAM, query={"size": size, "cursor": cursor}
+            GET_USERS_STREAM,
+            query={
+                "cursor": cursor,
+                "size": size,
+                "status": status,
+                "trafficLimitStrategy": traffic_limit_strategy,
+                "telegramId": telegram_id,
+                "email": email,
+                "tag": tag,
+                "externalSquadUuid": external_squad_uuid,
+            },
         )
 
-    def get_all_tags(self) -> Tags:
-        """Get all existing user tags."""
-        return self._executor.execute(GET_ALL_TAGS)
+    def get_users_tags(self) -> HostsTags:
+        """Get users tags."""
+        return self._executor.execute(GET_USERS_TAGS)
 
-    def get_user_accessible_nodes(self, uuid: str) -> UserAccessibleNodes:
+    def get_user_accessible_nodes(self, user_id: int) -> UserAccessibleNodes:
         """Get user accessible nodes."""
         return self._executor.execute(
-            GET_USER_ACCESSIBLE_NODES, path={"uuid": uuid}
+            GET_USER_ACCESSIBLE_NODES, path={"userId": user_id}
         )
 
     def get_user_subscription_request_history(
-        self, uuid: str
+        self, user_id: int
     ) -> UserSubscriptionRequestHistory:
         """Get user subscription request history, recent 24 records."""
         return self._executor.execute(
-            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"uuid": uuid}
+            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"userId": user_id}
         )
 
     def get_user_by_short_uuid(self, short_uuid: str) -> User:
@@ -198,108 +225,141 @@ class UsersApi(SyncGroup):
             GET_USER_BY_USERNAME, path={"username": username}
         )
 
-    def get_user_by_id(self, id: str) -> User:
-        """Get user by ID."""
-        return self._executor.execute(GET_USER_BY_ID, path={"id": id})
-
-    def get_user_by_telegram_id(self, telegram_id: str) -> list[User]:
-        """Get users by telegram ID."""
-        return self._executor.execute(
-            GET_USER_BY_TELEGRAM_ID, path={"telegramId": telegram_id}
-        )
-
-    def get_users_by_email(self, email: str) -> list[User]:
-        """Get users by email."""
-        return self._executor.execute(GET_USERS_BY_EMAIL, path={"email": email})
-
-    def get_users_by_tag(self, tag: str) -> list[User]:
-        """Get users by tag."""
-        return self._executor.execute(GET_USERS_BY_TAG, path={"tag": tag})
-
     def revoke_user_subscription(
-        self, uuid: str, body: RevokeUserSubscriptionBody
+        self, user_id: int, body: RevokeUserSubscriptionBody
     ) -> User:
         """Revoke user subscription."""
         return self._executor.execute(
-            REVOKE_USER_SUBSCRIPTION, path={"uuid": uuid}, body=body
+            REVOKE_USER_SUBSCRIPTION, path={"userId": user_id}, body=body
         )
 
-    def disable_user(self, uuid: str) -> User:
+    def disable_user(self, user_id: int) -> User:
         """Disable user."""
-        return self._executor.execute(DISABLE_USER, path={"uuid": uuid})
+        return self._executor.execute(DISABLE_USER, path={"userId": user_id})
 
-    def enable_user(self, uuid: str) -> User:
+    def enable_user(self, user_id: int) -> User:
         """Enable user."""
-        return self._executor.execute(ENABLE_USER, path={"uuid": uuid})
+        return self._executor.execute(ENABLE_USER, path={"userId": user_id})
 
-    def reset_user_traffic(self, uuid: str) -> User:
+    def reset_user_traffic(self, user_id: int) -> User:
         """Reset user traffic."""
-        return self._executor.execute(RESET_USER_TRAFFIC, path={"uuid": uuid})
+        return self._executor.execute(
+            RESET_USER_TRAFFIC, path={"userId": user_id}
+        )
 
-    def resolve_user(self, body: ResolveUserRequestBody) -> UserRef:
+    def extend_user_expiration_date(
+        self, user_id: int, body: ExtendUserBody
+    ) -> User:
+        """Extend user expiration date."""
+        return self._executor.execute(
+            EXTEND_USER_EXPIRATION_DATE, path={"userId": user_id}, body=body
+        )
+
+    def resolve_user(self, body: ResolveUserBody) -> UserRef:
         """Resolve a user."""
         return self._executor.execute(RESOLVE_USER, body=body)
 
 
 class AsyncUsersApi(AsyncGroup):
-    async def create_user(self, body: CreateUserRequest) -> User:
+    async def create_user(self, body: CreateUserBody) -> User:
         """Create a new user."""
         return await self._executor.execute(CREATE_USER, body=body)
 
-    async def update_user(self, body: UpdateUserRequest) -> User:
-        """Update a user by UUID or username."""
+    async def update_user(self, body: UpdateUserBody) -> User:
+        """Update a user."""
         return await self._executor.execute(UPDATE_USER, body=body)
 
-    async def get_all_users(
-        self, *, size: int | None = None, start: int | None = None
+    async def get_users(
+        self,
+        *,
+        start: int | None = None,
+        size: int | None = None,
+        filters: list[QueryFilter] | None = None,
+        filter_modes: dict[str, Any] | None = None,
+        global_filter_mode: str | None = None,
+        sorting: list[QuerySort] | None = None,
     ) -> UsersPage:
         """Get all users using offset-based pagination."""
         return await self._executor.execute(
-            GET_ALL_USERS, query={"size": size, "start": start}
+            GET_USERS,
+            query={
+                "start": start,
+                "size": size,
+                "filters": filters,
+                "filterModes": filter_modes,
+                "globalFilterMode": global_filter_mode,
+                "sorting": sorting,
+            },
         )
 
-    async def iter_all_users(
+    async def iter_users(
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[User]:
         """Все страницы одним ленивым потоком."""
-        async for item in self._paginate(GET_ALL_USERS, page_size):
+        async for item in self._paginate(GET_USERS, page_size):
             yield item
 
-    async def delete_user(self, uuid: str) -> Host:
+    async def delete_user(self, user_id: int) -> None:
         """Delete user."""
-        return await self._executor.execute(DELETE_USER, path={"uuid": uuid})
-
-    async def get_user_by_uuid(self, uuid: str) -> User:
-        """Get user by UUID."""
         return await self._executor.execute(
-            GET_USER_BY_UUID, path={"uuid": uuid}
+            DELETE_USER, path={"userId": user_id}
+        )
+
+    async def get_user_by_id(self, user_id: int) -> User:
+        """Get user by ID."""
+        return await self._executor.execute(
+            GET_USER_BY_ID, path={"userId": user_id}
         )
 
     async def get_users_stream(
-        self, *, size: int | None = None, cursor: str | None = None
+        self,
+        *,
+        cursor: int | None = None,
+        size: int | None = None,
+        status: UserStatus | None = None,
+        traffic_limit_strategy: UserTrafficLimitStrategy | None = None,
+        telegram_id: str | None = None,
+        email: str | None = None,
+        tag: str | None = None,
+        external_squad_uuid: UUID | None = None,
     ) -> UsersStream:
-        """Get all users using cursor-based (keyset) pagination."""
+        """
+        Get all users using cursor-based (keyset) pagination with
+        filtering options.
+        """
         return await self._executor.execute(
-            GET_USERS_STREAM, query={"size": size, "cursor": cursor}
+            GET_USERS_STREAM,
+            query={
+                "cursor": cursor,
+                "size": size,
+                "status": status,
+                "trafficLimitStrategy": traffic_limit_strategy,
+                "telegramId": telegram_id,
+                "email": email,
+                "tag": tag,
+                "externalSquadUuid": external_squad_uuid,
+            },
         )
 
-    async def get_all_tags(self) -> Tags:
-        """Get all existing user tags."""
-        return await self._executor.execute(GET_ALL_TAGS)
+    async def get_users_tags(self) -> HostsTags:
+        """Get users tags."""
+        return await self._executor.execute(GET_USERS_TAGS)
 
-    async def get_user_accessible_nodes(self, uuid: str) -> UserAccessibleNodes:
+    async def get_user_accessible_nodes(
+        self, user_id: int
+    ) -> UserAccessibleNodes:
         """Get user accessible nodes."""
         return await self._executor.execute(
-            GET_USER_ACCESSIBLE_NODES, path={"uuid": uuid}
+            GET_USER_ACCESSIBLE_NODES, path={"userId": user_id}
         )
 
     async def get_user_subscription_request_history(
-        self, uuid: str
+        self, user_id: int
     ) -> UserSubscriptionRequestHistory:
         """Get user subscription request history, recent 24 records."""
         return await self._executor.execute(
-            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"uuid": uuid}
+            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"userId": user_id}
         )
 
     async def get_user_by_short_uuid(self, short_uuid: str) -> User:
@@ -314,48 +374,40 @@ class AsyncUsersApi(AsyncGroup):
             GET_USER_BY_USERNAME, path={"username": username}
         )
 
-    async def get_user_by_id(self, id: str) -> User:
-        """Get user by ID."""
-        return await self._executor.execute(GET_USER_BY_ID, path={"id": id})
-
-    async def get_user_by_telegram_id(self, telegram_id: str) -> list[User]:
-        """Get users by telegram ID."""
-        return await self._executor.execute(
-            GET_USER_BY_TELEGRAM_ID, path={"telegramId": telegram_id}
-        )
-
-    async def get_users_by_email(self, email: str) -> list[User]:
-        """Get users by email."""
-        return await self._executor.execute(
-            GET_USERS_BY_EMAIL, path={"email": email}
-        )
-
-    async def get_users_by_tag(self, tag: str) -> list[User]:
-        """Get users by tag."""
-        return await self._executor.execute(GET_USERS_BY_TAG, path={"tag": tag})
-
     async def revoke_user_subscription(
-        self, uuid: str, body: RevokeUserSubscriptionBody
+        self, user_id: int, body: RevokeUserSubscriptionBody
     ) -> User:
         """Revoke user subscription."""
         return await self._executor.execute(
-            REVOKE_USER_SUBSCRIPTION, path={"uuid": uuid}, body=body
+            REVOKE_USER_SUBSCRIPTION, path={"userId": user_id}, body=body
         )
 
-    async def disable_user(self, uuid: str) -> User:
+    async def disable_user(self, user_id: int) -> User:
         """Disable user."""
-        return await self._executor.execute(DISABLE_USER, path={"uuid": uuid})
+        return await self._executor.execute(
+            DISABLE_USER, path={"userId": user_id}
+        )
 
-    async def enable_user(self, uuid: str) -> User:
+    async def enable_user(self, user_id: int) -> User:
         """Enable user."""
-        return await self._executor.execute(ENABLE_USER, path={"uuid": uuid})
+        return await self._executor.execute(
+            ENABLE_USER, path={"userId": user_id}
+        )
 
-    async def reset_user_traffic(self, uuid: str) -> User:
+    async def reset_user_traffic(self, user_id: int) -> User:
         """Reset user traffic."""
         return await self._executor.execute(
-            RESET_USER_TRAFFIC, path={"uuid": uuid}
+            RESET_USER_TRAFFIC, path={"userId": user_id}
         )
 
-    async def resolve_user(self, body: ResolveUserRequestBody) -> UserRef:
+    async def extend_user_expiration_date(
+        self, user_id: int, body: ExtendUserBody
+    ) -> User:
+        """Extend user expiration date."""
+        return await self._executor.execute(
+            EXTEND_USER_EXPIRATION_DATE, path={"userId": user_id}, body=body
+        )
+
+    async def resolve_user(self, body: ResolveUserBody) -> UserRef:
         """Resolve a user."""
         return await self._executor.execute(RESOLVE_USER, body=body)

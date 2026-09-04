@@ -2,70 +2,51 @@
 """Hosts Bulk Actions Controller."""
 
 from remnawave._generated.models import (
-    BulkDeleteHostsRequest,
-    Host2,
-    UpdateManyHostsRequest,
+    BulkDeleteHostsBody,
+    UpdateManyHostsBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
-    Operation,
+    NoContentOperation,
 )
 
-DELETE_HOSTS: Operation[list[Host2]] = Operation(
-    "POST",
-    "/api/hosts/bulk/delete",
-    list[Host2],
-)
-DISABLE_HOSTS: Operation[list[Host2]] = Operation(
-    "POST",
-    "/api/hosts/bulk/disable",
-    list[Host2],
-)
-ENABLE_HOSTS: Operation[list[Host2]] = Operation(
-    "POST",
-    "/api/hosts/bulk/enable",
-    list[Host2],
-)
-SET_PORT_TO_HOSTS: Operation[list[Host2]] = Operation(
-    "PATCH",
-    "/api/hosts/bulk/update",
-    list[Host2],
-)
+DELETE_HOSTS = NoContentOperation("POST", "/api/hosts/bulk/delete")
+DISABLE_HOSTS = NoContentOperation("POST", "/api/hosts/bulk/disable")
+ENABLE_HOSTS = NoContentOperation("POST", "/api/hosts/bulk/enable")
+SET_PORT_TO_HOSTS = NoContentOperation("PATCH", "/api/hosts/bulk/update")
 
 
 class HostsBulkActionsApi(SyncGroup):
-    def delete_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    def delete_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Delete hosts by UUIDs."""
         return self._executor.execute(DELETE_HOSTS, body=body)
 
-    def disable_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    def disable_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Disable hosts by UUIDs."""
         return self._executor.execute(DISABLE_HOSTS, body=body)
 
-    def enable_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    def enable_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Enable hosts by UUIDs."""
         return self._executor.execute(ENABLE_HOSTS, body=body)
 
-    def set_port_to_hosts(self, body: UpdateManyHostsRequest) -> list[Host2]:
+    def set_port_to_hosts(self, body: UpdateManyHostsBody) -> None:
         """Update many hosts."""
         return self._executor.execute(SET_PORT_TO_HOSTS, body=body)
 
 
 class AsyncHostsBulkActionsApi(AsyncGroup):
-    async def delete_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    async def delete_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Delete hosts by UUIDs."""
         return await self._executor.execute(DELETE_HOSTS, body=body)
 
-    async def disable_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    async def disable_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Disable hosts by UUIDs."""
         return await self._executor.execute(DISABLE_HOSTS, body=body)
 
-    async def enable_hosts(self, body: BulkDeleteHostsRequest) -> list[Host2]:
+    async def enable_hosts(self, body: BulkDeleteHostsBody) -> None:
         """Enable hosts by UUIDs."""
         return await self._executor.execute(ENABLE_HOSTS, body=body)
 
-    async def set_port_to_hosts(
-        self, body: UpdateManyHostsRequest
-    ) -> list[Host2]:
+    async def set_port_to_hosts(self, body: UpdateManyHostsBody) -> None:
         """Update many hosts."""
         return await self._executor.execute(SET_PORT_TO_HOSTS, body=body)

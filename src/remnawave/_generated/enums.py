@@ -2,7 +2,7 @@
 from enum import StrEnum
 
 
-class OAuth2CallbackRequestProvider(StrEnum):
+class OAuth2CallbackBodyProvider(StrEnum):
     TELEGRAM = "telegram"
     GITHUB = "github"
     POCKETID = "pocketid"
@@ -26,7 +26,7 @@ class UserTrafficLimitStrategy(StrEnum):
     MONTH_ROLLING = "MONTH_ROLLING"
 
 
-class UpdateUserRequestStatus(StrEnum):
+class UpdateUserBodyStatus(StrEnum):
     ACTIVE = "ACTIVE"
     DISABLED = "DISABLED"
 
@@ -85,7 +85,7 @@ class ApiTokenScopesResourceEndpointKind(StrEnum):
     WRITE = "write"
 
 
-class BulkNodesActionsRequestAction(StrEnum):
+class BulkNodesActionsBodyAction(StrEnum):
     ENABLE = "ENABLE"
     DISABLE = "DISABLE"
     RESTART = "RESTART"

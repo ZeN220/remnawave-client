@@ -4,7 +4,7 @@ from remnawave._generated.enums import (
     ApiTokenScopesResourceEndpointKind as ApiTokenScopesResourceEndpointKind,
 )
 from remnawave._generated.enums import (
-    BulkNodesActionsRequestAction as BulkNodesActionsRequestAction,
+    BulkNodesActionsBodyAction as BulkNodesActionsBodyAction,
 )
 from remnawave._generated.enums import (
     CrmEventEvent as CrmEventEvent,
@@ -22,7 +22,7 @@ from remnawave._generated.enums import (
     NodeEventEvent as NodeEventEvent,
 )
 from remnawave._generated.enums import (
-    OAuth2CallbackRequestProvider as OAuth2CallbackRequestProvider,
+    OAuth2CallbackBodyProvider as OAuth2CallbackBodyProvider,
 )
 from remnawave._generated.enums import (
     RawSubscriptionByShortUuidResolvedProxyConfigProtocol as RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
@@ -58,7 +58,7 @@ from remnawave._generated.enums import (
     TemplateTemplateType as TemplateTemplateType,
 )
 from remnawave._generated.enums import (
-    UpdateUserRequestStatus as UpdateUserRequestStatus,
+    UpdateUserBodyStatus as UpdateUserBodyStatus,
 )
 from remnawave._generated.enums import (
     UserEventEvent as UserEventEvent,
@@ -79,6 +79,9 @@ from remnawave._generated.models import (
     ApiToken as ApiToken,
 )
 from remnawave._generated.models import (
+    ApiTokens as ApiTokens,
+)
+from remnawave._generated.models import (
     ApiTokenScopes as ApiTokenScopes,
 )
 from remnawave._generated.models import (
@@ -88,46 +91,52 @@ from remnawave._generated.models import (
     ApiTokenScopesResourceEndpoint as ApiTokenScopesResourceEndpoint,
 )
 from remnawave._generated.models import (
+    ApiTokensToken as ApiTokensToken,
+)
+from remnawave._generated.models import (
     BandwidthStats as BandwidthStats,
 )
 from remnawave._generated.models import (
     BandwidthStatsBandwidthLast30Day as BandwidthStatsBandwidthLast30Day,
 )
 from remnawave._generated.models import (
-    BulkAllExtendExpirationDateRequest as BulkAllExtendExpirationDateRequest,
+    BulkAllExtendExpirationDateBody as BulkAllExtendExpirationDateBody,
 )
 from remnawave._generated.models import (
-    BulkAllUpdateUsersRequest as BulkAllUpdateUsersRequest,
+    BulkAllUpdateUsersBody as BulkAllUpdateUsersBody,
 )
 from remnawave._generated.models import (
-    BulkDeleteHostsRequest as BulkDeleteHostsRequest,
+    BulkDeleteHostsBody as BulkDeleteHostsBody,
 )
 from remnawave._generated.models import (
-    BulkDeleteUsersByStatusRequest as BulkDeleteUsersByStatusRequest,
+    BulkDeleteUsersBody as BulkDeleteUsersBody,
 )
 from remnawave._generated.models import (
-    BulkExtendExpirationDateRequest as BulkExtendExpirationDateRequest,
+    BulkDeleteUsersByStatusBody as BulkDeleteUsersByStatusBody,
 )
 from remnawave._generated.models import (
-    BulkNodesActionsRequest as BulkNodesActionsRequest,
+    BulkExtendExpirationDateBody as BulkExtendExpirationDateBody,
 )
 from remnawave._generated.models import (
-    BulkNodesUpdateRequest as BulkNodesUpdateRequest,
+    BulkNodesActionsBody as BulkNodesActionsBody,
 )
 from remnawave._generated.models import (
-    BulkNodesUpdateRequestField as BulkNodesUpdateRequestField,
+    BulkNodesUpdateBody as BulkNodesUpdateBody,
 )
 from remnawave._generated.models import (
-    BulkUpdateUsersRequest as BulkUpdateUsersRequest,
+    BulkNodesUpdateBodyField as BulkNodesUpdateBodyField,
 )
 from remnawave._generated.models import (
-    BulkUpdateUsersRequestField as BulkUpdateUsersRequestField,
+    BulkUpdateUsersBody as BulkUpdateUsersBody,
 )
 from remnawave._generated.models import (
-    BulkUpdateUsersSquadsRequest as BulkUpdateUsersSquadsRequest,
+    BulkUpdateUsersBodyField as BulkUpdateUsersBodyField,
 )
 from remnawave._generated.models import (
-    CloneNodePluginRequest as CloneNodePluginRequest,
+    BulkUpdateUsersSquadsBody as BulkUpdateUsersSquadsBody,
+)
+from remnawave._generated.models import (
+    CloneNodePluginBody as CloneNodePluginBody,
 )
 from remnawave._generated.models import (
     ConfigProfile as ConfigProfile,
@@ -139,49 +148,76 @@ from remnawave._generated.models import (
     ConfigProfiles as ConfigProfiles,
 )
 from remnawave._generated.models import (
-    ConnectionKeysByUuid as ConnectionKeysByUuid,
+    ConnectionKeysByUserId as ConnectionKeysByUserId,
 )
 from remnawave._generated.models import (
-    CreateApiTokenRequest as CreateApiTokenRequest,
+    ConnectionsByNode as ConnectionsByNode,
 )
 from remnawave._generated.models import (
-    CreateConfigProfileRequest as CreateConfigProfileRequest,
+    ConnectionsByNodeResult as ConnectionsByNodeResult,
 )
 from remnawave._generated.models import (
-    CreateHostRequest as CreateHostRequest,
+    ConnectionsByNodeResultResult as ConnectionsByNodeResultResult,
 )
 from remnawave._generated.models import (
-    CreateHostRequestInbound as CreateHostRequestInbound,
+    ConnectionsByNodeResultResultUser as ConnectionsByNodeResultResultUser,
 )
 from remnawave._generated.models import (
-    CreateInfraBillingHistoryRecordRequest as CreateInfraBillingHistoryRecordRequest,
+    ConnectionsByNodeResultResultUserIp as ConnectionsByNodeResultResultUserIp,
 )
 from remnawave._generated.models import (
-    CreateInfraBillingNodeRequest as CreateInfraBillingNodeRequest,
+    ConnectionsByUserResult as ConnectionsByUserResult,
 )
 from remnawave._generated.models import (
-    CreateInfraProviderRequest as CreateInfraProviderRequest,
+    ConnectionsByUserResultProgress as ConnectionsByUserResultProgress,
 )
 from remnawave._generated.models import (
-    CreateInternalSquadRequest as CreateInternalSquadRequest,
+    ConnectionsByUserResultResult as ConnectionsByUserResultResult,
 )
 from remnawave._generated.models import (
-    CreateNodeRequest as CreateNodeRequest,
+    ConnectionsByUserResultResultNode as ConnectionsByUserResultResultNode,
 )
 from remnawave._generated.models import (
-    CreateNodeRequestConfigProfile as CreateNodeRequestConfigProfile,
+    CreateApiTokenBody as CreateApiTokenBody,
 )
 from remnawave._generated.models import (
-    CreateSnippetRequest as CreateSnippetRequest,
+    CreateConfigProfileBody as CreateConfigProfileBody,
 )
 from remnawave._generated.models import (
-    CreateSubscriptionTemplateRequest as CreateSubscriptionTemplateRequest,
+    CreateHostBody as CreateHostBody,
 )
 from remnawave._generated.models import (
-    CreateUserHwidDeviceRequest as CreateUserHwidDeviceRequest,
+    CreateHostBodyInbound as CreateHostBodyInbound,
 )
 from remnawave._generated.models import (
-    CreateUserRequest as CreateUserRequest,
+    CreateInfraBillingNodeBody as CreateInfraBillingNodeBody,
+)
+from remnawave._generated.models import (
+    CreateInfraBillingRecordBody as CreateInfraBillingRecordBody,
+)
+from remnawave._generated.models import (
+    CreateInfraProviderBody as CreateInfraProviderBody,
+)
+from remnawave._generated.models import (
+    CreateInternalSquadBody as CreateInternalSquadBody,
+)
+from remnawave._generated.models import (
+    CreateNodeBody as CreateNodeBody,
+)
+from remnawave._generated.models import (
+    CreateNodeBodyConfigProfile as CreateNodeBodyConfigProfile,
+)
+from remnawave._generated.models import (
+    CreateSnippetBody as CreateSnippetBody,
+)
+from remnawave._generated.models import (
+    CreateSubscriptionTemplateBody as CreateSubscriptionTemplateBody,
+)
+from remnawave._generated.models import (
+    CreateUserBody as CreateUserBody,
+)
+from remnawave._generated.models import (
+    CreateUserHwidDeviceBody as CreateUserHwidDeviceBody,
 )
 from remnawave._generated.models import (
     CrmEvent as CrmEvent,
@@ -190,46 +226,46 @@ from remnawave._generated.models import (
     CrmEventData as CrmEventData,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherRequest as DebugSrrMatcherRequest,
+    DebugSrrMatcherBody as DebugSrrMatcherBody,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherRequestResponseRule as DebugSrrMatcherRequestResponseRule,
+    DebugSrrMatcherBodyResponseRule as DebugSrrMatcherBodyResponseRule,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherRequestResponseRuleRule as DebugSrrMatcherRequestResponseRuleRule,
+    DebugSrrMatcherBodyResponseRuleRule as DebugSrrMatcherBodyResponseRuleRule,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherRequestResponseRuleRuleResponseModification as DebugSrrMatcherRequestResponseRuleRuleResponseModification,
+    DebugSrrMatcherBodyResponseRuleRuleResponseModification as DebugSrrMatcherBodyResponseRuleRuleResponseModification,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherRequestResponseRuleSetting as DebugSrrMatcherRequestResponseRuleSetting,
+    DebugSrrMatcherBodyResponseRuleSetting as DebugSrrMatcherBodyResponseRuleSetting,
 )
 from remnawave._generated.models import (
-    DeleteAllUserHwidDevicesRequest as DeleteAllUserHwidDevicesRequest,
+    DeleteAllUserHwidDevicesBody as DeleteAllUserHwidDevicesBody,
 )
 from remnawave._generated.models import (
-    DeletePasskeyRequest as DeletePasskeyRequest,
+    DeletePasskeyBody as DeletePasskeyBody,
 )
 from remnawave._generated.models import (
-    DeleteSnippetRequest as DeleteSnippetRequest,
+    DeleteSnippetBody as DeleteSnippetBody,
 )
 from remnawave._generated.models import (
-    DeleteUserHwidDeviceRequest as DeleteUserHwidDeviceRequest,
-)
-from remnawave._generated.models import (
-    DeleteUsers as DeleteUsers,
+    DeleteUserHwidDeviceBody as DeleteUserHwidDeviceBody,
 )
 from remnawave._generated.models import (
     Device as Device,
 )
 from remnawave._generated.models import (
-    DropConnectionsRequest as DropConnectionsRequest,
+    DropConnectionsBody as DropConnectionsBody,
 )
 from remnawave._generated.models import (
     ErrorsEvent as ErrorsEvent,
 )
 from remnawave._generated.models import (
     ErrorsEventData as ErrorsEventData,
+)
+from remnawave._generated.models import (
+    ExtendUserBody as ExtendUserBody,
 )
 from remnawave._generated.models import (
     ExternalSquad as ExternalSquad,
@@ -256,61 +292,31 @@ from remnawave._generated.models import (
     ExternalSquadTemplate as ExternalSquadTemplate,
 )
 from remnawave._generated.models import (
-    FetchIps as FetchIps,
+    GetNodeUsageBody as GetNodeUsageBody,
 )
 from remnawave._generated.models import (
-    FetchIpsResult as FetchIpsResult,
-)
-from remnawave._generated.models import (
-    FetchIpsResultProgress as FetchIpsResultProgress,
-)
-from remnawave._generated.models import (
-    FetchIpsResultResult as FetchIpsResultResult,
-)
-from remnawave._generated.models import (
-    FetchIpsResultResultNode as FetchIpsResultResultNode,
-)
-from remnawave._generated.models import (
-    FetchIpsResultResultNodeIp as FetchIpsResultResultNodeIp,
-)
-from remnawave._generated.models import (
-    FetchUsersIpsResult as FetchUsersIpsResult,
-)
-from remnawave._generated.models import (
-    FetchUsersIpsResultResult as FetchUsersIpsResultResult,
-)
-from remnawave._generated.models import (
-    FetchUsersIpsResultResultUser as FetchUsersIpsResultResultUser,
-)
-from remnawave._generated.models import (
-    FindAllApiTokens as FindAllApiTokens,
-)
-from remnawave._generated.models import (
-    FindAllApiTokensDoc as FindAllApiTokensDoc,
-)
-from remnawave._generated.models import (
-    FindAllApiTokensToken as FindAllApiTokensToken,
-)
-from remnawave._generated.models import (
-    GetStatsNodesUsersUsageRequest as GetStatsNodesUsersUsageRequest,
-)
-from remnawave._generated.models import (
-    GetSubpageConfigByShortUuidRequestBody as GetSubpageConfigByShortUuidRequestBody,
+    GetSubpageConfigByShortUuidBody as GetSubpageConfigByShortUuidBody,
 )
 from remnawave._generated.models import (
     Host as Host,
 )
 from remnawave._generated.models import (
-    Host2 as Host2,
-)
-from remnawave._generated.models import (
-    Host3 as Host3,
-)
-from remnawave._generated.models import (
     HostInbound as HostInbound,
 )
 from remnawave._generated.models import (
-    HwidDevices as HwidDevices,
+    Hosts as Hosts,
+)
+from remnawave._generated.models import (
+    HostsTags as HostsTags,
+)
+from remnawave._generated.models import (
+    HttpStats as HttpStats,
+)
+from remnawave._generated.models import (
+    HttpStatsRoute as HttpStatsRoute,
+)
+from remnawave._generated.models import (
+    HwidDevicesPage as HwidDevicesPage,
 )
 from remnawave._generated.models import (
     HwidDevicesStats as HwidDevicesStats,
@@ -331,15 +337,6 @@ from remnawave._generated.models import (
     InboundsInbound as InboundsInbound,
 )
 from remnawave._generated.models import (
-    InfraBillingHistoryRecord as InfraBillingHistoryRecord,
-)
-from remnawave._generated.models import (
-    InfraBillingHistoryRecordRecord as InfraBillingHistoryRecordRecord,
-)
-from remnawave._generated.models import (
-    InfraBillingHistoryRecordRecordProvider as InfraBillingHistoryRecordRecordProvider,
-)
-from remnawave._generated.models import (
     InfraBillingNode as InfraBillingNode,
 )
 from remnawave._generated.models import (
@@ -353,6 +350,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     InfraBillingRecord as InfraBillingRecord,
+)
+from remnawave._generated.models import (
+    InfraBillingRecordsPage as InfraBillingRecordsPage,
 )
 from remnawave._generated.models import (
     InfraProvider as InfraProvider,
@@ -385,16 +385,22 @@ from remnawave._generated.models import (
     InternalSquads as InternalSquads,
 )
 from remnawave._generated.models import (
-    LegacyStatsNodesUsersUsage as LegacyStatsNodesUsersUsage,
+    InternalSquadUsage as InternalSquadUsage,
 )
 from remnawave._generated.models import (
-    LegacyStatsUserUsage as LegacyStatsUserUsage,
+    InternalSquadUserUsage as InternalSquadUserUsage,
+)
+from remnawave._generated.models import (
+    InternalSquadUserUsageDay as InternalSquadUserUsageDay,
+)
+from remnawave._generated.models import (
+    InternalSquadUserUsageDayNode as InternalSquadUserUsageDayNode,
 )
 from remnawave._generated.models import (
     Login as Login,
 )
 from remnawave._generated.models import (
-    LoginRequest as LoginRequest,
+    LoginBody as LoginBody,
 )
 from remnawave._generated.models import (
     Metadata as Metadata,
@@ -415,9 +421,6 @@ from remnawave._generated.models import (
     Node as Node,
 )
 from remnawave._generated.models import (
-    Node2 as Node2,
-)
-from remnawave._generated.models import (
     NodeConfigProfile as NodeConfigProfile,
 )
 from remnawave._generated.models import (
@@ -434,6 +437,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     NodeProvider as NodeProvider,
+)
+from remnawave._generated.models import (
+    NodeSecretKey as NodeSecretKey,
 )
 from remnawave._generated.models import (
     NodesMetrics as NodesMetrics,
@@ -463,16 +469,25 @@ from remnawave._generated.models import (
     NodeSystemStatInterface as NodeSystemStatInterface,
 )
 from remnawave._generated.models import (
+    NodeUsage as NodeUsage,
+)
+from remnawave._generated.models import (
+    NodeUsageNode as NodeUsageNode,
+)
+from remnawave._generated.models import (
+    NodeUsageNodeUser as NodeUsageNodeUser,
+)
+from remnawave._generated.models import (
     NodeVersion as NodeVersion,
 )
 from remnawave._generated.models import (
     OAuth2Authorize as OAuth2Authorize,
 )
 from remnawave._generated.models import (
-    OAuth2AuthorizeRequest as OAuth2AuthorizeRequest,
+    OAuth2AuthorizeBody as OAuth2AuthorizeBody,
 )
 from remnawave._generated.models import (
-    OAuth2CallbackRequest as OAuth2CallbackRequest,
+    OAuth2CallbackBody as OAuth2CallbackBody,
 )
 from remnawave._generated.models import (
     Passkey as Passkey,
@@ -481,13 +496,16 @@ from remnawave._generated.models import (
     PasskeyPasskey as PasskeyPasskey,
 )
 from remnawave._generated.models import (
-    PluginExecutorRequest as PluginExecutorRequest,
+    PluginExecutorBody as PluginExecutorBody,
 )
 from remnawave._generated.models import (
-    ProfileModificationRequest as ProfileModificationRequest,
+    ProfileModificationBody as ProfileModificationBody,
 )
 from remnawave._generated.models import (
-    PubKey as PubKey,
+    QueryFilter as QueryFilter,
+)
+from remnawave._generated.models import (
+    QuerySort as QuerySort,
 )
 from remnawave._generated.models import (
     RawSubscriptionByShortUuid as RawSubscriptionByShortUuid,
@@ -521,6 +539,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     RecordNode as RecordNode,
+)
+from remnawave._generated.models import (
+    RecordProvider as RecordProvider,
 )
 from remnawave._generated.models import (
     RecordReport as RecordReport,
@@ -565,22 +586,22 @@ from remnawave._generated.models import (
     RemnawaveSettingsPasskeySetting as RemnawaveSettingsPasskeySetting,
 )
 from remnawave._generated.models import (
-    ReorderHostRequest as ReorderHostRequest,
+    ReorderHostsBody as ReorderHostsBody,
 )
 from remnawave._generated.models import (
-    ReorderHostRequestHost as ReorderHostRequestHost,
+    ReorderHostsBodyHost as ReorderHostsBodyHost,
 )
 from remnawave._generated.models import (
-    ReorderNodePluginsRequest as ReorderNodePluginsRequest,
+    ReorderNodePluginsBody as ReorderNodePluginsBody,
 )
 from remnawave._generated.models import (
-    ReorderNodeRequest as ReorderNodeRequest,
+    ReorderNodesBody as ReorderNodesBody,
 )
 from remnawave._generated.models import (
-    ResolveUserRequestBody as ResolveUserRequestBody,
+    ResolveUserBody as ResolveUserBody,
 )
 from remnawave._generated.models import (
-    RestartNodeRequestBody as RestartNodeRequestBody,
+    RestartNodeBody as RestartNodeBody,
 )
 from remnawave._generated.models import (
     RevokeUserSubscriptionBody as RevokeUserSubscriptionBody,
@@ -631,6 +652,18 @@ from remnawave._generated.models import (
     StatsCpu as StatsCpu,
 )
 from remnawave._generated.models import (
+    StatsDigest as StatsDigest,
+)
+from remnawave._generated.models import (
+    StatsDigestHwidDevice as StatsDigestHwidDevice,
+)
+from remnawave._generated.models import (
+    StatsDigestTraffic as StatsDigestTraffic,
+)
+from remnawave._generated.models import (
+    StatsDigestUser as StatsDigestUser,
+)
+from remnawave._generated.models import (
     StatsMemory as StatsMemory,
 )
 from remnawave._generated.models import (
@@ -673,16 +706,19 @@ from remnawave._generated.models import (
     StatusBranding as StatusBranding,
 )
 from remnawave._generated.models import (
+    SubpageConfig as SubpageConfig,
+)
+from remnawave._generated.models import (
     SubpageConfigByShortUuid as SubpageConfigByShortUuid,
+)
+from remnawave._generated.models import (
+    SubpageConfigs as SubpageConfigs,
 )
 from remnawave._generated.models import (
     Subscription as Subscription,
 )
 from remnawave._generated.models import (
-    SubscriptionPageConfig as SubscriptionPageConfig,
-)
-from remnawave._generated.models import (
-    SubscriptionPageConfigs as SubscriptionPageConfigs,
+    SubscriptionRequest as SubscriptionRequest,
 )
 from remnawave._generated.models import (
     SubscriptionRequestHistoryStats as SubscriptionRequestHistoryStats,
@@ -707,9 +743,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SubscriptionUser as SubscriptionUser,
-)
-from remnawave._generated.models import (
-    Tags as Tags,
 )
 from remnawave._generated.models import (
     Template as Template,
@@ -748,58 +781,58 @@ from remnawave._generated.models import (
     TorrentBlockerReportsStatsTopUser as TorrentBlockerReportsStatsTopUser,
 )
 from remnawave._generated.models import (
-    UpdateConfigProfileRequest as UpdateConfigProfileRequest,
+    UpdateConfigProfileBody as UpdateConfigProfileBody,
 )
 from remnawave._generated.models import (
-    UpdateExternalSquadRequest as UpdateExternalSquadRequest,
+    UpdateExternalSquadBody as UpdateExternalSquadBody,
 )
 from remnawave._generated.models import (
-    UpdateExternalSquadRequestHostOverride as UpdateExternalSquadRequestHostOverride,
+    UpdateExternalSquadBodyHostOverride as UpdateExternalSquadBodyHostOverride,
 )
 from remnawave._generated.models import (
-    UpdateExternalSquadRequestSubscriptionSetting as UpdateExternalSquadRequestSubscriptionSetting,
+    UpdateExternalSquadBodySubscriptionSetting as UpdateExternalSquadBodySubscriptionSetting,
 )
 from remnawave._generated.models import (
-    UpdateHostRequest as UpdateHostRequest,
+    UpdateHostBody as UpdateHostBody,
 )
 from remnawave._generated.models import (
-    UpdateInfraBillingNodeRequest as UpdateInfraBillingNodeRequest,
+    UpdateInfraBillingNodeBody as UpdateInfraBillingNodeBody,
 )
 from remnawave._generated.models import (
-    UpdateInfraProviderRequest as UpdateInfraProviderRequest,
+    UpdateInfraProviderBody as UpdateInfraProviderBody,
 )
 from remnawave._generated.models import (
-    UpdateInternalSquadRequest as UpdateInternalSquadRequest,
+    UpdateInternalSquadBody as UpdateInternalSquadBody,
 )
 from remnawave._generated.models import (
-    UpdateManyHostsRequest as UpdateManyHostsRequest,
+    UpdateManyHostsBody as UpdateManyHostsBody,
 )
 from remnawave._generated.models import (
-    UpdateNodePluginRequest as UpdateNodePluginRequest,
+    UpdateNodeBody as UpdateNodeBody,
 )
 from remnawave._generated.models import (
-    UpdateNodeRequest as UpdateNodeRequest,
+    UpdateNodePluginBody as UpdateNodePluginBody,
 )
 from remnawave._generated.models import (
-    UpdatePasskeyRequest as UpdatePasskeyRequest,
+    UpdatePasskeyBody as UpdatePasskeyBody,
 )
 from remnawave._generated.models import (
-    UpdateRemnawaveSettingsRequest as UpdateRemnawaveSettingsRequest,
+    UpdateRemnawaveSettingsBody as UpdateRemnawaveSettingsBody,
 )
 from remnawave._generated.models import (
-    UpdateRemnawaveSettingsRequestOauth2Setting as UpdateRemnawaveSettingsRequestOauth2Setting,
+    UpdateRemnawaveSettingsBodyOauth2Setting as UpdateRemnawaveSettingsBodyOauth2Setting,
 )
 from remnawave._generated.models import (
-    UpdateSubscriptionPageConfigRequest as UpdateSubscriptionPageConfigRequest,
+    UpdateSubpageConfigBody as UpdateSubpageConfigBody,
 )
 from remnawave._generated.models import (
-    UpdateSubscriptionSettingsRequest as UpdateSubscriptionSettingsRequest,
+    UpdateSubscriptionSettingsBody as UpdateSubscriptionSettingsBody,
 )
 from remnawave._generated.models import (
-    UpdateTemplateRequest as UpdateTemplateRequest,
+    UpdateTemplateBody as UpdateTemplateBody,
 )
 from remnawave._generated.models import (
-    UpdateUserRequest as UpdateUserRequest,
+    UpdateUserBody as UpdateUserBody,
 )
 from remnawave._generated.models import (
     User as User,
@@ -853,7 +886,7 @@ from remnawave._generated.models import (
     VerifyPasskeyRegistration as VerifyPasskeyRegistration,
 )
 from remnawave._generated.models import (
-    VerifyPasskeyRegistrationRequest as VerifyPasskeyRegistrationRequest,
+    VerifyPasskeyRegistrationBody as VerifyPasskeyRegistrationBody,
 )
 from remnawave._generated.models import (
     X25519Keypair as X25519Keypair,

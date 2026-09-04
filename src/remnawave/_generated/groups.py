@@ -16,6 +16,10 @@ from remnawave._generated.methods.config_profiles import (
     AsyncConfigProfilesApi,
     ConfigProfilesApi,
 )
+from remnawave._generated.methods.connections import (
+    AsyncConnectionsApi,
+    ConnectionsApi,
+)
 from remnawave._generated.methods.external_squads import (
     AsyncExternalSquadsApi,
     ExternalSquadsApi,
@@ -39,10 +43,6 @@ from remnawave._generated.methods.infra_billing import (
 from remnawave._generated.methods.internal_squads import (
     AsyncInternalSquadsApi,
     InternalSquadsApi,
-)
-from remnawave._generated.methods.ip_management import (
-    AsyncIpManagementApi,
-    IpManagementApi,
 )
 from remnawave._generated.methods.keygen import (
     AsyncKeygenApi,
@@ -116,13 +116,13 @@ class SyncGroups:
     auth: AuthApi
     bandwidth_stats: BandwidthStatsApi
     config_profiles: ConfigProfilesApi
+    connections: ConnectionsApi
     external_squads: ExternalSquadsApi
     hosts: HostsApi
     hosts_bulk_actions: HostsBulkActionsApi
     hwid_user_devices: HwidUserDevicesApi
     infra_billing: InfraBillingApi
     internal_squads: InternalSquadsApi
-    ip_management: IpManagementApi
     keygen: KeygenApi
     metadata: MetadataApi
     node_plugins: NodePluginsApi
@@ -145,13 +145,13 @@ class SyncGroups:
         self.auth = AuthApi(executor)
         self.bandwidth_stats = BandwidthStatsApi(executor)
         self.config_profiles = ConfigProfilesApi(executor)
+        self.connections = ConnectionsApi(executor)
         self.external_squads = ExternalSquadsApi(executor)
         self.hosts = HostsApi(executor)
         self.hosts_bulk_actions = HostsBulkActionsApi(executor)
         self.hwid_user_devices = HwidUserDevicesApi(executor)
         self.infra_billing = InfraBillingApi(executor)
         self.internal_squads = InternalSquadsApi(executor)
-        self.ip_management = IpManagementApi(executor)
         self.keygen = KeygenApi(executor)
         self.metadata = MetadataApi(executor)
         self.node_plugins = NodePluginsApi(executor)
@@ -177,13 +177,13 @@ class AsyncGroups:
     auth: AsyncAuthApi
     bandwidth_stats: AsyncBandwidthStatsApi
     config_profiles: AsyncConfigProfilesApi
+    connections: AsyncConnectionsApi
     external_squads: AsyncExternalSquadsApi
     hosts: AsyncHostsApi
     hosts_bulk_actions: AsyncHostsBulkActionsApi
     hwid_user_devices: AsyncHwidUserDevicesApi
     infra_billing: AsyncInfraBillingApi
     internal_squads: AsyncInternalSquadsApi
-    ip_management: AsyncIpManagementApi
     keygen: AsyncKeygenApi
     metadata: AsyncMetadataApi
     node_plugins: AsyncNodePluginsApi
@@ -206,13 +206,13 @@ class AsyncGroups:
         self.auth = AsyncAuthApi(executor)
         self.bandwidth_stats = AsyncBandwidthStatsApi(executor)
         self.config_profiles = AsyncConfigProfilesApi(executor)
+        self.connections = AsyncConnectionsApi(executor)
         self.external_squads = AsyncExternalSquadsApi(executor)
         self.hosts = AsyncHostsApi(executor)
         self.hosts_bulk_actions = AsyncHostsBulkActionsApi(executor)
         self.hwid_user_devices = AsyncHwidUserDevicesApi(executor)
         self.infra_billing = AsyncInfraBillingApi(executor)
         self.internal_squads = AsyncInternalSquadsApi(executor)
-        self.ip_management = AsyncIpManagementApi(executor)
         self.keygen = AsyncKeygenApi(executor)
         self.metadata = AsyncMetadataApi(executor)
         self.node_plugins = AsyncNodePluginsApi(executor)

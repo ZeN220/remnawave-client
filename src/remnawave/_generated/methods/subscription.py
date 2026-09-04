@@ -40,12 +40,12 @@ class SubscriptionApi(SyncGroup):
 
     def get_subscription_by_client_type(
         self,
-        client_type: SubscriptionControllerGetSubscriptionByClientType,
         short_uuid: str,
+        client_type: SubscriptionControllerGetSubscriptionByClientType,
     ) -> bytes:
         return self._executor.execute(
             GET_SUBSCRIPTION_BY_CLIENT_TYPE,
-            path={"clientType": client_type, "shortUuid": short_uuid},
+            path={"shortUuid": short_uuid, "clientType": client_type},
         )
 
 
@@ -65,10 +65,10 @@ class AsyncSubscriptionApi(AsyncGroup):
 
     async def get_subscription_by_client_type(
         self,
-        client_type: SubscriptionControllerGetSubscriptionByClientType,
         short_uuid: str,
+        client_type: SubscriptionControllerGetSubscriptionByClientType,
     ) -> bytes:
         return await self._executor.execute(
             GET_SUBSCRIPTION_BY_CLIENT_TYPE,
-            path={"clientType": client_type, "shortUuid": short_uuid},
+            path={"shortUuid": short_uuid, "clientType": client_type},
         )

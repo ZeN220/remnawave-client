@@ -4,8 +4,8 @@
 from collections.abc import AsyncIterator, Iterator
 
 from remnawave._generated.models import (
-    ConnectionKeysByUuid,
-    GetSubpageConfigByShortUuidRequestBody,
+    ConnectionKeysByUserId,
+    GetSubpageConfigByShortUuidBody,
     RawSubscriptionByShortUuid,
     SubpageConfigByShortUuid,
     Subscription,
@@ -21,7 +21,7 @@ GET_ALL_SUBSCRIPTIONS: Operation[SubscriptionsPage] = Operation(
     "GET",
     "/api/subscriptions",
     SubscriptionsPage,
-    pagination=Pagination(items_field="subscriptions", max_page_size=100),
+    pagination=Pagination(items_field="subscriptions", max_page_size=500),
 )
 GET_SUBSCRIPTION_BY_USERNAME: Operation[Subscription] = Operation(
     "GET",
@@ -35,7 +35,7 @@ GET_SUBSCRIPTION_BY_SHORT_UUID_PROTECTED: Operation[Subscription] = Operation(
 )
 GET_SUBSCRIPTION_BY_UUID: Operation[Subscription] = Operation(
     "GET",
-    "/api/subscriptions/by-uuid/{uuid}",
+    "/api/subscriptions/by-id/{userId}",
     Subscription,
 )
 GET_RAW_SUBSCRIPTION_BY_SHORT_UUID: Operation[RawSubscriptionByShortUuid] = (
@@ -52,20 +52,20 @@ GET_SUBPAGE_CONFIG_BY_SHORT_UUID: Operation[SubpageConfigByShortUuid] = (
         SubpageConfigByShortUuid,
     )
 )
-GET_CONNECTION_KEYS_BY_UUID: Operation[ConnectionKeysByUuid] = Operation(
+GET_CONNECTION_KEYS_BY_USER_ID: Operation[ConnectionKeysByUserId] = Operation(
     "GET",
-    "/api/subscriptions/connection-keys/{uuid}",
-    ConnectionKeysByUuid,
+    "/api/subscriptions/connection-keys/{userId}",
+    ConnectionKeysByUserId,
 )
 
 
 class SubscriptionsApi(SyncGroup):
     def get_all_subscriptions(
-        self, *, size: int | None = None, start: int | None = None
+        self, *, start: int | None = None, size: int | None = None
     ) -> SubscriptionsPage:
         """Get all subscriptions."""
         return self._executor.execute(
-            GET_ALL_SUBSCRIPTIONS, query={"size": size, "start": start}
+            GET_ALL_SUBSCRIPTIONS, query={"start": start, "size": size}
         )
 
     def iter_all_subscriptions(
@@ -90,14 +90,14 @@ class SubscriptionsApi(SyncGroup):
             path={"shortUuid": short_uuid},
         )
 
-    def get_subscription_by_uuid(self, uuid: str) -> Subscription:
-        """Get subscription by uuid."""
+    def get_subscription_by_uuid(self, user_id: int) -> Subscription:
+        """Get subscription by User ID."""
         return self._executor.execute(
-            GET_SUBSCRIPTION_BY_UUID, path={"uuid": uuid}
+            GET_SUBSCRIPTION_BY_UUID, path={"userId": user_id}
         )
 
     def get_raw_subscription_by_short_uuid(
-        self, short_uuid: str, *, with_disabled_hosts: bool | None = None
+        self, short_uuid: str, *, with_disabled_hosts: str | None = None
     ) -> RawSubscriptionByShortUuid:
         """Get Raw Subscription by Short UUID."""
         return self._executor.execute(
@@ -107,7 +107,7 @@ class SubscriptionsApi(SyncGroup):
         )
 
     def get_subpage_config_by_short_uuid(
-        self, short_uuid: str, body: GetSubpageConfigByShortUuidRequestBody
+        self, short_uuid: str, body: GetSubpageConfigByShortUuidBody
     ) -> SubpageConfigByShortUuid:
         """Get Subpage Config by Short UUID."""
         return self._executor.execute(
@@ -116,20 +116,22 @@ class SubscriptionsApi(SyncGroup):
             body=body,
         )
 
-    def get_connection_keys_by_uuid(self, uuid: str) -> ConnectionKeysByUuid:
-        """Get connection keys (base64 format) by uuid."""
+    def get_connection_keys_by_user_id(
+        self, user_id: int
+    ) -> ConnectionKeysByUserId:
+        """Get connection keys (base64 format) by user id."""
         return self._executor.execute(
-            GET_CONNECTION_KEYS_BY_UUID, path={"uuid": uuid}
+            GET_CONNECTION_KEYS_BY_USER_ID, path={"userId": user_id}
         )
 
 
 class AsyncSubscriptionsApi(AsyncGroup):
     async def get_all_subscriptions(
-        self, *, size: int | None = None, start: int | None = None
+        self, *, start: int | None = None, size: int | None = None
     ) -> SubscriptionsPage:
         """Get all subscriptions."""
         return await self._executor.execute(
-            GET_ALL_SUBSCRIPTIONS, query={"size": size, "start": start}
+            GET_ALL_SUBSCRIPTIONS, query={"start": start, "size": size}
         )
 
     async def iter_all_subscriptions(
@@ -155,14 +157,14 @@ class AsyncSubscriptionsApi(AsyncGroup):
             path={"shortUuid": short_uuid},
         )
 
-    async def get_subscription_by_uuid(self, uuid: str) -> Subscription:
-        """Get subscription by uuid."""
+    async def get_subscription_by_uuid(self, user_id: int) -> Subscription:
+        """Get subscription by User ID."""
         return await self._executor.execute(
-            GET_SUBSCRIPTION_BY_UUID, path={"uuid": uuid}
+            GET_SUBSCRIPTION_BY_UUID, path={"userId": user_id}
         )
 
     async def get_raw_subscription_by_short_uuid(
-        self, short_uuid: str, *, with_disabled_hosts: bool | None = None
+        self, short_uuid: str, *, with_disabled_hosts: str | None = None
     ) -> RawSubscriptionByShortUuid:
         """Get Raw Subscription by Short UUID."""
         return await self._executor.execute(
@@ -172,7 +174,7 @@ class AsyncSubscriptionsApi(AsyncGroup):
         )
 
     async def get_subpage_config_by_short_uuid(
-        self, short_uuid: str, body: GetSubpageConfigByShortUuidRequestBody
+        self, short_uuid: str, body: GetSubpageConfigByShortUuidBody
     ) -> SubpageConfigByShortUuid:
         """Get Subpage Config by Short UUID."""
         return await self._executor.execute(
@@ -181,10 +183,10 @@ class AsyncSubscriptionsApi(AsyncGroup):
             body=body,
         )
 
-    async def get_connection_keys_by_uuid(
-        self, uuid: str
-    ) -> ConnectionKeysByUuid:
-        """Get connection keys (base64 format) by uuid."""
+    async def get_connection_keys_by_user_id(
+        self, user_id: int
+    ) -> ConnectionKeysByUserId:
+        """Get connection keys (base64 format) by user id."""
         return await self._executor.execute(
-            GET_CONNECTION_KEYS_BY_UUID, path={"uuid": uuid}
+            GET_CONNECTION_KEYS_BY_USER_ID, path={"userId": user_id}
         )

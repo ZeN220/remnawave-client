@@ -3,7 +3,7 @@
 
 from remnawave._generated.models import (
     SubscriptionSettings,
-    UpdateSubscriptionSettingsRequest,
+    UpdateSubscriptionSettingsBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -28,7 +28,7 @@ class SubscriptionSettingsApi(SyncGroup):
         return self._executor.execute(GET_SETTINGS)
 
     def update_settings(
-        self, body: UpdateSubscriptionSettingsRequest
+        self, body: UpdateSubscriptionSettingsBody
     ) -> SubscriptionSettings:
         """Update subscription settings."""
         return self._executor.execute(UPDATE_SETTINGS, body=body)
@@ -40,7 +40,7 @@ class AsyncSubscriptionSettingsApi(AsyncGroup):
         return await self._executor.execute(GET_SETTINGS)
 
     async def update_settings(
-        self, body: UpdateSubscriptionSettingsRequest
+        self, body: UpdateSubscriptionSettingsBody
     ) -> SubscriptionSettings:
         """Update subscription settings."""
         return await self._executor.execute(UPDATE_SETTINGS, body=body)
