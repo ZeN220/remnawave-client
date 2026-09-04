@@ -5,10 +5,23 @@ description = "Sync and async client for the Remnawave API"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
 dependencies = [
     "httpx>=0.28.1",
     "adaptix>=3.0.0b12",
 ]
+
+[project.urls]
+"Source" = "https://github.com/zen220/remnawave-client"
+"Homepage" = "https://github.com/zen220/remnawave-client"
+"Bug Tracker" = "https://github.com/zen220/remnawave-client/issues"
 
 [dependency-groups]
 dev = [
@@ -27,8 +40,6 @@ requires = ["uv_build>=0.9.21,<0.10.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-# Пакет называется remnawave, а дистрибутив remnawave-client,
-# поэтому имя модуля задаём явно.
 module-name = "remnawave"
 
 [tool.pytest.ini_options]
