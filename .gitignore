@@ -1,0 +1,43 @@
+# venv
+.venv/
+.venv*/
+venv/
+env/
+.python-version
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Builds
+build/
+dist/
+wheels/
+*.egg-info/
+*.egg
+.eggs/
+
+# Tools
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Coverage
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# IDE'as
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS shit
+.DS_Store
+Thumbs.db
+desktop.ini

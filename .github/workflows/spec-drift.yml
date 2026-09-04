@@ -1,0 +1,20 @@
+name: Spec drift
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Panel API version is vendored
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare published version with specs/
+        run: |
+          curl -sSfL -A Mozilla/5.0 https://cdn.docs.rw/docs/openapi.json -o latest.json
+          version=$(jq -r .info.version latest.json)
+          test -f "specs/openapi-$version.json" \
+            || { echo "::error::panel API $version is not in specs/"; exit 1; }
+          echo "specs/ is up to date with API $version"

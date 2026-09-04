@@ -1,0 +1,53 @@
+groups:
+  "[Public] Subscription Controller": subscription
+  "[Protected] Subscriptions Controller": subscriptions
+
+methods:
+  NodesUsageHistoryController_getStatsNodesUsage: get_nodes_usage  # conflict with BandwidthStatsUsersController_getStatsNodesUsage
+
+# Имена типов. Ключ — авто-имя, которое выбрал генератор.
+# Авто-правило (самое короткое имя-кандидат без ведущего глагола) даёт
+# осмысленный результат почти везде; здесь только то, где оно промахнулось.
+types:
+  # Одинаковые по форме сущности, различённые генератором цифрой.
+  Record: TorrentBlockerReport
+  Record2: InfraBillingRecord
+  Record3: SubscriptionRequest
+  User2: UserRef
+  User3: TopUserByDevices
+
+  # Элементы query-параметров filters и sorting у листингов.
+  # Безымянные объекты в спеке, поэтому имя пришло из operationId.
+  UsersControllerGetUser: QueryFilter
+  UsersControllerGetUser2: QuerySort
+
+  Users: UsersPage
+  Subscriptions: SubscriptionsPage
+  TorrentBlockerReports: TorrentBlockerReportsPage
+  SubscriptionRequestHistory: SubscriptionRequestsPage
+  InfraBillingRecord: InfraBillingRecordsPage
+  TopUsersByHwidDevices: TopUsersPage
+  HwidDevicesQuery: HwidDevicesPage
+
+secret_fields:
+  User:
+    - trojanPassword
+    - ssPassword
+    - vlessUuid
+    - subscriptionUrl
+
+# Принудительный тип поля там, где спека его не выражает.
+# Множители дробные, хотя объявлены как number. В 3.4.3 у expireAt
+# пропал format: date-time, хотя панель по-прежнему ждёт ISO-дату.
+field_types:
+  consumptionMultiplier: float
+  nodeConsumptionMultiplier: float
+  uptime: float
+  eventLoopDelayMs: float
+  eventLoopP99Ms: float
+  expireAt: datetime
+
+field_names:
+  HWIDMaxDevicesExceeded: hwid_max_devices_exceeded
+  HWIDNotSupported: hwid_not_supported
+  media_type: media_type

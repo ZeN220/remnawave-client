@@ -1,0 +1,80 @@
+[project]
+name = "remnawave-client"
+version = "2.0.8"
+description = "Sync and async client for the Remnawave API"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "httpx>=0.28.1",
+    "adaptix>=3.0.0b12",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "mypy>=2.3.1",
+    "ruff>=0.16.4",
+    "jinja2>=3.1",
+    "pyyaml>=6.0",
+    "types-PyYAML>=6.0",
+    "pytest-cov>=6.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.21,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+# Пакет называется remnawave, а дистрибутив remnawave-client,
+# поэтому имя модуля задаём явно.
+module-name = "remnawave"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = "--cov --cov-report=term-missing --cov-fail-under=100"
+
+[tool.coverage.run]
+source = ["src/remnawave"]
+omit = ["src/remnawave/_generated/*"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    ': \.\.\.$',  # Protocols/overloads
+]
+
+[tool.ruff]
+line-length = 80
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "CPY001",
+    "D",
+    "COM812",
+    "ASYNC109",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/remnawave/_generated/**" = ["PLR0913", "ANN401", "S105"]
+"examples/**" = ["T201", "INP001"]
+"src/remnawave/types/**" = ["E501"]
+"tests/**" = [
+    "S101",
+    "PLR2004",
+    "EM101",
+    "TRY003",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src", "tests", "tools", "examples"]
