@@ -4,6 +4,7 @@
 from datetime import date, datetime
 
 from remnawave._generated.models import (
+    GetStatsNodesUsersUsageRequest,
     LegacyStatsNodesUsersUsage,
     LegacyStatsUserUsage,
     StatsNodeUsersUsage,
@@ -22,6 +23,11 @@ GET_NODE_USER_USAGE: Operation[list[LegacyStatsNodesUsersUsage]] = Operation(
 GET_STATS_NODE_USERS_USAGE: Operation[StatsNodeUsersUsage] = Operation(
     "GET",
     "/api/bandwidth-stats/nodes/{uuid}/users",
+    StatsNodeUsersUsage,
+)
+GET_STATS_NODES_USERS_USAGE: Operation[StatsNodeUsersUsage] = Operation(
+    "POST",
+    "/api/bandwidth-stats/nodes/users",
     StatsNodeUsersUsage,
 )
 GET_USER_USAGE_BY_RANGE: Operation[list[LegacyStatsUserUsage]] = Operation(
@@ -64,6 +70,24 @@ class BandwidthStatsApi(SyncGroup):
                 "start": start,
                 "end": end,
             },
+        )
+
+    def get_stats_nodes_users_usage(
+        self,
+        top_users_limit: int,
+        start: date,
+        end: date,
+        body: GetStatsNodesUsersUsageRequest,
+    ) -> StatsNodeUsersUsage:
+        """Get Nodes Users Usage by Nodes UUIDs."""
+        return self._executor.execute(
+            GET_STATS_NODES_USERS_USAGE,
+            query={
+                "topUsersLimit": top_users_limit,
+                "start": start,
+                "end": end,
+            },
+            body=body,
         )
 
     def get_user_usage_by_range(
@@ -127,6 +151,24 @@ class AsyncBandwidthStatsApi(AsyncGroup):
                 "start": start,
                 "end": end,
             },
+        )
+
+    async def get_stats_nodes_users_usage(
+        self,
+        top_users_limit: int,
+        start: date,
+        end: date,
+        body: GetStatsNodesUsersUsageRequest,
+    ) -> StatsNodeUsersUsage:
+        """Get Nodes Users Usage by Nodes UUIDs."""
+        return await self._executor.execute(
+            GET_STATS_NODES_USERS_USAGE,
+            query={
+                "topUsersLimit": top_users_limit,
+                "start": start,
+                "end": end,
+            },
+            body=body,
         )
 
     async def get_user_usage_by_range(

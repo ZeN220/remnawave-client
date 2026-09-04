@@ -7,10 +7,11 @@ from uuid import UUID
 from adaptix import Omittable, Omitted
 
 from remnawave._generated.enums import (
+    ApiTokenScopesResourceEndpointKind,
     BulkNodesActionsRequestAction,
-    CreateHostRequestAlpn,
-    CreateHostRequestFingerprint,
     CrmEventEvent,
+    HostAlpn,
+    HostMihomoIpVersion,
     HostSecurityLayer,
     NodeEventEvent,
     OAuth2CallbackRequestProvider,
@@ -21,6 +22,7 @@ from remnawave._generated.enums import (
     ServiceEventEvent,
     SrrMatcherMatchedRuleConditionOperator,
     SrrMatcherMatchedRuleOperator,
+    SrrMatcherMatchedRuleResponseModificationEncryptionMethod,
     SrrMatcherResponseType,
     TemplateTemplateType,
     UpdateUserRequestStatus,
@@ -358,6 +360,13 @@ class UsersPage:
 
 
 @dataclass(frozen=True, slots=True)
+class UsersStream:
+    users: list[User]
+    next_cursor: str | None
+    has_more: bool
+
+
+@dataclass(frozen=True, slots=True)
 class Tags:
     tags: list[str]
 
@@ -387,7 +396,7 @@ class UserAccessibleNodes:
 @dataclass(frozen=True, slots=True)
 class UserSubscriptionRequestHistoryRecord:
     id: int
-    user_uuid: UUID
+    user_id: int
     request_at: datetime
     request_ip: str | None
     user_agent: str | None
@@ -524,12 +533,20 @@ class SubscriptionsPage:
 
 
 @dataclass(frozen=True, slots=True)
+class RawSubscriptionByShortUuidConvertedUserInfoHwidCheckup:
+    subscription_allowed: bool
+    max_device_reached: bool
+    hwid_not_supported: bool
+    limit_bypassed: bool
+
+
+@dataclass(frozen=True, slots=True)
 class RawSubscriptionByShortUuidConvertedUserInfo:
     days_left: int
     traffic_limit: str
     traffic_used: str
     lifetime_traffic_used: str
-    is_hwid_limited: bool
+    hwid_checkup: RawSubscriptionByShortUuidConvertedUserInfoHwidCheckup | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -542,6 +559,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride:
 class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
     shuffle_host: bool
     mihomo_x25519: bool
+    mihomo_ip_version: HostMihomoIpVersion | None
     server_description: str | None
     xray_json_template: Any
 
@@ -549,7 +567,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
 @dataclass(frozen=True, slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfigMetadata:
     uuid: UUID
-    tag: str | None
+    tags: list[str]
     exclude_from_subscription_types: list[TemplateTemplateType]
     inbound_tag: str
     config_profile_uuid: UUID | None
@@ -641,35 +659,65 @@ class CreateSubscriptionTemplateRequest:
 
 @dataclass(frozen=True, slots=True)
 class ApiToken:
+    uuid: UUID
+    name: str
+    expire_at: datetime
+    scopes: list[str]
+    created_at: datetime
+    updated_at: datetime
     token: str
-    uuid: str
 
 
 @dataclass(frozen=True, slots=True)
 class CreateApiTokenRequest:
-    token_name: str
+    name: str
+    expires_in_days: int
+    scopes: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
-class FindAllApiTokensApiKey:
+class FindAllApiTokensToken:
     uuid: UUID
-    token: str
-    token_name: str
+    name: str
+    expire_at: datetime
+    scopes: list[str]
     created_at: datetime
     updated_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
 class FindAllApiTokensDoc:
-    is_docs_enabled: bool
+    enabled: bool
     scalar_path: str | None
     swagger_path: str | None
 
 
 @dataclass(frozen=True, slots=True)
 class FindAllApiTokens:
-    api_keys: list[FindAllApiTokensApiKey]
+    tokens: list[FindAllApiTokensToken]
     docs: FindAllApiTokensDoc
+
+
+@dataclass(frozen=True, slots=True)
+class ApiTokenScopesResourceEndpoint:
+    key: str
+    kind: ApiTokenScopesResourceEndpointKind
+    method: str
+    path: str
+    description: str
+
+
+@dataclass(frozen=True, slots=True)
+class ApiTokenScopesResource:
+    resource: str
+    resource_scopes: list[str]
+    endpoints: list[ApiTokenScopesResourceEndpoint]
+
+
+@dataclass(frozen=True, slots=True)
+class ApiTokenScopes:
+    wildcard: str
+    resources: list[ApiTokenScopesResource]
 
 
 @dataclass(frozen=True, slots=True)
@@ -986,6 +1034,7 @@ class Node2:
     name: str
     address: str
     port: int | None
+    proxy_url: str | None
     is_connected: bool
     is_disabled: bool
     is_connecting: bool
@@ -999,6 +1048,7 @@ class Node2:
     view_position: int
     country_code: str
     consumption_multiplier: float
+    node_consumption_multiplier: float
     tags: list[str]
     created_at: datetime
     updated_at: datetime
@@ -1010,6 +1060,7 @@ class Node2:
     versions: NodeVersion | None
     xray_uptime: int
     users_online: int
+    note: str | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1024,15 +1075,18 @@ class CreateNodeRequest:
     address: str
     config_profile: CreateNodeRequestConfigProfile
     port: Omittable[int] = OMITTED
+    proxy_url: Omittable[str | None] = OMITTED
     is_traffic_tracking_active: Omittable[bool] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     notify_percent: Omittable[int] = OMITTED
     traffic_reset_day: Omittable[int] = OMITTED
     country_code: Omittable[str] = OMITTED
     consumption_multiplier: Omittable[float] = OMITTED
+    node_consumption_multiplier: Omittable[float] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    note: Omittable[str] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1041,21 +1095,24 @@ class UpdateNodeRequest:
     name: Omittable[str] = OMITTED
     address: Omittable[str] = OMITTED
     port: Omittable[int] = OMITTED
+    proxy_url: Omittable[str | None] = OMITTED
     is_traffic_tracking_active: Omittable[bool] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     notify_percent: Omittable[int] = OMITTED
     traffic_reset_day: Omittable[int] = OMITTED
     country_code: Omittable[str] = OMITTED
     consumption_multiplier: Omittable[float] = OMITTED
+    node_consumption_multiplier: Omittable[float] = OMITTED
     config_profile: Omittable[CreateNodeRequestConfigProfile] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    note: Omittable[str | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
-class RestartAllNodesRequestBody:
-    force_restart: Omittable[bool] = OMITTED
+class RestartNodeRequestBody:
+    force_restart: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -1079,9 +1136,11 @@ class BulkNodesActionsRequest:
 class BulkNodesUpdateRequestField:
     country_code: Omittable[str] = OMITTED
     consumption_multiplier: Omittable[float] = OMITTED
+    node_consumption_multiplier: Omittable[float] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    note: Omittable[str | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1221,28 +1280,30 @@ class Host2:
     path: str | None
     sni: str | None
     host: str | None
-    alpn: str | None
+    alpn: HostAlpn | None
     fingerprint: str | None
-    x_http_extra_params: Any
+    is_disabled: bool
+    xhttp_extra_params: Any
     mux_params: Any
     sockopt_params: Any
     final_mask: Any
     inbound: HostInbound
     server_description: str | None
-    tag: str | None
     vless_route_id: int | None
+    pinned_peer_cert_sha256: str | None
+    verify_peer_cert_by_name: str | None
     shuffle_host: bool
     mihomo_x25519: bool
+    mihomo_ip_version: HostMihomoIpVersion | None
     nodes: list[UUID]
     xray_json_template_uuid: UUID | None
     excluded_internal_squads: list[UUID]
-    is_disabled: bool | None = None
+    exclude_from_subscription_types: list[TemplateTemplateType]
     security_layer: HostSecurityLayer | None = None
+    tags: list[str] | None = None
     is_hidden: bool | None = None
     override_sni_from_address: bool | None = None
     keep_sni_blank: bool | None = None
-    allow_insecure: bool | None = None
-    exclude_from_subscription_types: list[TemplateTemplateType] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1257,26 +1318,28 @@ class CreateHostRequest:
     remark: str
     address: str
     port: int
-    path: Omittable[str] = OMITTED
-    sni: Omittable[str] = OMITTED
-    host: Omittable[str] = OMITTED
-    alpn: Omittable[CreateHostRequestAlpn | None] = OMITTED
-    fingerprint: Omittable[CreateHostRequestFingerprint | None] = OMITTED
+    path: Omittable[str | None] = OMITTED
+    sni: Omittable[str | None] = OMITTED
+    host: Omittable[str | None] = OMITTED
+    alpn: Omittable[HostAlpn | None] = OMITTED
+    fingerprint: Omittable[str | None] = OMITTED
     is_disabled: Omittable[bool] = OMITTED
     security_layer: Omittable[HostSecurityLayer] = OMITTED
-    x_http_extra_params: Omittable[Any] = OMITTED
+    xhttp_extra_params: Omittable[Any] = OMITTED
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
     final_mask: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
-    tag: Omittable[str | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
     override_sni_from_address: Omittable[bool] = OMITTED
     keep_sni_blank: Omittable[bool] = OMITTED
-    allow_insecure: Omittable[bool] = OMITTED
+    pinned_peer_cert_sha256: Omittable[str | None] = OMITTED
+    verify_peer_cert_by_name: Omittable[str | None] = OMITTED
     vless_route_id: Omittable[int | None] = OMITTED
     shuffle_host: Omittable[bool] = OMITTED
     mihomo_x25519: Omittable[bool] = OMITTED
+    mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     excluded_internal_squads: Omittable[list[UUID]] = OMITTED
@@ -1292,26 +1355,28 @@ class UpdateHostRequest:
     remark: Omittable[str] = OMITTED
     address: Omittable[str] = OMITTED
     port: Omittable[int] = OMITTED
-    path: Omittable[str] = OMITTED
-    sni: Omittable[str] = OMITTED
-    host: Omittable[str] = OMITTED
-    alpn: Omittable[CreateHostRequestAlpn | None] = OMITTED
-    fingerprint: Omittable[CreateHostRequestFingerprint | None] = OMITTED
+    path: Omittable[str | None] = OMITTED
+    sni: Omittable[str | None] = OMITTED
+    host: Omittable[str | None] = OMITTED
+    alpn: Omittable[HostAlpn | None] = OMITTED
+    fingerprint: Omittable[str | None] = OMITTED
     is_disabled: Omittable[bool] = OMITTED
     security_layer: Omittable[HostSecurityLayer] = OMITTED
-    x_http_extra_params: Omittable[Any] = OMITTED
+    xhttp_extra_params: Omittable[Any] = OMITTED
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
     final_mask: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
-    tag: Omittable[str | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
     override_sni_from_address: Omittable[bool] = OMITTED
     keep_sni_blank: Omittable[bool] = OMITTED
     vless_route_id: Omittable[int | None] = OMITTED
-    allow_insecure: Omittable[bool] = OMITTED
+    pinned_peer_cert_sha256: Omittable[str | None] = OMITTED
+    verify_peer_cert_by_name: Omittable[str | None] = OMITTED
     shuffle_host: Omittable[bool] = OMITTED
     mihomo_x25519: Omittable[bool] = OMITTED
+    mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     excluded_internal_squads: Omittable[list[UUID]] = OMITTED
@@ -1331,16 +1396,40 @@ class ReorderHostRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class SetInboundToManyHostsRequest:
+class UpdateManyHostsRequest:
     uuids: list[UUID]
-    config_profile_uuid: UUID
-    config_profile_inbound_uuid: UUID
-
-
-@dataclass(frozen=True, slots=True)
-class SetPortToManyHostsRequest:
-    uuids: list[UUID]
-    port: int
+    inbound: Omittable[CreateHostRequestInbound] = OMITTED
+    remark: Omittable[str] = OMITTED
+    address: Omittable[str] = OMITTED
+    port: Omittable[int] = OMITTED
+    path: Omittable[str | None] = OMITTED
+    sni: Omittable[str | None] = OMITTED
+    host: Omittable[str | None] = OMITTED
+    alpn: Omittable[HostAlpn | None] = OMITTED
+    fingerprint: Omittable[str | None] = OMITTED
+    is_disabled: Omittable[bool] = OMITTED
+    security_layer: Omittable[HostSecurityLayer] = OMITTED
+    xhttp_extra_params: Omittable[Any] = OMITTED
+    mux_params: Omittable[Any] = OMITTED
+    sockopt_params: Omittable[Any] = OMITTED
+    final_mask: Omittable[Any] = OMITTED
+    server_description: Omittable[str | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
+    is_hidden: Omittable[bool] = OMITTED
+    override_sni_from_address: Omittable[bool] = OMITTED
+    keep_sni_blank: Omittable[bool] = OMITTED
+    vless_route_id: Omittable[int | None] = OMITTED
+    pinned_peer_cert_sha256: Omittable[str | None] = OMITTED
+    verify_peer_cert_by_name: Omittable[str | None] = OMITTED
+    shuffle_host: Omittable[bool] = OMITTED
+    mihomo_x25519: Omittable[bool] = OMITTED
+    mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
+    nodes: Omittable[list[UUID]] = OMITTED
+    xray_json_template_uuid: Omittable[UUID | None] = OMITTED
+    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
+    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
+        OMITTED
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -1364,6 +1453,11 @@ class StatsNodeUsersUsage:
     categories: list[str]
     sparkline_data: list[int]
     top_users: list[StatsNodeUsersUsageTopUser]
+
+
+@dataclass(frozen=True, slots=True)
+class GetStatsNodesUsersUsageRequest:
+    nodes_uuids: list[UUID]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1406,11 +1500,12 @@ class StatsUserUsage:
 @dataclass(frozen=True, slots=True)
 class Device:
     hwid: str
-    user_uuid: UUID
+    user_id: int
     platform: str | None
     os_version: str | None
     device_model: str | None
     user_agent: str | None
+    request_ip: str | None
     created_at: datetime
     updated_at: datetime
 
@@ -1435,6 +1530,7 @@ class CreateUserHwidDeviceRequest:
     os_version: Omittable[str] = OMITTED
     device_model: Omittable[str] = OMITTED
     user_agent: Omittable[str] = OMITTED
+    request_ip: Omittable[str] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1449,15 +1545,16 @@ class DeleteAllUserHwidDevicesRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class HwidDevicesStatsByPlatform:
-    platform: str
+class HwidDevicesStatsByPlatformByApp:
+    app: str
     count: int
 
 
 @dataclass(frozen=True, slots=True)
-class HwidDevicesStatsByApp:
-    app: str
+class HwidDevicesStatsByPlatform:
+    platform: str
     count: int
+    by_app: list[HwidDevicesStatsByPlatformByApp]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1470,7 +1567,6 @@ class HwidDevicesStatsStat:
 @dataclass(frozen=True, slots=True)
 class HwidDevicesStats:
     by_platform: list[HwidDevicesStatsByPlatform]
-    by_app: list[HwidDevicesStatsByApp]
     stats: HwidDevicesStatsStat
 
 
@@ -1495,10 +1591,15 @@ class InfraProviderBillingHistory:
 
 
 @dataclass(frozen=True, slots=True)
-class InfraProviderBillingNode:
+class InfraProviderBillingNodeDetail:
     node_uuid: UUID
-    name: str
     country_code: str
+
+
+@dataclass(frozen=True, slots=True)
+class InfraProviderBillingNode:
+    name: str
+    details: InfraProviderBillingNodeDetail | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1574,10 +1675,11 @@ class InfraBillingNodeBillingNodeProvider:
 @dataclass(frozen=True, slots=True)
 class InfraBillingNodeBillingNode:
     uuid: UUID
-    node_uuid: UUID
+    node_uuid: UUID | None
+    name: str | None
     provider_uuid: UUID
     provider: InfraBillingNodeBillingNodeProvider
-    node: RecordNode
+    node: RecordNode | None
     next_billing_at: datetime
     created_at: datetime
     updated_at: datetime
@@ -1608,14 +1710,15 @@ class UpdateInfraBillingNodeRequest:
 @dataclass(frozen=True, slots=True)
 class CreateInfraBillingNodeRequest:
     provider_uuid: UUID
-    node_uuid: UUID
-    next_billing_at: Omittable[datetime] = OMITTED
+    node_uuid: UUID | None
+    name: str | None
+    next_billing_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
 class InfraBillingRecord:
     id: int
-    user_uuid: UUID
+    user_id: int
     request_ip: str | None
     user_agent: str | None
     request_at: datetime
@@ -1635,7 +1738,7 @@ class SubscriptionRequestHistoryStatsHourlyRequestStat:
 
 @dataclass(frozen=True, slots=True)
 class SubscriptionRequestHistoryStats:
-    by_parsed_app: list[HwidDevicesStatsByApp]
+    by_parsed_app: list[HwidDevicesStatsByPlatformByApp]
     hourly_request_stats: list[SubscriptionRequestHistoryStatsHourlyRequestStat]
 
 
@@ -1799,16 +1902,6 @@ class X25519:
 
 
 @dataclass(frozen=True, slots=True)
-class EncryptHappCryptoLink:
-    encrypted_link: str
-
-
-@dataclass(frozen=True, slots=True)
-class EncryptHappCryptoLinkRequest:
-    link_to_encrypt: str
-
-
-@dataclass(frozen=True, slots=True)
 class SrrMatcherMatchedRuleCondition:
     header_name: str
     operator: SrrMatcherMatchedRuleConditionOperator
@@ -1823,6 +1916,12 @@ class SrrMatcherMatchedRuleResponseModificationHeader:
 
 
 @dataclass(frozen=True, slots=True)
+class SrrMatcherMatchedRuleResponseModificationEncryption:
+    method: SrrMatcherMatchedRuleResponseModificationEncryptionMethod
+    key: str
+
+
+@dataclass(frozen=True, slots=True)
 class SrrMatcherMatchedRuleResponseModification:
     headers: list[SrrMatcherMatchedRuleResponseModificationHeader] | None = None
     apply_headers_to_end: bool | None = None
@@ -1830,6 +1929,11 @@ class SrrMatcherMatchedRuleResponseModification:
     ignore_host_xray_json_template: bool | None = None
     ignore_serve_json_at_base_subscription: bool | None = None
     additional_extended_clients_regex: list[str] | None = None
+    disable_hwid_check: bool | None = None
+    encryption: SrrMatcherMatchedRuleResponseModificationEncryption | None = (
+        None
+    )
+    exclude_hosts_by_tags: list[str] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1869,6 +1973,11 @@ class DebugSrrMatcherRequestResponseRuleRuleResponseModification:
     ignore_host_xray_json_template: Omittable[bool] = OMITTED
     ignore_serve_json_at_base_subscription: Omittable[bool] = OMITTED
     additional_extended_clients_regex: Omittable[list[str]] = OMITTED
+    disable_hwid_check: Omittable[bool] = OMITTED
+    encryption: Omittable[
+        SrrMatcherMatchedRuleResponseModificationEncryption
+    ] = OMITTED
+    exclude_hosts_by_tags: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -2096,10 +2205,19 @@ class ServiceEventDataSubpageConfig:
 
 
 @dataclass(frozen=True, slots=True)
+class ServiceEventDataApiToken:
+    name: str
+    uuid: UUID
+    expire_at: datetime
+    scopes: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class ServiceEventData:
     login_attempt: ServiceEventDataLoginAttempt | None = None
     panel_version: str | None = None
     subpage_config: ServiceEventDataSubpageConfig | None = None
+    api_token: ServiceEventDataApiToken | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -2128,6 +2246,7 @@ class TorrentBlockerEvent:
 @dataclass(frozen=True, slots=True)
 class UserEventMeta:
     not_connected_after_hours: int | None = None
+    expiration: int | None = None
 
 
 @dataclass(frozen=True, slots=True)

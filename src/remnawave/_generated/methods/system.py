@@ -5,8 +5,6 @@ from remnawave._generated.models import (
     X25519,
     BandwidthStats,
     DebugSrrMatcherRequest,
-    EncryptHappCryptoLink,
-    EncryptHappCryptoLinkRequest,
     Metadata,
     NodesMetrics,
     NodesStatistics,
@@ -55,11 +53,6 @@ GET_X25519_KEYPAIRS: Operation[X25519] = Operation(
     "/api/system/tools/x25519/generate",
     X25519,
 )
-ENCRYPT_HAPP_CRYPTO_LINK: Operation[EncryptHappCryptoLink] = Operation(
-    "POST",
-    "/api/system/tools/happ/encrypt",
-    EncryptHappCryptoLink,
-)
 DEBUG_SRR_MATCHER: Operation[SrrMatcher] = Operation(
     "POST",
     "/api/system/testers/srr-matcher",
@@ -101,12 +94,6 @@ class SystemApi(SyncGroup):
         """Generate 30 X25519 keypairs."""
         return self._executor.execute(GET_X25519_KEYPAIRS)
 
-    def encrypt_happ_crypto_link(
-        self, body: EncryptHappCryptoLinkRequest
-    ) -> EncryptHappCryptoLink:
-        """Encrypt Happ Crypto Link."""
-        return self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)
-
     def debug_srr_matcher(self, body: DebugSrrMatcherRequest) -> SrrMatcher:
         """Test SRR Matcher."""
         return self._executor.execute(DEBUG_SRR_MATCHER, body=body)
@@ -144,12 +131,6 @@ class AsyncSystemApi(AsyncGroup):
     async def get_x25519_keypairs(self) -> X25519:
         """Generate 30 X25519 keypairs."""
         return await self._executor.execute(GET_X25519_KEYPAIRS)
-
-    async def encrypt_happ_crypto_link(
-        self, body: EncryptHappCryptoLinkRequest
-    ) -> EncryptHappCryptoLink:
-        """Encrypt Happ Crypto Link."""
-        return await self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)
 
     async def debug_srr_matcher(
         self, body: DebugSrrMatcherRequest

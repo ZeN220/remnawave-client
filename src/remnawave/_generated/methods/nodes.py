@@ -10,7 +10,7 @@ from remnawave._generated.models import (
     Node2,
     ProfileModificationRequest,
     ReorderNodeRequest,
-    RestartAllNodesRequestBody,
+    RestartNodeRequestBody,
     Tags,
     UpdateNodeRequest,
 )
@@ -129,15 +129,17 @@ class NodesApi(SyncGroup):
         """Disable a node."""
         return self._executor.execute(DISABLE_NODE, path={"uuid": uuid})
 
-    def restart_node(self, uuid: str) -> Node:
+    def restart_node(self, uuid: str, body: RestartNodeRequestBody) -> Node:
         """Restart node."""
-        return self._executor.execute(RESTART_NODE, path={"uuid": uuid})
+        return self._executor.execute(
+            RESTART_NODE, path={"uuid": uuid}, body=body
+        )
 
     def reset_node_traffic(self, uuid: str) -> Node:
         """Reset Node Traffic."""
         return self._executor.execute(RESET_NODE_TRAFFIC, path={"uuid": uuid})
 
-    def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
+    def restart_all_nodes(self, body: RestartNodeRequestBody) -> Node:
         """Restart all nodes."""
         return self._executor.execute(RESTART_ALL_NODES, body=body)
 
@@ -191,9 +193,13 @@ class AsyncNodesApi(AsyncGroup):
         """Disable a node."""
         return await self._executor.execute(DISABLE_NODE, path={"uuid": uuid})
 
-    async def restart_node(self, uuid: str) -> Node:
+    async def restart_node(
+        self, uuid: str, body: RestartNodeRequestBody
+    ) -> Node:
         """Restart node."""
-        return await self._executor.execute(RESTART_NODE, path={"uuid": uuid})
+        return await self._executor.execute(
+            RESTART_NODE, path={"uuid": uuid}, body=body
+        )
 
     async def reset_node_traffic(self, uuid: str) -> Node:
         """Reset Node Traffic."""
@@ -201,7 +207,7 @@ class AsyncNodesApi(AsyncGroup):
             RESET_NODE_TRAFFIC, path={"uuid": uuid}
         )
 
-    async def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
+    async def restart_all_nodes(self, body: RestartNodeRequestBody) -> Node:
         """Restart all nodes."""
         return await self._executor.execute(RESTART_ALL_NODES, body=body)
 

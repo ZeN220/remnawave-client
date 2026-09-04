@@ -63,6 +63,14 @@ class RawSubscriptionByShortUuidResolvedProxyConfigSecurity(StrEnum):
     NONE = "none"
 
 
+class HostMihomoIpVersion(StrEnum):
+    DUAL = "dual"
+    IPV4 = "ipv4"
+    IPV6 = "ipv6"
+    IPV4_PREFER = "ipv4-prefer"
+    IPV6_PREFER = "ipv6-prefer"
+
+
 class TemplateTemplateType(StrEnum):
     XRAY_JSON = "XRAY_JSON"
     XRAY_BASE64 = "XRAY_BASE64"
@@ -72,6 +80,11 @@ class TemplateTemplateType(StrEnum):
     SINGBOX = "SINGBOX"
 
 
+class ApiTokenScopesResourceEndpointKind(StrEnum):
+    READ = "read"
+    WRITE = "write"
+
+
 class BulkNodesActionsRequestAction(StrEnum):
     ENABLE = "ENABLE"
     DISABLE = "DISABLE"
@@ -79,13 +92,7 @@ class BulkNodesActionsRequestAction(StrEnum):
     RESET_TRAFFIC = "RESET_TRAFFIC"
 
 
-class HostSecurityLayer(StrEnum):
-    DEFAULT = "DEFAULT"
-    TLS = "TLS"
-    NONE = "NONE"
-
-
-class CreateHostRequestAlpn(StrEnum):
+class HostAlpn(StrEnum):
     H3 = "h3"
     H2 = "h2"
     HTTP_1_1 = "http/1.1"
@@ -94,16 +101,10 @@ class CreateHostRequestAlpn(StrEnum):
     H3_H2 = "h3,h2"
 
 
-class CreateHostRequestFingerprint(StrEnum):
-    CHROME = "chrome"
-    FIREFOX = "firefox"
-    SAFARI = "safari"
-    IOS = "ios"
-    ANDROID = "android"
-    EDGE = "edge"
-    QQ = "qq"
-    RANDOM = "random"
-    RANDOMIZED = "randomized"
+class HostSecurityLayer(StrEnum):
+    DEFAULT = "DEFAULT"
+    TLS = "TLS"
+    NONE = "NONE"
 
 
 class SrrMatcherResponseType(StrEnum):
@@ -136,6 +137,11 @@ class SrrMatcherMatchedRuleConditionOperator(StrEnum):
     NOT_ENDS_WITH = "NOT_ENDS_WITH"
     REGEX = "REGEX"
     NOT_REGEX = "NOT_REGEX"
+
+
+class SrrMatcherMatchedRuleResponseModificationEncryptionMethod(StrEnum):
+    AGE1 = "age1"
+    AGE1PQ1 = "age1pq1"
 
 
 class CrmEventEvent(StrEnum):
@@ -178,6 +184,8 @@ class ServiceEventEvent(StrEnum):
     SERVICE_LOGIN_ATTEMPT_FAILED = "service.login_attempt_failed"
     SERVICE_LOGIN_ATTEMPT_SUCCESS = "service.login_attempt_success"
     SERVICE_SUBPAGE_CONFIG_CHANGED = "service.subpage_config_changed"
+    SERVICE_API_TOKEN_CREATED = "service.api_token_created"
+    SERVICE_API_TOKEN_DELETED = "service.api_token_deleted"
 
 
 class ServiceEventDataSubpageConfigAction(StrEnum):
@@ -196,15 +204,12 @@ class UserEventEvent(StrEnum):
     USER_LIMITED = "user.limited"
     USER_EXPIRED = "user.expired"
     USER_TRAFFIC_RESET = "user.traffic_reset"
-    USER_EXPIRES_IN_72_HOURS = "user.expires_in_72_hours"
-    USER_EXPIRES_IN_48_HOURS = "user.expires_in_48_hours"
-    USER_EXPIRES_IN_24_HOURS = "user.expires_in_24_hours"
-    USER_EXPIRED_24_HOURS_AGO = "user.expired_24_hours_ago"
     USER_FIRST_CONNECTED = "user.first_connected"
     USER_BANDWIDTH_USAGE_THRESHOLD_REACHED = (
         "user.bandwidth_usage_threshold_reached"
     )
     USER_NOT_CONNECTED = "user.not_connected"
+    USER_EXPIRATION = "user.expiration"
 
 
 class UserHwidDevicesEventEvent(StrEnum):

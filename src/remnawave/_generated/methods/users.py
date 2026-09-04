@@ -14,6 +14,7 @@ from remnawave._generated.models import (
     UserAccessibleNodes,
     UserRef,
     UsersPage,
+    UsersStream,
     UserSubscriptionRequestHistory,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -47,6 +48,11 @@ GET_USER_BY_UUID: Operation[User] = Operation(
     "GET",
     "/api/users/{uuid}",
     User,
+)
+GET_USERS_STREAM: Operation[UsersStream] = Operation(
+    "GET",
+    "/api/users/stream",
+    UsersStream,
 )
 GET_ALL_TAGS: Operation[Tags] = Operation(
     "GET",
@@ -134,7 +140,7 @@ class UsersApi(SyncGroup):
     def get_all_users(
         self, *, size: int | None = None, start: int | None = None
     ) -> UsersPage:
-        """Get all users."""
+        """Get all users using offset-based pagination."""
         return self._executor.execute(
             GET_ALL_USERS, query={"size": size, "start": start}
         )
@@ -153,6 +159,14 @@ class UsersApi(SyncGroup):
     def get_user_by_uuid(self, uuid: str) -> User:
         """Get user by UUID."""
         return self._executor.execute(GET_USER_BY_UUID, path={"uuid": uuid})
+
+    def get_users_stream(
+        self, *, size: int | None = None, cursor: str | None = None
+    ) -> UsersStream:
+        """Get all users using cursor-based (keyset) pagination."""
+        return self._executor.execute(
+            GET_USERS_STREAM, query={"size": size, "cursor": cursor}
+        )
 
     def get_all_tags(self) -> Tags:
         """Get all existing user tags."""
@@ -239,7 +253,7 @@ class AsyncUsersApi(AsyncGroup):
     async def get_all_users(
         self, *, size: int | None = None, start: int | None = None
     ) -> UsersPage:
-        """Get all users."""
+        """Get all users using offset-based pagination."""
         return await self._executor.execute(
             GET_ALL_USERS, query={"size": size, "start": start}
         )
@@ -260,6 +274,14 @@ class AsyncUsersApi(AsyncGroup):
         """Get user by UUID."""
         return await self._executor.execute(
             GET_USER_BY_UUID, path={"uuid": uuid}
+        )
+
+    async def get_users_stream(
+        self, *, size: int | None = None, cursor: str | None = None
+    ) -> UsersStream:
+        """Get all users using cursor-based (keyset) pagination."""
+        return await self._executor.execute(
+            GET_USERS_STREAM, query={"size": size, "cursor": cursor}
         )
 
     async def get_all_tags(self) -> Tags:

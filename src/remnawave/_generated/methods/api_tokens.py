@@ -3,6 +3,7 @@
 
 from remnawave._generated.models import (
     ApiToken,
+    ApiTokenScopes,
     CreateApiTokenRequest,
     FindAllApiTokens,
 )
@@ -26,6 +27,11 @@ DELETE: Operation[bool] = Operation(
     "/api/tokens/{uuid}",
     bool,
 )
+GET_SCOPES: Operation[ApiTokenScopes] = Operation(
+    "GET",
+    "/api/tokens/scopes",
+    ApiTokenScopes,
+)
 
 
 class ApiTokensApi(SyncGroup):
@@ -41,6 +47,10 @@ class ApiTokensApi(SyncGroup):
         """Delete an API token by UUID."""
         return self._executor.execute(DELETE, path={"uuid": uuid})
 
+    def get_scopes(self) -> ApiTokenScopes:
+        """Get available API token scopes."""
+        return self._executor.execute(GET_SCOPES)
+
 
 class AsyncApiTokensApi(AsyncGroup):
     async def create(self, body: CreateApiTokenRequest) -> ApiToken:
@@ -54,3 +64,7 @@ class AsyncApiTokensApi(AsyncGroup):
     async def delete(self, uuid: str) -> bool:
         """Delete an API token by UUID."""
         return await self._executor.execute(DELETE, path={"uuid": uuid})
+
+    async def get_scopes(self) -> ApiTokenScopes:
+        """Get available API token scopes."""
+        return await self._executor.execute(GET_SCOPES)

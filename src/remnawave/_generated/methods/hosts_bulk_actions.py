@@ -4,8 +4,7 @@
 from remnawave._generated.models import (
     BulkDeleteHostsRequest,
     Host2,
-    SetInboundToManyHostsRequest,
-    SetPortToManyHostsRequest,
+    UpdateManyHostsRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -27,14 +26,9 @@ ENABLE_HOSTS: Operation[list[Host2]] = Operation(
     "/api/hosts/bulk/enable",
     list[Host2],
 )
-SET_INBOUND_TO_HOSTS: Operation[list[Host2]] = Operation(
-    "POST",
-    "/api/hosts/bulk/set-inbound",
-    list[Host2],
-)
 SET_PORT_TO_HOSTS: Operation[list[Host2]] = Operation(
-    "POST",
-    "/api/hosts/bulk/set-port",
+    "PATCH",
+    "/api/hosts/bulk/update",
     list[Host2],
 )
 
@@ -52,14 +46,8 @@ class HostsBulkActionsApi(SyncGroup):
         """Enable hosts by UUIDs."""
         return self._executor.execute(ENABLE_HOSTS, body=body)
 
-    def set_inbound_to_hosts(
-        self, body: SetInboundToManyHostsRequest
-    ) -> list[Host2]:
-        """Set inbound to hosts by UUIDs."""
-        return self._executor.execute(SET_INBOUND_TO_HOSTS, body=body)
-
-    def set_port_to_hosts(self, body: SetPortToManyHostsRequest) -> list[Host2]:
-        """Set port to hosts by UUIDs."""
+    def set_port_to_hosts(self, body: UpdateManyHostsRequest) -> list[Host2]:
+        """Update many hosts."""
         return self._executor.execute(SET_PORT_TO_HOSTS, body=body)
 
 
@@ -76,14 +64,8 @@ class AsyncHostsBulkActionsApi(AsyncGroup):
         """Enable hosts by UUIDs."""
         return await self._executor.execute(ENABLE_HOSTS, body=body)
 
-    async def set_inbound_to_hosts(
-        self, body: SetInboundToManyHostsRequest
-    ) -> list[Host2]:
-        """Set inbound to hosts by UUIDs."""
-        return await self._executor.execute(SET_INBOUND_TO_HOSTS, body=body)
-
     async def set_port_to_hosts(
-        self, body: SetPortToManyHostsRequest
+        self, body: UpdateManyHostsRequest
     ) -> list[Host2]:
-        """Set port to hosts by UUIDs."""
+        """Update many hosts."""
         return await self._executor.execute(SET_PORT_TO_HOSTS, body=body)
