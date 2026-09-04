@@ -1,13 +1,3 @@
-"""Первый запрос.
-
-    export REMNAWAVE_URL=https://panel.example.com
-    export REMNAWAVE_TOKEN=<API-токен из админки>
-    python examples/01_quickstart.py
-
-Токен нужен именно API-токен (вкладка API-keys в админке). JWT, который
-выдаёт вход по паролю, панель для API-запросов не принимает.
-"""
-
 import os
 
 from remnawave import Remnawave

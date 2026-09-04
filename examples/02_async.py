@@ -1,8 +1,3 @@
-"""Асинхронный клиент и параллельные запросы.
-
-Тот же набор методов, что у синхронного, только с await.
-"""
-
 import asyncio
 import os
 
@@ -13,7 +8,6 @@ async def main() -> None:
     url, token = os.environ["REMNAWAVE_URL"], os.environ["REMNAWAVE_TOKEN"]
 
     async with AsyncRemnawave(url, token) as rw:
-        # Независимые запросы уходят одновременно.
         stats, nodes, page = await asyncio.gather(
             rw.system.get_stats(),
             rw.nodes.get_nodes(),

@@ -1,9 +1,3 @@
-"""Жизненный цикл пользователя: создание, частичное изменение, удаление.
-
-Главное здесь — семантика тела запроса. Поля, которые вы не передали,
-не отправляются вообще, а не превращаются в null.
-"""
-
 import os
 from datetime import UTC, datetime, timedelta
 
@@ -25,15 +19,12 @@ with Remnawave(URL, TOKEN) as rw:
     )
     print(f"создан id={user.id} short_uuid={user.short_uuid}")
 
-    # Передаём только description. telegram_id и лимит останутся прежними:
-    # неуказанные поля не уходят на сервер.
     updated = rw.users.update_user(
         UpdateUserBody(id=user.id, description="из примера"),
     )
     print(f"описание: {updated.description!r}")
     print(f"telegram_id цел: {updated.telegram_id}")
 
-    # А вот явный None отправляется и записывается как null.
     cleared = rw.users.update_user(UpdateUserBody(id=user.id, tag=None))
     print(f"tag: {cleared.tag!r}")
 
@@ -41,7 +32,7 @@ with Remnawave(URL, TOKEN) as rw:
     is_disabled = disabled.status is UserStatus.DISABLED
     print(f"статус: {disabled.status} (DISABLED: {is_disabled})")
 
-    rw.users.delete_user(user.id)  # 204, метод возвращает None
+    rw.users.delete_user(user.id)
     print("удалён")
 
     try:

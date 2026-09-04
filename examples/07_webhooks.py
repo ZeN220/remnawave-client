@@ -1,14 +1,3 @@
-"""Приём вебхуков панели.
-
-Панель шлёт события на WEBHOOK_URL и подписывает тело ключом
-WEBHOOK_SECRET_HEADER. Сервер здесь на стандартной библиотеке, чтобы
-пример не тянул фреймворк: в своём приложении берите тело запроса как
-есть и передавайте в receive().
-
-    export WEBHOOK_SECRET=<значение WEBHOOK_SECRET_HEADER из .env панели>
-    python examples/05_webhooks.py
-"""
-
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -21,8 +10,6 @@ hooks = WebhookReceiver(os.environ["WEBHOOK_SECRET"])
 class Handler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         length = int(self.headers.get("Content-Length", "0"))
-        # Именно сырые байты: подпись считается по ним, и повторная
-        # сериализация разобранного JSON её ломает.
         body = self.rfile.read(length)
         signature = self.headers.get(SIGNATURE_HEADER, "")
 
