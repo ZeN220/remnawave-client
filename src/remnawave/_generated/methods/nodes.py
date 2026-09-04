@@ -55,6 +55,11 @@ RESTART_NODE: Operation[Node] = Operation(
     "/api/nodes/{uuid}/actions/restart",
     Node,
 )
+RESET_NODE_TRAFFIC: Operation[Node] = Operation(
+    "POST",
+    "/api/nodes/{uuid}/actions/reset-traffic",
+    Node,
+)
 RESTART_ALL_NODES: Operation[Node] = Operation(
     "POST",
     "/api/nodes/actions/restart-all",
@@ -100,6 +105,10 @@ class NodesApi(SyncGroup):
         """Restart node."""
         return self._executor.execute(RESTART_NODE, path={"uuid": uuid})
 
+    def reset_node_traffic(self, uuid: str) -> Node:
+        """Reset Node Traffic."""
+        return self._executor.execute(RESET_NODE_TRAFFIC, path={"uuid": uuid})
+
     def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
         """Restart all nodes."""
         return self._executor.execute(RESTART_ALL_NODES, body=body)
@@ -141,6 +150,12 @@ class AsyncNodesApi(AsyncGroup):
     async def restart_node(self, uuid: str) -> Node:
         """Restart node."""
         return await self._executor.execute(RESTART_NODE, path={"uuid": uuid})
+
+    async def reset_node_traffic(self, uuid: str) -> Node:
+        """Reset Node Traffic."""
+        return await self._executor.execute(
+            RESET_NODE_TRAFFIC, path={"uuid": uuid}
+        )
 
     async def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
         """Restart all nodes."""

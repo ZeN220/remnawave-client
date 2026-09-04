@@ -13,6 +13,15 @@ from remnawave._generated.enums import (
     OAuth2CallbackRequestProvider as OAuth2CallbackRequestProvider,
 )
 from remnawave._generated.enums import (
+    SrrMatcherMatchedRuleConditionOperator as SrrMatcherMatchedRuleConditionOperator,
+)
+from remnawave._generated.enums import (
+    SrrMatcherMatchedRuleOperator as SrrMatcherMatchedRuleOperator,
+)
+from remnawave._generated.enums import (
+    SrrMatcherResponseType as SrrMatcherResponseType,
+)
+from remnawave._generated.enums import (
     SubscriptionControllerGetSubscriptionByClientType as SubscriptionControllerGetSubscriptionByClientType,
 )
 from remnawave._generated.enums import (
@@ -50,6 +59,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     BulkUpdateUsersRequest as BulkUpdateUsersRequest,
+)
+from remnawave._generated.models import (
+    BulkUpdateUsersRequestField as BulkUpdateUsersRequestField,
 )
 from remnawave._generated.models import (
     BulkUpdateUsersSquadsRequest as BulkUpdateUsersSquadsRequest,
@@ -97,13 +109,37 @@ from remnawave._generated.models import (
     CreateNodeRequestConfigProfile as CreateNodeRequestConfigProfile,
 )
 from remnawave._generated.models import (
+    CreateSnippetRequest as CreateSnippetRequest,
+)
+from remnawave._generated.models import (
+    CreateSubscriptionTemplateRequest as CreateSubscriptionTemplateRequest,
+)
+from remnawave._generated.models import (
     CreateUserHwidDeviceRequest as CreateUserHwidDeviceRequest,
 )
 from remnawave._generated.models import (
     CreateUserRequest as CreateUserRequest,
 )
 from remnawave._generated.models import (
+    DebugSrrMatcherRequest as DebugSrrMatcherRequest,
+)
+from remnawave._generated.models import (
+    DebugSrrMatcherRequestResponseRule as DebugSrrMatcherRequestResponseRule,
+)
+from remnawave._generated.models import (
+    DebugSrrMatcherRequestResponseRuleRule as DebugSrrMatcherRequestResponseRuleRule,
+)
+from remnawave._generated.models import (
+    DebugSrrMatcherRequestResponseRuleRuleResponseModification as DebugSrrMatcherRequestResponseRuleRuleResponseModification,
+)
+from remnawave._generated.models import (
     DeleteAllUserHwidDevicesRequest as DeleteAllUserHwidDevicesRequest,
+)
+from remnawave._generated.models import (
+    DeletePasskeyRequest as DeletePasskeyRequest,
+)
+from remnawave._generated.models import (
+    DeleteSnippetRequest as DeleteSnippetRequest,
 )
 from remnawave._generated.models import (
     DeleteUserHwidDeviceRequest as DeleteUserHwidDeviceRequest,
@@ -119,6 +155,24 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     EncryptHappCryptoLinkRequest as EncryptHappCryptoLinkRequest,
+)
+from remnawave._generated.models import (
+    ExternalSquad as ExternalSquad,
+)
+from remnawave._generated.models import (
+    ExternalSquadHostOverride as ExternalSquadHostOverride,
+)
+from remnawave._generated.models import (
+    ExternalSquadInfo as ExternalSquadInfo,
+)
+from remnawave._generated.models import (
+    ExternalSquads as ExternalSquads,
+)
+from remnawave._generated.models import (
+    ExternalSquadSubscriptionSetting as ExternalSquadSubscriptionSetting,
+)
+from remnawave._generated.models import (
+    ExternalSquadTemplate as ExternalSquadTemplate,
 )
 from remnawave._generated.models import (
     FindAllApiTokens as FindAllApiTokens,
@@ -262,6 +316,12 @@ from remnawave._generated.models import (
     OAuth2CallbackRequest as OAuth2CallbackRequest,
 )
 from remnawave._generated.models import (
+    Passkey as Passkey,
+)
+from remnawave._generated.models import (
+    PasskeyPasskey as PasskeyPasskey,
+)
+from remnawave._generated.models import (
     PubKey as PubKey,
 )
 from remnawave._generated.models import (
@@ -295,6 +355,24 @@ from remnawave._generated.models import (
     RemnawaveHealthPm2Stat as RemnawaveHealthPm2Stat,
 )
 from remnawave._generated.models import (
+    RemnawaveSettings as RemnawaveSettings,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsOauth2Setting as RemnawaveSettingsOauth2Setting,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsOauth2SettingGithub as RemnawaveSettingsOauth2SettingGithub,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsOauth2SettingPocketid as RemnawaveSettingsOauth2SettingPocketid,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsPasskeySetting as RemnawaveSettingsPasskeySetting,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsTgAuthSetting as RemnawaveSettingsTgAuthSetting,
+)
+from remnawave._generated.models import (
     ReorderHostRequest as ReorderHostRequest,
 )
 from remnawave._generated.models import (
@@ -314,6 +392,27 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SetPortToManyHostsRequest as SetPortToManyHostsRequest,
+)
+from remnawave._generated.models import (
+    Snippet as Snippet,
+)
+from remnawave._generated.models import (
+    SnippetSnippet as SnippetSnippet,
+)
+from remnawave._generated.models import (
+    SrrMatcher as SrrMatcher,
+)
+from remnawave._generated.models import (
+    SrrMatcherMatchedRule as SrrMatcherMatchedRule,
+)
+from remnawave._generated.models import (
+    SrrMatcherMatchedRuleCondition as SrrMatcherMatchedRuleCondition,
+)
+from remnawave._generated.models import (
+    SrrMatcherMatchedRuleResponseModification as SrrMatcherMatchedRuleResponseModification,
+)
+from remnawave._generated.models import (
+    SrrMatcherMatchedRuleResponseModificationHeader as SrrMatcherMatchedRuleResponseModificationHeader,
 )
 from remnawave._generated.models import (
     Stats as Stats,
@@ -337,13 +436,19 @@ from remnawave._generated.models import (
     Status as Status,
 )
 from remnawave._generated.models import (
+    StatusAuthentication as StatusAuthentication,
+)
+from remnawave._generated.models import (
+    StatusAuthenticationOauth2 as StatusAuthenticationOauth2,
+)
+from remnawave._generated.models import (
+    StatusAuthenticationPasskey as StatusAuthenticationPasskey,
+)
+from remnawave._generated.models import (
+    StatusAuthenticationTgAuth as StatusAuthenticationTgAuth,
+)
+from remnawave._generated.models import (
     StatusBranding as StatusBranding,
-)
-from remnawave._generated.models import (
-    StatusOauth2 as StatusOauth2,
-)
-from remnawave._generated.models import (
-    StatusTgAuth as StatusTgAuth,
 )
 from remnawave._generated.models import (
     Subscription as Subscription,
@@ -367,6 +472,9 @@ from remnawave._generated.models import (
     SubscriptionSettings as SubscriptionSettings,
 )
 from remnawave._generated.models import (
+    SubscriptionSettingsResponseRule as SubscriptionSettingsResponseRule,
+)
+from remnawave._generated.models import (
     SubscriptionsPage as SubscriptionsPage,
 )
 from remnawave._generated.models import (
@@ -382,10 +490,22 @@ from remnawave._generated.models import (
     Template as Template,
 )
 from remnawave._generated.models import (
+    Templates as Templates,
+)
+from remnawave._generated.models import (
     TorrentBlockerReport as TorrentBlockerReport,
 )
 from remnawave._generated.models import (
     UpdateConfigProfileRequest as UpdateConfigProfileRequest,
+)
+from remnawave._generated.models import (
+    UpdateExternalSquadRequest as UpdateExternalSquadRequest,
+)
+from remnawave._generated.models import (
+    UpdateExternalSquadRequestHostOverride as UpdateExternalSquadRequestHostOverride,
+)
+from remnawave._generated.models import (
+    UpdateExternalSquadRequestSubscriptionSetting as UpdateExternalSquadRequestSubscriptionSetting,
 )
 from remnawave._generated.models import (
     UpdateHostRequest as UpdateHostRequest,
@@ -401,6 +521,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UpdateNodeRequest as UpdateNodeRequest,
+)
+from remnawave._generated.models import (
+    UpdateRemnawaveSettingsRequest as UpdateRemnawaveSettingsRequest,
 )
 from remnawave._generated.models import (
     UpdateSubscriptionSettingsRequest as UpdateSubscriptionSettingsRequest,
@@ -446,6 +569,12 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UserUsageByRange as UserUsageByRange,
+)
+from remnawave._generated.models import (
+    VerifyPasskeyRegistration as VerifyPasskeyRegistration,
+)
+from remnawave._generated.models import (
+    VerifyPasskeyRegistrationRequest as VerifyPasskeyRegistrationRequest,
 )
 from remnawave._generated.models import (
     X25519Keypair as X25519Keypair,

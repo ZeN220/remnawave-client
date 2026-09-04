@@ -4,11 +4,13 @@
 from remnawave._generated.models import (
     X25519,
     BandwidthStats,
+    DebugSrrMatcherRequest,
     EncryptHappCryptoLink,
     EncryptHappCryptoLinkRequest,
     NodesMetrics,
     NodesStatistics,
     RemnawaveHealth,
+    SrrMatcher,
     Stats,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -51,6 +53,11 @@ ENCRYPT_HAPP_CRYPTO_LINK: Operation[EncryptHappCryptoLink] = Operation(
     "/api/system/tools/happ/encrypt",
     EncryptHappCryptoLink,
 )
+DEBUG_SRR_MATCHER: Operation[SrrMatcher] = Operation(
+    "POST",
+    "/api/system/testers/srr-matcher",
+    SrrMatcher,
+)
 
 
 class SystemApi(SyncGroup):
@@ -84,6 +91,10 @@ class SystemApi(SyncGroup):
         """Encrypt Happ Crypto Link."""
         return self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)
 
+    def debug_srr_matcher(self, body: DebugSrrMatcherRequest) -> SrrMatcher:
+        """Test SRR Matcher."""
+        return self._executor.execute(DEBUG_SRR_MATCHER, body=body)
+
 
 class AsyncSystemApi(AsyncGroup):
     async def get_stats(self) -> Stats:
@@ -115,3 +126,9 @@ class AsyncSystemApi(AsyncGroup):
     ) -> EncryptHappCryptoLink:
         """Encrypt Happ Crypto Link."""
         return await self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)
+
+    async def debug_srr_matcher(
+        self, body: DebugSrrMatcherRequest
+    ) -> SrrMatcher:
+        """Test SRR Matcher."""
+        return await self._executor.execute(DEBUG_SRR_MATCHER, body=body)

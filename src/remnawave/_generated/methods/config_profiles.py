@@ -49,6 +49,11 @@ DELETE_CONFIG_PROFILE_BY_UUID: Operation[Host] = Operation(
     "/api/config-profiles/{uuid}",
     Host,
 )
+GET_COMPUTED_CONFIG_PROFILE_BY_UUID: Operation[ConfigProfile] = Operation(
+    "GET",
+    "/api/config-profiles/{uuid}/computed-config",
+    ConfigProfile,
+)
 
 
 class ConfigProfilesApi(SyncGroup):
@@ -90,6 +95,12 @@ class ConfigProfilesApi(SyncGroup):
             DELETE_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
         )
 
+    def get_computed_config_profile_by_uuid(self, uuid: str) -> ConfigProfile:
+        """Get computed config profile by uuid."""
+        return self._executor.execute(
+            GET_COMPUTED_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
+        )
+
 
 class AsyncConfigProfilesApi(AsyncGroup):
     async def get_config_profiles(self) -> ConfigProfiles:
@@ -128,4 +139,12 @@ class AsyncConfigProfilesApi(AsyncGroup):
         """Delete config profile."""
         return await self._executor.execute(
             DELETE_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
+        )
+
+    async def get_computed_config_profile_by_uuid(
+        self, uuid: str
+    ) -> ConfigProfile:
+        """Get computed config profile by uuid."""
+        return await self._executor.execute(
+            GET_COMPUTED_CONFIG_PROFILE_BY_UUID, path={"uuid": uuid}
         )

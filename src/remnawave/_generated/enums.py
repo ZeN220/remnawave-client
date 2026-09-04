@@ -30,7 +30,6 @@ class UpdateUserRequestStatus(StrEnum):
 class SubscriptionControllerGetSubscriptionByClientType(StrEnum):
     STASH = "stash"
     SINGBOX = "singbox"
-    SINGBOX_LEGACY = "singbox-legacy"
     MIHOMO = "mihomo"
     JSON = "json"
     V2RAY_JSON = "v2ray-json"
@@ -38,12 +37,12 @@ class SubscriptionControllerGetSubscriptionByClientType(StrEnum):
 
 
 class TemplateTemplateType(StrEnum):
-    STASH = "STASH"
-    SINGBOX = "SINGBOX"
-    SINGBOX_LEGACY = "SINGBOX_LEGACY"
-    MIHOMO = "MIHOMO"
     XRAY_JSON = "XRAY_JSON"
+    XRAY_BASE64 = "XRAY_BASE64"
+    MIHOMO = "MIHOMO"
+    STASH = "STASH"
     CLASH = "CLASH"
+    SINGBOX = "SINGBOX"
 
 
 class HostSecurityLayer(StrEnum):
@@ -71,3 +70,35 @@ class CreateHostRequestFingerprint(StrEnum):
     QQ = "qq"
     RANDOM = "random"
     RANDOMIZED = "randomized"
+
+
+class SrrMatcherResponseType(StrEnum):
+    XRAY_JSON = "XRAY_JSON"
+    XRAY_BASE64 = "XRAY_BASE64"
+    MIHOMO = "MIHOMO"
+    STASH = "STASH"
+    CLASH = "CLASH"
+    SINGBOX = "SINGBOX"
+    BROWSER = "BROWSER"
+    BLOCK = "BLOCK"
+    STATUS_CODE_404 = "STATUS_CODE_404"
+    STATUS_CODE_451 = "STATUS_CODE_451"
+    SOCKET_DROP = "SOCKET_DROP"
+
+
+class SrrMatcherMatchedRuleOperator(StrEnum):
+    AND_ = "AND"
+    OR_ = "OR"
+
+
+class SrrMatcherMatchedRuleConditionOperator(StrEnum):
+    EQUALS = "EQUALS"
+    NOT_EQUALS = "NOT_EQUALS"
+    CONTAINS = "CONTAINS"
+    NOT_CONTAINS = "NOT_CONTAINS"
+    STARTS_WITH = "STARTS_WITH"
+    NOT_STARTS_WITH = "NOT_STARTS_WITH"
+    ENDS_WITH = "ENDS_WITH"
+    NOT_ENDS_WITH = "NOT_ENDS_WITH"
+    REGEX = "REGEX"
+    NOT_REGEX = "NOT_REGEX"

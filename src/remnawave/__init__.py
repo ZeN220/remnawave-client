@@ -5,5 +5,5 @@ from remnawave.client import (
     Remnawave as Remnawave,
 )
 
-__version__ = "2.1.19"
-API_VERSION = "2.1.19"
+__version__ = "2.2.6"
+API_VERSION = "2.2.6"

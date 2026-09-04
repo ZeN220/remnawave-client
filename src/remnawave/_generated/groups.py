@@ -16,6 +16,10 @@ from remnawave._generated.methods.config_profiles import (
     AsyncConfigProfilesApi,
     ConfigProfilesApi,
 )
+from remnawave._generated.methods.external_squads import (
+    AsyncExternalSquadsApi,
+    ExternalSquadsApi,
+)
 from remnawave._generated.methods.hosts import (
     AsyncHostsApi,
     HostsApi,
@@ -43,6 +47,18 @@ from remnawave._generated.methods.keygen import (
 from remnawave._generated.methods.nodes import (
     AsyncNodesApi,
     NodesApi,
+)
+from remnawave._generated.methods.passkeys import (
+    AsyncPasskeysApi,
+    PasskeysApi,
+)
+from remnawave._generated.methods.remnawave_settings import (
+    AsyncRemnawaveSettingsApi,
+    RemnawaveSettingsApi,
+)
+from remnawave._generated.methods.snippets import (
+    AsyncSnippetsApi,
+    SnippetsApi,
 )
 from remnawave._generated.methods.subscription import (
     AsyncSubscriptionApi,
@@ -88,6 +104,7 @@ class SyncGroups:
     auth: AuthApi
     bandwidth_stats: BandwidthStatsApi
     config_profiles: ConfigProfilesApi
+    external_squads: ExternalSquadsApi
     hosts: HostsApi
     hosts_bulk_actions: HostsBulkActionsApi
     hwid_user_devices: HwidUserDevicesApi
@@ -95,6 +112,9 @@ class SyncGroups:
     internal_squads: InternalSquadsApi
     keygen: KeygenApi
     nodes: NodesApi
+    passkeys: PasskeysApi
+    remnawave_settings: RemnawaveSettingsApi
+    snippets: SnippetsApi
     subscription: SubscriptionApi
     subscription_request_history: SubscriptionRequestHistoryApi
     subscription_settings: SubscriptionSettingsApi
@@ -110,6 +130,7 @@ class SyncGroups:
         self.auth = AuthApi(executor)
         self.bandwidth_stats = BandwidthStatsApi(executor)
         self.config_profiles = ConfigProfilesApi(executor)
+        self.external_squads = ExternalSquadsApi(executor)
         self.hosts = HostsApi(executor)
         self.hosts_bulk_actions = HostsBulkActionsApi(executor)
         self.hwid_user_devices = HwidUserDevicesApi(executor)
@@ -117,6 +138,9 @@ class SyncGroups:
         self.internal_squads = InternalSquadsApi(executor)
         self.keygen = KeygenApi(executor)
         self.nodes = NodesApi(executor)
+        self.passkeys = PasskeysApi(executor)
+        self.remnawave_settings = RemnawaveSettingsApi(executor)
+        self.snippets = SnippetsApi(executor)
         self.subscription = SubscriptionApi(executor)
         self.subscription_request_history = SubscriptionRequestHistoryApi(
             executor
@@ -135,6 +159,7 @@ class AsyncGroups:
     auth: AsyncAuthApi
     bandwidth_stats: AsyncBandwidthStatsApi
     config_profiles: AsyncConfigProfilesApi
+    external_squads: AsyncExternalSquadsApi
     hosts: AsyncHostsApi
     hosts_bulk_actions: AsyncHostsBulkActionsApi
     hwid_user_devices: AsyncHwidUserDevicesApi
@@ -142,6 +167,9 @@ class AsyncGroups:
     internal_squads: AsyncInternalSquadsApi
     keygen: AsyncKeygenApi
     nodes: AsyncNodesApi
+    passkeys: AsyncPasskeysApi
+    remnawave_settings: AsyncRemnawaveSettingsApi
+    snippets: AsyncSnippetsApi
     subscription: AsyncSubscriptionApi
     subscription_request_history: AsyncSubscriptionRequestHistoryApi
     subscription_settings: AsyncSubscriptionSettingsApi
@@ -157,6 +185,7 @@ class AsyncGroups:
         self.auth = AsyncAuthApi(executor)
         self.bandwidth_stats = AsyncBandwidthStatsApi(executor)
         self.config_profiles = AsyncConfigProfilesApi(executor)
+        self.external_squads = AsyncExternalSquadsApi(executor)
         self.hosts = AsyncHostsApi(executor)
         self.hosts_bulk_actions = AsyncHostsBulkActionsApi(executor)
         self.hwid_user_devices = AsyncHwidUserDevicesApi(executor)
@@ -164,6 +193,9 @@ class AsyncGroups:
         self.internal_squads = AsyncInternalSquadsApi(executor)
         self.keygen = AsyncKeygenApi(executor)
         self.nodes = AsyncNodesApi(executor)
+        self.passkeys = AsyncPasskeysApi(executor)
+        self.remnawave_settings = AsyncRemnawaveSettingsApi(executor)
+        self.snippets = AsyncSnippetsApi(executor)
         self.subscription = AsyncSubscriptionApi(executor)
         self.subscription_request_history = AsyncSubscriptionRequestHistoryApi(
             executor
