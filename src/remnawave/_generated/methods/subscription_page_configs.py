@@ -2,10 +2,10 @@
 """Subscription Page Configs Controller."""
 
 from remnawave._generated.models import (
-    CloneSubscriptionPageConfigRequest,
+    CloneNodePluginRequest,
     DeleteSnippetRequest,
     Host,
-    ReorderConfigProfilesRequest,
+    ReorderNodePluginsRequest,
     SubscriptionPageConfig,
     SubscriptionPageConfigs,
     UpdateSubscriptionPageConfigRequest,
@@ -80,7 +80,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
         return self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
     def reorder_subscription_page_configs(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> SubscriptionPageConfigs:
         """Reorder subscription page configs."""
         return self._executor.execute(
@@ -88,7 +88,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
         )
 
     def clone_subscription_page_config(
-        self, body: CloneSubscriptionPageConfigRequest
+        self, body: CloneNodePluginRequest
     ) -> SubscriptionPageConfig:
         """Clone subscription page config."""
         return self._executor.execute(CLONE_SUBSCRIPTION_PAGE_CONFIG, body=body)
@@ -122,7 +122,7 @@ class AsyncSubscriptionPageConfigsApi(AsyncGroup):
         return await self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
     async def reorder_subscription_page_configs(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> SubscriptionPageConfigs:
         """Reorder subscription page configs."""
         return await self._executor.execute(
@@ -130,7 +130,7 @@ class AsyncSubscriptionPageConfigsApi(AsyncGroup):
         )
 
     async def clone_subscription_page_config(
-        self, body: CloneSubscriptionPageConfigRequest
+        self, body: CloneNodePluginRequest
     ) -> SubscriptionPageConfig:
         """Clone subscription page config."""
         return await self._executor.execute(

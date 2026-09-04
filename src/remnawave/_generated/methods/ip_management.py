@@ -5,6 +5,7 @@ from remnawave._generated.models import (
     DropConnectionsRequest,
     FetchIps,
     FetchIpsResult,
+    FetchUsersIpsResult,
     Node,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -27,6 +28,16 @@ DROP_CONNECTIONS: Operation[Node] = Operation(
     "/api/ip-control/drop-connections",
     Node,
 )
+FETCH_USERS_IPS: Operation[FetchIps] = Operation(
+    "POST",
+    "/api/ip-control/fetch-users-ips/{nodeUuid}",
+    FetchIps,
+)
+GET_FETCH_USERS_IPS_RESULT: Operation[FetchUsersIpsResult] = Operation(
+    "GET",
+    "/api/ip-control/fetch-users-ips/result/{jobId}",
+    FetchUsersIpsResult,
+)
 
 
 class IpManagementApi(SyncGroup):
@@ -44,6 +55,18 @@ class IpManagementApi(SyncGroup):
         """Drop Connections for Users or IPs."""
         return self._executor.execute(DROP_CONNECTIONS, body=body)
 
+    def fetch_users_ips(self, node_uuid: str) -> FetchIps:
+        """Request Users IPs List for Node."""
+        return self._executor.execute(
+            FETCH_USERS_IPS, path={"nodeUuid": node_uuid}
+        )
+
+    def get_fetch_users_ips_result(self, job_id: str) -> FetchUsersIpsResult:
+        """Get Users IPs List Result by Job ID."""
+        return self._executor.execute(
+            GET_FETCH_USERS_IPS_RESULT, path={"jobId": job_id}
+        )
+
 
 class AsyncIpManagementApi(AsyncGroup):
     async def fetch_user_ips(self, uuid: str) -> FetchIps:
@@ -59,3 +82,17 @@ class AsyncIpManagementApi(AsyncGroup):
     async def drop_connections(self, body: DropConnectionsRequest) -> Node:
         """Drop Connections for Users or IPs."""
         return await self._executor.execute(DROP_CONNECTIONS, body=body)
+
+    async def fetch_users_ips(self, node_uuid: str) -> FetchIps:
+        """Request Users IPs List for Node."""
+        return await self._executor.execute(
+            FETCH_USERS_IPS, path={"nodeUuid": node_uuid}
+        )
+
+    async def get_fetch_users_ips_result(
+        self, job_id: str
+    ) -> FetchUsersIpsResult:
+        """Get Users IPs List Result by Job ID."""
+        return await self._executor.execute(
+            GET_FETCH_USERS_IPS_RESULT, path={"jobId": job_id}
+        )

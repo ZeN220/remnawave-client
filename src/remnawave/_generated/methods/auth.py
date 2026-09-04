@@ -10,7 +10,6 @@ from remnawave._generated.models import (
     OAuth2AuthorizeRequest,
     OAuth2CallbackRequest,
     Status,
-    TelegramCallbackRequest,
     VerifyPasskeyRegistrationRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -32,11 +31,6 @@ GET_STATUS: Operation[Status] = Operation(
     "GET",
     "/api/auth/status",
     Status,
-)
-TELEGRAM_CALLBACK: Operation[Login] = Operation(
-    "POST",
-    "/api/auth/oauth2/tg/callback",
-    Login,
 )
 OAUTH2_AUTHORIZE: Operation[OAuth2Authorize] = Operation(
     "POST",
@@ -73,10 +67,6 @@ class AuthApi(SyncGroup):
         """Get the status of the authentication."""
         return self._executor.execute(GET_STATUS)
 
-    def telegram_callback(self, body: TelegramCallbackRequest) -> Login:
-        """Callback from Telegram OAuth2."""
-        return self._executor.execute(TELEGRAM_CALLBACK, body=body)
-
     def oauth2_authorize(self, body: OAuth2AuthorizeRequest) -> OAuth2Authorize:
         """Initiate OAuth2 authorization."""
         return self._executor.execute(OAUTH2_AUTHORIZE, body=body)
@@ -108,10 +98,6 @@ class AsyncAuthApi(AsyncGroup):
     async def get_status(self) -> Status:
         """Get the status of the authentication."""
         return await self._executor.execute(GET_STATUS)
-
-    async def telegram_callback(self, body: TelegramCallbackRequest) -> Login:
-        """Callback from Telegram OAuth2."""
-        return await self._executor.execute(TELEGRAM_CALLBACK, body=body)
 
     async def oauth2_authorize(
         self, body: OAuth2AuthorizeRequest

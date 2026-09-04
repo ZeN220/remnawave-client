@@ -6,6 +6,7 @@ from remnawave._generated.models import (
     ErrorsEvent,
     NodeEvent,
     ServiceEvent,
+    TorrentBlockerEvent,
     UserEvent,
     UserHwidDevicesEvent,
 )
@@ -15,6 +16,7 @@ WebhookEvent: TypeAlias = (
     | ErrorsEvent
     | NodeEvent
     | ServiceEvent
+    | TorrentBlockerEvent
     | UserEvent
     | UserHwidDevicesEvent
 )
@@ -24,6 +26,7 @@ BY_SCOPE: dict[str, type[WebhookEvent]] = {
     "errors": ErrorsEvent,
     "node": NodeEvent,
     "service": ServiceEvent,
+    "torrent_blocker": TorrentBlockerEvent,
     "user": UserEvent,
     "user_hwid_devices": UserHwidDevicesEvent,
 }

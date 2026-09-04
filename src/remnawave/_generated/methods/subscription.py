@@ -22,9 +22,6 @@ GET_SUBSCRIPTION = RawOperation("GET", "/api/sub/{shortUuid}")
 GET_SUBSCRIPTION_BY_CLIENT_TYPE = RawOperation(
     "GET", "/api/sub/{shortUuid}/{clientType}"
 )
-GET_SUBSCRIPTION_WITH_TYPE = RawOperation(
-    "GET", "/api/sub/outline/{shortUuid}/{type}/{encodedTag}"
-)
 
 
 class SubscriptionApi(SyncGroup):
@@ -51,18 +48,6 @@ class SubscriptionApi(SyncGroup):
             path={"clientType": client_type, "shortUuid": short_uuid},
         )
 
-    def get_subscription_with_type(
-        self, type: str, encoded_tag: str, short_uuid: str
-    ) -> bytes:
-        return self._executor.execute(
-            GET_SUBSCRIPTION_WITH_TYPE,
-            path={
-                "type": type,
-                "encodedTag": encoded_tag,
-                "shortUuid": short_uuid,
-            },
-        )
-
 
 class AsyncSubscriptionApi(AsyncGroup):
     async def get_subscription_info_by_short_uuid(
@@ -86,16 +71,4 @@ class AsyncSubscriptionApi(AsyncGroup):
         return await self._executor.execute(
             GET_SUBSCRIPTION_BY_CLIENT_TYPE,
             path={"clientType": client_type, "shortUuid": short_uuid},
-        )
-
-    async def get_subscription_with_type(
-        self, type: str, encoded_tag: str, short_uuid: str
-    ) -> bytes:
-        return await self._executor.execute(
-            GET_SUBSCRIPTION_WITH_TYPE,
-            path={
-                "type": type,
-                "encodedTag": encoded_tag,
-                "shortUuid": short_uuid,
-            },
         )

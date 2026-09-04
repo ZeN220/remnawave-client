@@ -4,19 +4,9 @@ from adaptix import Provider, name_mapping
 
 from remnawave._generated.models import (
     ExternalSquadCustomRemark,
-    TelegramCallbackRequest,
 )
 
 NAME_MAPPING: tuple[Provider, ...] = (
-    name_mapping(
-        TelegramCallbackRequest,
-        map={
-            "first_name": "first_name",
-            "last_name": "last_name",
-            "photo_url": "photo_url",
-            "auth_date": "auth_date",
-        },
-    ),
     name_mapping(
         ExternalSquadCustomRemark,
         map={

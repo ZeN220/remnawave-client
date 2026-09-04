@@ -22,6 +22,15 @@ from remnawave._generated.enums import (
     OAuth2CallbackRequestProvider as OAuth2CallbackRequestProvider,
 )
 from remnawave._generated.enums import (
+    RawSubscriptionByShortUuidResolvedProxyConfigProtocol as RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
+)
+from remnawave._generated.enums import (
+    RawSubscriptionByShortUuidResolvedProxyConfigSecurity as RawSubscriptionByShortUuidResolvedProxyConfigSecurity,
+)
+from remnawave._generated.enums import (
+    RawSubscriptionByShortUuidResolvedProxyConfigTransport as RawSubscriptionByShortUuidResolvedProxyConfigTransport,
+)
+from remnawave._generated.enums import (
     ServiceEventDataSubpageConfigAction as ServiceEventDataSubpageConfigAction,
 )
 from remnawave._generated.enums import (
@@ -88,6 +97,12 @@ from remnawave._generated.models import (
     BulkNodesActionsRequest as BulkNodesActionsRequest,
 )
 from remnawave._generated.models import (
+    BulkNodesUpdateRequest as BulkNodesUpdateRequest,
+)
+from remnawave._generated.models import (
+    BulkNodesUpdateRequestField as BulkNodesUpdateRequestField,
+)
+from remnawave._generated.models import (
     BulkUpdateUsersRequest as BulkUpdateUsersRequest,
 )
 from remnawave._generated.models import (
@@ -97,16 +112,13 @@ from remnawave._generated.models import (
     BulkUpdateUsersSquadsRequest as BulkUpdateUsersSquadsRequest,
 )
 from remnawave._generated.models import (
-    CloneSubscriptionPageConfigRequest as CloneSubscriptionPageConfigRequest,
+    CloneNodePluginRequest as CloneNodePluginRequest,
 )
 from remnawave._generated.models import (
     ConfigProfile as ConfigProfile,
 )
 from remnawave._generated.models import (
     ConfigProfileInbound as ConfigProfileInbound,
-)
-from remnawave._generated.models import (
-    ConfigProfileNode as ConfigProfileNode,
 )
 from remnawave._generated.models import (
     ConfigProfiles as ConfigProfiles,
@@ -250,6 +262,18 @@ from remnawave._generated.models import (
     FetchIpsResultResultNode as FetchIpsResultResultNode,
 )
 from remnawave._generated.models import (
+    FetchIpsResultResultNodeIp as FetchIpsResultResultNodeIp,
+)
+from remnawave._generated.models import (
+    FetchUsersIpsResult as FetchUsersIpsResult,
+)
+from remnawave._generated.models import (
+    FetchUsersIpsResultResult as FetchUsersIpsResultResult,
+)
+from remnawave._generated.models import (
+    FetchUsersIpsResultResultUser as FetchUsersIpsResultResultUser,
+)
+from remnawave._generated.models import (
     FindAllApiTokens as FindAllApiTokens,
 )
 from remnawave._generated.models import (
@@ -314,6 +338,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     InfraBillingNodeStat as InfraBillingNodeStat,
+)
+from remnawave._generated.models import (
+    InfraBillingRecord as InfraBillingRecord,
 )
 from remnawave._generated.models import (
     InfraProvider as InfraProvider,
@@ -382,6 +409,15 @@ from remnawave._generated.models import (
     NodeEvent as NodeEvent,
 )
 from remnawave._generated.models import (
+    NodeMetadata as NodeMetadata,
+)
+from remnawave._generated.models import (
+    NodePlugin as NodePlugin,
+)
+from remnawave._generated.models import (
+    NodePlugins as NodePlugins,
+)
+from remnawave._generated.models import (
     NodeProvider as NodeProvider,
 )
 from remnawave._generated.models import (
@@ -400,6 +436,21 @@ from remnawave._generated.models import (
     NodesStatisticsLastSevenDay as NodesStatisticsLastSevenDay,
 )
 from remnawave._generated.models import (
+    NodeSystem as NodeSystem,
+)
+from remnawave._generated.models import (
+    NodeSystemInfo as NodeSystemInfo,
+)
+from remnawave._generated.models import (
+    NodeSystemStat as NodeSystemStat,
+)
+from remnawave._generated.models import (
+    NodeSystemStatInterface as NodeSystemStatInterface,
+)
+from remnawave._generated.models import (
+    NodeVersion as NodeVersion,
+)
+from remnawave._generated.models import (
     OAuth2Authorize as OAuth2Authorize,
 )
 from remnawave._generated.models import (
@@ -415,6 +466,9 @@ from remnawave._generated.models import (
     PasskeyPasskey as PasskeyPasskey,
 )
 from remnawave._generated.models import (
+    PluginExecutorRequest as PluginExecutorRequest,
+)
+from remnawave._generated.models import (
     ProfileModificationRequest as ProfileModificationRequest,
 )
 from remnawave._generated.models import (
@@ -427,31 +481,46 @@ from remnawave._generated.models import (
     RawSubscriptionByShortUuidConvertedUserInfo as RawSubscriptionByShortUuidConvertedUserInfo,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHost as RawSubscriptionByShortUuidRawHost,
+    RawSubscriptionByShortUuidResolvedProxyConfig as RawSubscriptionByShortUuidResolvedProxyConfig,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostAdditionalParam as RawSubscriptionByShortUuidRawHostAdditionalParam,
+    RawSubscriptionByShortUuidResolvedProxyConfigClientOverride as RawSubscriptionByShortUuidResolvedProxyConfigClientOverride,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostDbData as RawSubscriptionByShortUuidRawHostDbData,
+    RawSubscriptionByShortUuidResolvedProxyConfigMetadata as RawSubscriptionByShortUuidResolvedProxyConfigMetadata,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostPassword as RawSubscriptionByShortUuidRawHostPassword,
+    RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride as RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostProtocolOption as RawSubscriptionByShortUuidRawHostProtocolOption,
+    Recap as Recap,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostProtocolOptionSs as RawSubscriptionByShortUuidRawHostProtocolOptionSs,
+    RecapThisMonth as RecapThisMonth,
 )
 from remnawave._generated.models import (
-    RawSubscriptionByShortUuidRawHostRawSetting as RawSubscriptionByShortUuidRawHostRawSetting,
+    RecapTotal as RecapTotal,
+)
+from remnawave._generated.models import (
+    RecordNode as RecordNode,
+)
+from remnawave._generated.models import (
+    RecordReport as RecordReport,
+)
+from remnawave._generated.models import (
+    RecordReportActionReport as RecordReportActionReport,
+)
+from remnawave._generated.models import (
+    RecordReportXrayReport as RecordReportXrayReport,
+)
+from remnawave._generated.models import (
+    RecordUser as RecordUser,
 )
 from remnawave._generated.models import (
     RemnawaveHealth as RemnawaveHealth,
 )
 from remnawave._generated.models import (
-    RemnawaveHealthPm2Stat as RemnawaveHealthPm2Stat,
+    RemnawaveHealthRuntimeMetric as RemnawaveHealthRuntimeMetric,
 )
 from remnawave._generated.models import (
     RemnawaveSettings as RemnawaveSettings,
@@ -472,13 +541,10 @@ from remnawave._generated.models import (
     RemnawaveSettingsOauth2SettingPocketid as RemnawaveSettingsOauth2SettingPocketid,
 )
 from remnawave._generated.models import (
+    RemnawaveSettingsOauth2SettingTelegram as RemnawaveSettingsOauth2SettingTelegram,
+)
+from remnawave._generated.models import (
     RemnawaveSettingsPasskeySetting as RemnawaveSettingsPasskeySetting,
-)
-from remnawave._generated.models import (
-    RemnawaveSettingsTgAuthSetting as RemnawaveSettingsTgAuthSetting,
-)
-from remnawave._generated.models import (
-    ReorderConfigProfilesRequest as ReorderConfigProfilesRequest,
 )
 from remnawave._generated.models import (
     ReorderHostRequest as ReorderHostRequest,
@@ -487,7 +553,13 @@ from remnawave._generated.models import (
     ReorderHostRequestHost as ReorderHostRequestHost,
 )
 from remnawave._generated.models import (
+    ReorderNodePluginsRequest as ReorderNodePluginsRequest,
+)
+from remnawave._generated.models import (
     ReorderNodeRequest as ReorderNodeRequest,
+)
+from remnawave._generated.models import (
+    ResolveUserRequestBody as ResolveUserRequestBody,
 )
 from remnawave._generated.models import (
     RestartAllNodesRequestBody as RestartAllNodesRequestBody,
@@ -547,9 +619,6 @@ from remnawave._generated.models import (
     StatsNode as StatsNode,
 )
 from remnawave._generated.models import (
-    StatsNodesRealtimeUsage as StatsNodesRealtimeUsage,
-)
-from remnawave._generated.models import (
     StatsNodeUsersUsage as StatsNodeUsersUsage,
 )
 from remnawave._generated.models import (
@@ -581,9 +650,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     StatusAuthenticationPasskey as StatusAuthenticationPasskey,
-)
-from remnawave._generated.models import (
-    StatusAuthenticationTgAuth as StatusAuthenticationTgAuth,
 )
 from remnawave._generated.models import (
     StatusBranding as StatusBranding,
@@ -628,19 +694,40 @@ from remnawave._generated.models import (
     Tags as Tags,
 )
 from remnawave._generated.models import (
-    TelegramCallbackRequest as TelegramCallbackRequest,
-)
-from remnawave._generated.models import (
     Template as Template,
 )
 from remnawave._generated.models import (
     Templates as Templates,
 )
 from remnawave._generated.models import (
+    TopUserByDevices as TopUserByDevices,
+)
+from remnawave._generated.models import (
     TopUsersPage as TopUsersPage,
 )
 from remnawave._generated.models import (
+    TorrentBlockerEvent as TorrentBlockerEvent,
+)
+from remnawave._generated.models import (
+    TorrentBlockerEventData as TorrentBlockerEventData,
+)
+from remnawave._generated.models import (
     TorrentBlockerReport as TorrentBlockerReport,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReportsPage as TorrentBlockerReportsPage,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReportsStats as TorrentBlockerReportsStats,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReportsStatsStat as TorrentBlockerReportsStatsStat,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReportsStatsTopNode as TorrentBlockerReportsStatsTopNode,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReportsStatsTopUser as TorrentBlockerReportsStatsTopUser,
 )
 from remnawave._generated.models import (
     UpdateConfigProfileRequest as UpdateConfigProfileRequest,
@@ -665,6 +752,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UpdateInternalSquadRequest as UpdateInternalSquadRequest,
+)
+from remnawave._generated.models import (
+    UpdateNodePluginRequest as UpdateNodePluginRequest,
 )
 from remnawave._generated.models import (
     UpdateNodeRequest as UpdateNodeRequest,

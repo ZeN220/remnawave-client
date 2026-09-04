@@ -48,6 +48,14 @@ from remnawave._generated.methods.keygen import (
     AsyncKeygenApi,
     KeygenApi,
 )
+from remnawave._generated.methods.metadata import (
+    AsyncMetadataApi,
+    MetadataApi,
+)
+from remnawave._generated.methods.node_plugins import (
+    AsyncNodePluginsApi,
+    NodePluginsApi,
+)
 from remnawave._generated.methods.nodes import (
     AsyncNodesApi,
     NodesApi,
@@ -116,6 +124,8 @@ class SyncGroups:
     internal_squads: InternalSquadsApi
     ip_management: IpManagementApi
     keygen: KeygenApi
+    metadata: MetadataApi
+    node_plugins: NodePluginsApi
     nodes: NodesApi
     passkeys: PasskeysApi
     remnawave_settings: RemnawaveSettingsApi
@@ -143,6 +153,8 @@ class SyncGroups:
         self.internal_squads = InternalSquadsApi(executor)
         self.ip_management = IpManagementApi(executor)
         self.keygen = KeygenApi(executor)
+        self.metadata = MetadataApi(executor)
+        self.node_plugins = NodePluginsApi(executor)
         self.nodes = NodesApi(executor)
         self.passkeys = PasskeysApi(executor)
         self.remnawave_settings = RemnawaveSettingsApi(executor)
@@ -173,6 +185,8 @@ class AsyncGroups:
     internal_squads: AsyncInternalSquadsApi
     ip_management: AsyncIpManagementApi
     keygen: AsyncKeygenApi
+    metadata: AsyncMetadataApi
+    node_plugins: AsyncNodePluginsApi
     nodes: AsyncNodesApi
     passkeys: AsyncPasskeysApi
     remnawave_settings: AsyncRemnawaveSettingsApi
@@ -200,6 +214,8 @@ class AsyncGroups:
         self.internal_squads = AsyncInternalSquadsApi(executor)
         self.ip_management = AsyncIpManagementApi(executor)
         self.keygen = AsyncKeygenApi(executor)
+        self.metadata = AsyncMetadataApi(executor)
+        self.node_plugins = AsyncNodePluginsApi(executor)
         self.nodes = AsyncNodesApi(executor)
         self.passkeys = AsyncPasskeysApi(executor)
         self.remnawave_settings = AsyncRemnawaveSettingsApi(executor)

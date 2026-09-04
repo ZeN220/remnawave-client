@@ -4,9 +4,9 @@
 from collections.abc import AsyncIterator, Iterator
 
 from remnawave._generated.models import (
+    InfraBillingRecord,
     SubscriptionRequestHistoryStats,
     SubscriptionRequestsPage,
-    TorrentBlockerReport,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -44,7 +44,7 @@ class SubscriptionRequestHistoryApi(SyncGroup):
     def iter_subscription_request_history(
         self,
         page_size: int | None = None,
-    ) -> Iterator[TorrentBlockerReport]:
+    ) -> Iterator[InfraBillingRecord]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_SUBSCRIPTION_REQUEST_HISTORY, page_size)
 
@@ -68,7 +68,7 @@ class AsyncSubscriptionRequestHistoryApi(AsyncGroup):
     async def iter_subscription_request_history(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[TorrentBlockerReport]:
+    ) -> AsyncIterator[InfraBillingRecord]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_SUBSCRIPTION_REQUEST_HISTORY, page_size

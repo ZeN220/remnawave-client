@@ -6,7 +6,6 @@ from datetime import date, datetime
 from remnawave._generated.models import (
     LegacyStatsNodesUsersUsage,
     LegacyStatsUserUsage,
-    StatsNodesRealtimeUsage,
     StatsNodeUsersUsage,
     StatsUserUsage,
 )
@@ -19,11 +18,6 @@ GET_NODE_USER_USAGE: Operation[list[LegacyStatsNodesUsersUsage]] = Operation(
     "GET",
     "/api/bandwidth-stats/nodes/{uuid}/users/legacy",
     list[LegacyStatsNodesUsersUsage],
-)
-GET_NODES_REALTIME_USAGE: Operation[list[StatsNodesRealtimeUsage]] = Operation(
-    "GET",
-    "/api/bandwidth-stats/nodes/realtime",
-    list[StatsNodesRealtimeUsage],
 )
 GET_STATS_NODE_USERS_USAGE: Operation[StatsNodeUsersUsage] = Operation(
     "GET",
@@ -57,10 +51,6 @@ class BandwidthStatsApi(SyncGroup):
             path={"uuid": uuid},
             query={"start": start, "end": end},
         )
-
-    def get_nodes_realtime_usage(self) -> list[StatsNodesRealtimeUsage]:
-        """Get Nodes Realtime Usage."""
-        return self._executor.execute(GET_NODES_REALTIME_USAGE)
 
     def get_stats_node_users_usage(
         self, uuid: str, top_users_limit: int, start: date, end: date
@@ -124,10 +114,6 @@ class AsyncBandwidthStatsApi(AsyncGroup):
             path={"uuid": uuid},
             query={"start": start, "end": end},
         )
-
-    async def get_nodes_realtime_usage(self) -> list[StatsNodesRealtimeUsage]:
-        """Get Nodes Realtime Usage."""
-        return await self._executor.execute(GET_NODES_REALTIME_USAGE)
 
     async def get_stats_node_users_usage(
         self, uuid: str, top_users_limit: int, start: date, end: date

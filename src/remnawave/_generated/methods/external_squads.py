@@ -7,7 +7,7 @@ from remnawave._generated.models import (
     ExternalSquads,
     Host,
     Node,
-    ReorderConfigProfilesRequest,
+    ReorderNodePluginsRequest,
     UpdateExternalSquadRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -99,7 +99,7 @@ class ExternalSquadsApi(SyncGroup):
         )
 
     def reorder_external_squads(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> ExternalSquads:
         """Reorder external squads."""
         return self._executor.execute(REORDER_EXTERNAL_SQUADS, body=body)
@@ -147,7 +147,7 @@ class AsyncExternalSquadsApi(AsyncGroup):
         )
 
     async def reorder_external_squads(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> ExternalSquads:
         """Reorder external squads."""
         return await self._executor.execute(REORDER_EXTERNAL_SQUADS, body=body)

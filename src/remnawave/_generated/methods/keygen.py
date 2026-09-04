@@ -18,11 +18,11 @@ GENERATE_KEY: Operation[PubKey] = Operation(
 
 class KeygenApi(SyncGroup):
     def generate_key(self) -> PubKey:
-        """Get SSL_CERT for Remnawave Node."""
+        """Get SECRET_KEY for Remnawave Node."""
         return self._executor.execute(GENERATE_KEY)
 
 
 class AsyncKeygenApi(AsyncGroup):
     async def generate_key(self) -> PubKey:
-        """Get SSL_CERT for Remnawave Node."""
+        """Get SECRET_KEY for Remnawave Node."""
         return await self._executor.execute(GENERATE_KEY)

@@ -3,6 +3,7 @@ from enum import StrEnum
 
 
 class OAuth2CallbackRequestProvider(StrEnum):
+    TELEGRAM = "telegram"
     GITHUB = "github"
     POCKETID = "pocketid"
     YANDEX = "yandex"
@@ -22,6 +23,7 @@ class UserTrafficLimitStrategy(StrEnum):
     DAY = "DAY"
     WEEK = "WEEK"
     MONTH = "MONTH"
+    MONTH_ROLLING = "MONTH_ROLLING"
 
 
 class UpdateUserRequestStatus(StrEnum):
@@ -36,6 +38,29 @@ class SubscriptionControllerGetSubscriptionByClientType(StrEnum):
     JSON = "json"
     V2RAY_JSON = "v2ray-json"
     CLASH = "clash"
+
+
+class RawSubscriptionByShortUuidResolvedProxyConfigProtocol(StrEnum):
+    VLESS = "vless"
+    TROJAN = "trojan"
+    SHADOWSOCKS = "shadowsocks"
+    HYSTERIA = "hysteria"
+
+
+class RawSubscriptionByShortUuidResolvedProxyConfigTransport(StrEnum):
+    TCP = "tcp"
+    XHTTP = "xhttp"
+    WS = "ws"
+    HTTPUPGRADE = "httpupgrade"
+    GRPC = "grpc"
+    KCP = "kcp"
+    HYSTERIA = "hysteria"
+
+
+class RawSubscriptionByShortUuidResolvedProxyConfigSecurity(StrEnum):
+    TLS = "tls"
+    REALITY = "reality"
+    NONE = "none"
 
 
 class TemplateTemplateType(StrEnum):

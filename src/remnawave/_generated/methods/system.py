@@ -10,6 +10,7 @@ from remnawave._generated.models import (
     Metadata,
     NodesMetrics,
     NodesStatistics,
+    Recap,
     RemnawaveHealth,
     SrrMatcher,
     Stats,
@@ -64,6 +65,11 @@ DEBUG_SRR_MATCHER: Operation[SrrMatcher] = Operation(
     "/api/system/testers/srr-matcher",
     SrrMatcher,
 )
+GET_RECAP: Operation[Recap] = Operation(
+    "GET",
+    "/api/system/stats/recap",
+    Recap,
+)
 
 
 class SystemApi(SyncGroup):
@@ -104,6 +110,10 @@ class SystemApi(SyncGroup):
     def debug_srr_matcher(self, body: DebugSrrMatcherRequest) -> SrrMatcher:
         """Test SRR Matcher."""
         return self._executor.execute(DEBUG_SRR_MATCHER, body=body)
+
+    def get_recap(self) -> Recap:
+        """Get Recap."""
+        return self._executor.execute(GET_RECAP)
 
 
 class AsyncSystemApi(AsyncGroup):
@@ -146,3 +156,7 @@ class AsyncSystemApi(AsyncGroup):
     ) -> SrrMatcher:
         """Test SRR Matcher."""
         return await self._executor.execute(DEBUG_SRR_MATCHER, body=body)
+
+    async def get_recap(self) -> Recap:
+        """Get Recap."""
+        return await self._executor.execute(GET_RECAP)

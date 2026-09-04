@@ -8,7 +8,7 @@ from remnawave._generated.models import (
     InternalSquadAccessibleNodes,
     InternalSquads,
     Node,
-    ReorderConfigProfilesRequest,
+    ReorderNodePluginsRequest,
     UpdateInternalSquadRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -115,7 +115,7 @@ class InternalSquadsApi(SyncGroup):
         )
 
     def reorder_internal_squads(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> InternalSquads:
         """Reorder internal squads."""
         return self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)
@@ -171,7 +171,7 @@ class AsyncInternalSquadsApi(AsyncGroup):
         )
 
     async def reorder_internal_squads(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> InternalSquads:
         """Reorder internal squads."""
         return await self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)

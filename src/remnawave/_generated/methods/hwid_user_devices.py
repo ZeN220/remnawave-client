@@ -10,9 +10,9 @@ from remnawave._generated.models import (
     Device,
     HwidDevices,
     HwidDevicesStats,
+    TopUserByDevices,
     TopUsersPage,
     UserHwidDevice,
-    UserRef,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -108,7 +108,7 @@ class HwidUserDevicesApi(SyncGroup):
     def iter_top_users_by_hwid_devices(
         self,
         page_size: int | None = None,
-    ) -> Iterator[UserRef]:
+    ) -> Iterator[TopUserByDevices]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TOP_USERS_BY_HWID_DEVICES, page_size)
 
@@ -171,7 +171,7 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
     async def iter_top_users_by_hwid_devices(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[UserRef]:
+    ) -> AsyncIterator[TopUserByDevices]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_TOP_USERS_BY_HWID_DEVICES, page_size

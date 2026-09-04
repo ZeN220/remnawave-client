@@ -6,11 +6,13 @@ from collections.abc import AsyncIterator, Iterator
 from remnawave._generated.models import (
     CreateUserRequest,
     Host,
+    ResolveUserRequestBody,
     RevokeUserSubscriptionBody,
     Tags,
     UpdateUserRequest,
     User,
     UserAccessibleNodes,
+    UserRef,
     UsersPage,
     UserSubscriptionRequestHistory,
 )
@@ -113,6 +115,11 @@ RESET_USER_TRAFFIC: Operation[User] = Operation(
     "/api/users/{uuid}/actions/reset-traffic",
     User,
 )
+RESOLVE_USER: Operation[UserRef] = Operation(
+    "POST",
+    "/api/users/resolve",
+    UserRef,
+)
 
 
 class UsersApi(SyncGroup):
@@ -214,6 +221,10 @@ class UsersApi(SyncGroup):
     def reset_user_traffic(self, uuid: str) -> User:
         """Reset user traffic."""
         return self._executor.execute(RESET_USER_TRAFFIC, path={"uuid": uuid})
+
+    def resolve_user(self, body: ResolveUserRequestBody) -> UserRef:
+        """Resolve a user."""
+        return self._executor.execute(RESOLVE_USER, body=body)
 
 
 class AsyncUsersApi(AsyncGroup):
@@ -322,3 +333,7 @@ class AsyncUsersApi(AsyncGroup):
         return await self._executor.execute(
             RESET_USER_TRAFFIC, path={"uuid": uuid}
         )
+
+    async def resolve_user(self, body: ResolveUserRequestBody) -> UserRef:
+        """Resolve a user."""
+        return await self._executor.execute(RESOLVE_USER, body=body)

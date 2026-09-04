@@ -7,7 +7,7 @@ from remnawave._generated.models import (
     CreateConfigProfileRequest,
     Host,
     Inbounds,
-    ReorderConfigProfilesRequest,
+    ReorderNodePluginsRequest,
     UpdateConfigProfileRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -108,7 +108,7 @@ class ConfigProfilesApi(SyncGroup):
         )
 
     def reorder_config_profiles(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> ConfigProfiles:
         """Reorder config profiles."""
         return self._executor.execute(REORDER_CONFIG_PROFILES, body=body)
@@ -162,7 +162,7 @@ class AsyncConfigProfilesApi(AsyncGroup):
         )
 
     async def reorder_config_profiles(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> ConfigProfiles:
         """Reorder config profiles."""
         return await self._executor.execute(REORDER_CONFIG_PROFILES, body=body)

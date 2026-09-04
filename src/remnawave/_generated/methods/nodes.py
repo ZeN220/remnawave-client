@@ -3,6 +3,7 @@
 
 from remnawave._generated.models import (
     BulkNodesActionsRequest,
+    BulkNodesUpdateRequest,
     CreateNodeRequest,
     Host,
     Node,
@@ -88,6 +89,11 @@ BULK_NODES_ACTIONS: Operation[Node] = Operation(
     "/api/nodes/bulk-actions",
     Node,
 )
+BULK_NODES_UPDATE: Operation[Node] = Operation(
+    "POST",
+    "/api/nodes/bulk-actions/update",
+    Node,
+)
 
 
 class NodesApi(SyncGroup):
@@ -146,6 +152,10 @@ class NodesApi(SyncGroup):
     def bulk_nodes_actions(self, body: BulkNodesActionsRequest) -> Node:
         """Perform actions for many nodes."""
         return self._executor.execute(BULK_NODES_ACTIONS, body=body)
+
+    def bulk_nodes_update(self, body: BulkNodesUpdateRequest) -> Node:
+        """Update many nodes."""
+        return self._executor.execute(BULK_NODES_UPDATE, body=body)
 
 
 class AsyncNodesApi(AsyncGroup):
@@ -208,3 +218,7 @@ class AsyncNodesApi(AsyncGroup):
     async def bulk_nodes_actions(self, body: BulkNodesActionsRequest) -> Node:
         """Perform actions for many nodes."""
         return await self._executor.execute(BULK_NODES_ACTIONS, body=body)
+
+    async def bulk_nodes_update(self, body: BulkNodesUpdateRequest) -> Node:
+        """Update many nodes."""
+        return await self._executor.execute(BULK_NODES_UPDATE, body=body)

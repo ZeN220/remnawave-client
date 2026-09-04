@@ -4,7 +4,7 @@
 from remnawave._generated.models import (
     CreateSubscriptionTemplateRequest,
     Host,
-    ReorderConfigProfilesRequest,
+    ReorderNodePluginsRequest,
     Template,
     Templates,
     UpdateTemplateRequest,
@@ -70,7 +70,7 @@ class SubscriptionTemplateApi(SyncGroup):
         return self._executor.execute(DELETE_TEMPLATE, path={"uuid": uuid})
 
     def reorder_subscription_templates(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> Templates:
         """Reorder subscription templates."""
         return self._executor.execute(REORDER_SUBSCRIPTION_TEMPLATES, body=body)
@@ -104,7 +104,7 @@ class AsyncSubscriptionTemplateApi(AsyncGroup):
         )
 
     async def reorder_subscription_templates(
-        self, body: ReorderConfigProfilesRequest
+        self, body: ReorderNodePluginsRequest
     ) -> Templates:
         """Reorder subscription templates."""
         return await self._executor.execute(

@@ -14,6 +14,9 @@ from remnawave._generated.enums import (
     HostSecurityLayer,
     NodeEventEvent,
     OAuth2CallbackRequestProvider,
+    RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
+    RawSubscriptionByShortUuidResolvedProxyConfigSecurity,
+    RawSubscriptionByShortUuidResolvedProxyConfigTransport,
     ServiceEventDataSubpageConfigAction,
     ServiceEventEvent,
     SrrMatcherMatchedRuleConditionOperator,
@@ -78,19 +81,22 @@ class RemnawaveSettingsOauth2SettingGeneric:
 
 
 @dataclass(frozen=True, slots=True)
+class RemnawaveSettingsOauth2SettingTelegram:
+    enabled: bool
+    client_id: str | None
+    client_secret: str | None
+    allowed_ids: list[str]
+    frontend_domain: str | None
+
+
+@dataclass(frozen=True, slots=True)
 class RemnawaveSettingsOauth2Setting:
     github: RemnawaveSettingsOauth2SettingGithub
     pocketid: RemnawaveSettingsOauth2SettingPocketid
     yandex: RemnawaveSettingsOauth2SettingGithub
     keycloak: RemnawaveSettingsOauth2SettingKeycloak | None = None
     generic: RemnawaveSettingsOauth2SettingGeneric | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class RemnawaveSettingsTgAuthSetting:
-    enabled: bool
-    bot_token: str | None
-    admin_ids: list[str]
+    telegram: RemnawaveSettingsOauth2SettingTelegram | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -108,7 +114,6 @@ class StatusBranding:
 class RemnawaveSettings:
     passkey_settings: RemnawaveSettingsPasskeySetting | None
     oauth2_settings: RemnawaveSettingsOauth2Setting | None
-    tg_auth_settings: RemnawaveSettingsTgAuthSetting | None
     password_settings: StatusAuthenticationPasskey | None
     branding_settings: StatusBranding | None
 
@@ -120,6 +125,7 @@ class UpdateRemnawaveSettingsRequestOauth2Setting:
     yandex: RemnawaveSettingsOauth2SettingGithub
     keycloak: Omittable[RemnawaveSettingsOauth2SettingKeycloak] = OMITTED
     generic: Omittable[RemnawaveSettingsOauth2SettingGeneric] = OMITTED
+    telegram: Omittable[RemnawaveSettingsOauth2SettingTelegram] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -128,7 +134,6 @@ class UpdateRemnawaveSettingsRequest:
     oauth2_settings: Omittable[UpdateRemnawaveSettingsRequestOauth2Setting] = (
         OMITTED
     )
-    tg_auth_settings: Omittable[RemnawaveSettingsTgAuthSetting] = OMITTED
     password_settings: Omittable[StatusAuthenticationPasskey] = OMITTED
     branding_settings: Omittable[StatusBranding] = OMITTED
 
@@ -179,12 +184,6 @@ class LoginRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class StatusAuthenticationTgAuth:
-    enabled: bool
-    bot_id: int | None
-
-
-@dataclass(frozen=True, slots=True)
 class StatusAuthenticationOauth2:
     providers: dict[str, Any]
 
@@ -192,7 +191,6 @@ class StatusAuthenticationOauth2:
 @dataclass(frozen=True, slots=True)
 class StatusAuthentication:
     passkey: StatusAuthenticationPasskey
-    tg_auth: StatusAuthenticationTgAuth
     oauth2: StatusAuthenticationOauth2
     password: StatusAuthenticationPasskey
 
@@ -203,17 +201,6 @@ class Status:
     is_register_allowed: bool
     authentication: StatusAuthentication | None
     branding: StatusBranding
-
-
-@dataclass(frozen=True, slots=True)
-class TelegramCallbackRequest:
-    id: int
-    first_name: str
-    auth_date: int
-    hash: str
-    last_name: Omittable[str] = OMITTED
-    username: Omittable[str] = OMITTED
-    photo_url: Omittable[str] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -271,12 +258,12 @@ class ReorderHostRequestHost:
 
 
 @dataclass(frozen=True, slots=True)
-class ReorderConfigProfilesRequest:
+class ReorderNodePluginsRequest:
     items: list[ReorderHostRequestHost]
 
 
 @dataclass(frozen=True, slots=True)
-class CloneSubscriptionPageConfigRequest:
+class CloneNodePluginRequest:
     clone_from_uuid: UUID
 
 
@@ -312,8 +299,6 @@ class User:
     vless_uuid: UUID = field(repr=False)
     ss_password: str = field(repr=False)
     sub_revoked_at: datetime | None
-    sub_last_user_agent: str | None
-    sub_last_opened_at: datetime | None
     last_traffic_reset_at: datetime | None
     created_at: datetime
     updated_at: datetime
@@ -418,6 +403,22 @@ class UserSubscriptionRequestHistory:
 class RevokeUserSubscriptionBody:
     revoke_only_passwords: Omittable[bool] = OMITTED
     short_uuid: Omittable[str] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class UserRef:
+    uuid: UUID
+    username: str
+    id: int
+    short_uuid: str
+
+
+@dataclass(frozen=True, slots=True)
+class ResolveUserRequestBody:
+    uuid: Omittable[UUID] = OMITTED
+    id: Omittable[int] = OMITTED
+    short_uuid: Omittable[str] = OMITTED
+    username: Omittable[str] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -532,87 +533,54 @@ class RawSubscriptionByShortUuidConvertedUserInfo:
 
 
 @dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostPassword:
-    ss_password: str
-    trojan_password: str
-    vless_password: str
+class RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride:
+    final_mask: Any
+    sockopt: Any
 
 
 @dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostRawSetting:
-    header_type: str | None = None
-    request: dict[str, Any] | None = None
+class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
+    shuffle_host: bool
+    mihomo_x25519: bool
+    server_description: str | None
+    xray_json_template: Any
 
 
 @dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostAdditionalParam:
-    mode: str | None = None
-    heartbeat_period: int | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostProtocolOptionSs:
-    method: str | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostProtocolOption:
-    ss: RawSubscriptionByShortUuidRawHostProtocolOptionSs | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHostDbData:
-    raw_inbound: dict[str, Any] | None
+class RawSubscriptionByShortUuidResolvedProxyConfigMetadata:
+    uuid: UUID
+    tag: str | None
+    exclude_from_subscription_types: list[TemplateTemplateType]
     inbound_tag: str
-    uuid: str
-    config_profile_uuid: str | None
-    config_profile_inbound_uuid: str | None
+    config_profile_uuid: UUID | None
+    config_profile_inbound_uuid: UUID | None
     is_disabled: bool
+    is_hidden: bool
     view_position: int
     remark: str
-    is_hidden: bool
-    tag: str | None
     vless_route_id: int | None
+    raw_inbound: Any
 
 
 @dataclass(frozen=True, slots=True)
-class RawSubscriptionByShortUuidRawHost:
-    password: RawSubscriptionByShortUuidRawHostPassword
-    address: str | None = None
-    alpn: str | None = None
-    fingerprint: str | None = None
-    host: str | None = None
-    network: str | None = None
-    path: str | None = None
-    public_key: str | None = None
-    port: int | None = None
-    protocol: str | None = None
-    remark: str | None = None
-    short_id: str | None = None
-    sni: str | None = None
-    spider_x: str | None = None
-    tls: str | None = None
-    raw_settings: RawSubscriptionByShortUuidRawHostRawSetting | None = (
-        None
+class RawSubscriptionByShortUuidResolvedProxyConfig:
+    final_remark: str
+    address: str
+    port: int
+    protocol: RawSubscriptionByShortUuidResolvedProxyConfigProtocol
+    protocol_options: Any
+    transport: RawSubscriptionByShortUuidResolvedProxyConfigTransport
+    transport_options: Any
+    security: RawSubscriptionByShortUuidResolvedProxyConfigSecurity
+    stream_overrides: (
+        RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride
     )
-    additional_params: (
-        RawSubscriptionByShortUuidRawHostAdditionalParam | None
-    ) = None
-    x_http_extra_params: dict[str, Any] | None = None
-    mux_params: dict[str, Any] | None = None
-    sockopt_params: dict[str, Any] | None = None
-    server_description: str | None = None
-    flow: str | None = None
-    allow_insecure: bool | None = None
-    shuffle_host: bool | None = None
-    mihomo_x25519: bool | None = None
-    mldsa65_verify: str | None = None
-    encryption: str | None = None
-    protocol_options: (
-        RawSubscriptionByShortUuidRawHostProtocolOption | None
-    ) = None
-    db_data: RawSubscriptionByShortUuidRawHostDbData | None = None
-    xray_json_template: dict[str, Any] | None = None
+    mux: Any
+    client_overrides: (
+        RawSubscriptionByShortUuidResolvedProxyConfigClientOverride
+    )
+    metadata: RawSubscriptionByShortUuidResolvedProxyConfigMetadata
+    security_options: Any | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -620,7 +588,7 @@ class RawSubscriptionByShortUuid:
     user: User
     converted_user_info: RawSubscriptionByShortUuidConvertedUserInfo
     headers: dict[str, Any]
-    raw_hosts: list[RawSubscriptionByShortUuidRawHost]
+    resolved_proxy_configs: list[RawSubscriptionByShortUuidResolvedProxyConfig]
 
 
 @dataclass(frozen=True, slots=True)
@@ -717,7 +685,7 @@ class ConfigProfileInbound:
 
 
 @dataclass(frozen=True, slots=True)
-class ConfigProfileNode:
+class RecordNode:
     uuid: UUID
     name: str
     country_code: str
@@ -730,7 +698,7 @@ class ConfigProfile:
     name: str
     config: Any
     inbounds: list[ConfigProfileInbound]
-    nodes: list[ConfigProfileNode]
+    nodes: list[RecordNode]
     created_at: datetime
     updated_at: datetime
 
@@ -969,6 +937,50 @@ class NodeProvider:
 
 
 @dataclass(frozen=True, slots=True)
+class NodeSystemInfo:
+    arch: str
+    cpus: int
+    cpu_model: str
+    memory_total: int
+    hostname: str
+    platform: str
+    release: str
+    type: str
+    version: str
+    network_interfaces: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class NodeSystemStatInterface:
+    interface: str
+    rx_bytes_per_sec: int
+    tx_bytes_per_sec: int
+    rx_total: int
+    tx_total: int
+
+
+@dataclass(frozen=True, slots=True)
+class NodeSystemStat:
+    memory_free: int
+    memory_used: int
+    uptime: float
+    load_avg: list[int]
+    interface: NodeSystemStatInterface | None
+
+
+@dataclass(frozen=True, slots=True)
+class NodeSystem:
+    info: NodeSystemInfo
+    stats: NodeSystemStat
+
+
+@dataclass(frozen=True, slots=True)
+class NodeVersion:
+    xray: str
+    node: str
+
+
+@dataclass(frozen=True, slots=True)
 class Node2:
     uuid: UUID
     name: str
@@ -979,27 +991,25 @@ class Node2:
     is_connecting: bool
     last_status_change: datetime | None
     last_status_message: str | None
-    xray_version: str | None
-    node_version: str | None
-    xray_uptime: str
     is_traffic_tracking_active: bool
     traffic_reset_day: int | None
     traffic_limit_bytes: int | None
     traffic_used_bytes: int | None
     notify_percent: int | None
-    users_online: int | None
     view_position: int
     country_code: str
     consumption_multiplier: float
     tags: list[str]
-    cpu_count: int | None
-    cpu_model: str | None
-    total_ram: str | None
     created_at: datetime
     updated_at: datetime
     config_profile: NodeConfigProfile
     provider_uuid: UUID | None
     provider: NodeProvider | None
+    active_plugin_uuid: UUID | None
+    system: NodeSystem | None
+    versions: NodeVersion | None
+    xray_uptime: int
+    users_online: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -1022,6 +1032,7 @@ class CreateNodeRequest:
     consumption_multiplier: Omittable[float] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
+    active_plugin_uuid: Omittable[UUID | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1039,6 +1050,7 @@ class UpdateNodeRequest:
     config_profile: Omittable[CreateNodeRequestConfigProfile] = OMITTED
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
+    active_plugin_uuid: Omittable[UUID | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1064,6 +1076,136 @@ class BulkNodesActionsRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class BulkNodesUpdateRequestField:
+    country_code: Omittable[str] = OMITTED
+    consumption_multiplier: Omittable[float] = OMITTED
+    provider_uuid: Omittable[UUID | None] = OMITTED
+    tags: Omittable[list[str]] = OMITTED
+    active_plugin_uuid: Omittable[UUID | None] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class BulkNodesUpdateRequest:
+    uuids: list[UUID]
+    fields: BulkNodesUpdateRequestField
+
+
+@dataclass(frozen=True, slots=True)
+class RecordUser:
+    uuid: UUID
+    username: str
+
+
+@dataclass(frozen=True, slots=True)
+class RecordReportActionReport:
+    blocked: bool
+    ip: str
+    block_duration: int
+    will_unblock_at: datetime
+    user_id: str
+    processed_at: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class RecordReportXrayReport:
+    email: str | None
+    level: int | None
+    protocol: str | None
+    network: str
+    source: str | None
+    destination: str
+    route_target: str | None
+    original_target: str | None
+    inbound_tag: str | None
+    inbound_name: str | None
+    inbound_local: str | None
+    outbound_tag: str | None
+    ts: int
+
+
+@dataclass(frozen=True, slots=True)
+class RecordReport:
+    action_report: RecordReportActionReport
+    xray_report: RecordReportXrayReport
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReport:
+    id: int
+    user_id: int
+    node_id: int
+    user: RecordUser
+    node: RecordNode
+    report: RecordReport
+    created_at: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReportsPage:
+    records: list[TorrentBlockerReport]
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReportsStatsStat:
+    distinct_nodes: int
+    distinct_users: int
+    total_reports: int
+    reports_last24_hours: int
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReportsStatsTopUser:
+    uuid: UUID
+    color: str
+    username: str
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReportsStatsTopNode:
+    uuid: UUID
+    country_code: str
+    color: str
+    name: str
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReportsStats:
+    stats: TorrentBlockerReportsStatsStat
+    top_users: list[TorrentBlockerReportsStatsTopUser]
+    top_nodes: list[TorrentBlockerReportsStatsTopNode]
+
+
+@dataclass(frozen=True, slots=True)
+class NodePlugin:
+    uuid: UUID
+    view_position: int
+    name: str
+    plugin_config: Any
+
+
+@dataclass(frozen=True, slots=True)
+class NodePlugins:
+    total: int
+    node_plugins: list[NodePlugin]
+
+
+@dataclass(frozen=True, slots=True)
+class UpdateNodePluginRequest:
+    uuid: UUID
+    name: Omittable[str] = OMITTED
+    plugin_config: Omittable[Any] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class PluginExecutorRequest:
+    command: Any
+    target_nodes: Any
+
+
+@dataclass(frozen=True, slots=True)
 class HostInbound:
     config_profile_uuid: UUID | None
     config_profile_inbound_uuid: UUID | None
@@ -1084,6 +1226,7 @@ class Host2:
     x_http_extra_params: Any
     mux_params: Any
     sockopt_params: Any
+    final_mask: Any
     inbound: HostInbound
     server_description: str | None
     tag: str | None
@@ -1124,6 +1267,7 @@ class CreateHostRequest:
     x_http_extra_params: Omittable[Any] = OMITTED
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
+    final_mask: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
     tag: Omittable[str | None] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
@@ -1158,6 +1302,7 @@ class UpdateHostRequest:
     x_http_extra_params: Omittable[Any] = OMITTED
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
+    final_mask: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
     tag: Omittable[str | None] = OMITTED
     is_hidden: Omittable[bool] = OMITTED
@@ -1205,19 +1350,6 @@ class LegacyStatsNodesUsersUsage:
     node_uuid: UUID
     total: int
     date: str
-
-
-@dataclass(frozen=True, slots=True)
-class StatsNodesRealtimeUsage:
-    node_uuid: UUID
-    node_name: str
-    country_code: str
-    download_bytes: int
-    upload_bytes: int
-    total_bytes: int
-    download_speed_bps: int
-    upload_speed_bps: int
-    total_speed_bps: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -1343,7 +1475,7 @@ class HwidDevicesStats:
 
 
 @dataclass(frozen=True, slots=True)
-class UserRef:
+class TopUserByDevices:
     user_uuid: UUID
     id: int
     username: str
@@ -1352,7 +1484,7 @@ class UserRef:
 
 @dataclass(frozen=True, slots=True)
 class TopUsersPage:
-    users: list[UserRef]
+    users: list[TopUserByDevices]
     total: int
 
 
@@ -1445,7 +1577,7 @@ class InfraBillingNodeBillingNode:
     node_uuid: UUID
     provider_uuid: UUID
     provider: InfraBillingNodeBillingNodeProvider
-    node: ConfigProfileNode
+    node: RecordNode
     next_billing_at: datetime
     created_at: datetime
     updated_at: datetime
@@ -1462,7 +1594,7 @@ class InfraBillingNodeStat:
 class InfraBillingNode:
     total_billing_nodes: int
     billing_nodes: list[InfraBillingNodeBillingNode]
-    available_billing_nodes: list[ConfigProfileNode]
+    available_billing_nodes: list[RecordNode]
     total_available_billing_nodes: int
     stats: InfraBillingNodeStat
 
@@ -1481,7 +1613,7 @@ class CreateInfraBillingNodeRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class TorrentBlockerReport:
+class InfraBillingRecord:
     id: int
     user_uuid: UUID
     request_ip: str | None
@@ -1491,7 +1623,7 @@ class TorrentBlockerReport:
 
 @dataclass(frozen=True, slots=True)
 class SubscriptionRequestsPage:
-    records: list[TorrentBlockerReport]
+    records: list[InfraBillingRecord]
     total: int
 
 
@@ -1542,7 +1674,6 @@ class Metadata:
 @dataclass(frozen=True, slots=True)
 class StatsCpu:
     cores: int
-    physical_cores: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -1550,8 +1681,6 @@ class StatsMemory:
     total: int
     free: int
     used: int
-    active: int
-    available: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -1614,15 +1743,25 @@ class NodesStatistics:
 
 
 @dataclass(frozen=True, slots=True)
-class RemnawaveHealthPm2Stat:
-    name: str
-    memory: str
-    cpu: str
+class RemnawaveHealthRuntimeMetric:
+    rss: int
+    heap_used: int
+    heap_total: int
+    external: int
+    array_buffers: int
+    event_loop_delay_ms: float
+    event_loop_p99_ms: float
+    active_handles: int
+    uptime: float
+    pid: int
+    timestamp: int
+    instance_id: str
+    instance_type: str
 
 
 @dataclass(frozen=True, slots=True)
 class RemnawaveHealth:
-    pm2_stats: list[RemnawaveHealthPm2Stat]
+    runtime_metrics: list[RemnawaveHealthRuntimeMetric]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1690,6 +1829,7 @@ class SrrMatcherMatchedRuleResponseModification:
     subscription_template: str | None = None
     ignore_host_xray_json_template: bool | None = None
     ignore_serve_json_at_base_subscription: bool | None = None
+    additional_extended_clients_regex: list[str] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1728,6 +1868,7 @@ class DebugSrrMatcherRequestResponseRuleRuleResponseModification:
     subscription_template: Omittable[str] = OMITTED
     ignore_host_xray_json_template: Omittable[bool] = OMITTED
     ignore_serve_json_at_base_subscription: Omittable[bool] = OMITTED
+    additional_extended_clients_regex: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1753,6 +1894,30 @@ class DebugSrrMatcherRequestResponseRule:
 @dataclass(frozen=True, slots=True)
 class DebugSrrMatcherRequest:
     response_rules: DebugSrrMatcherRequestResponseRule
+
+
+@dataclass(frozen=True, slots=True)
+class RecapThisMonth:
+    users: int
+    traffic: str
+
+
+@dataclass(frozen=True, slots=True)
+class RecapTotal:
+    users: int
+    nodes: int
+    traffic: str
+    nodes_ram: str
+    nodes_cpu_cores: int
+    distinct_countries: int
+
+
+@dataclass(frozen=True, slots=True)
+class Recap:
+    this_month: RecapThisMonth
+    total: RecapTotal
+    version: str
+    init_date: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -1818,11 +1983,17 @@ class FetchIpsResultProgress:
 
 
 @dataclass(frozen=True, slots=True)
+class FetchIpsResultResultNodeIp:
+    ip: str
+    last_seen: datetime
+
+
+@dataclass(frozen=True, slots=True)
 class FetchIpsResultResultNode:
     node_uuid: UUID
     node_name: str
     country_code: str
-    ips: list[str]
+    ips: list[FetchIpsResultResultNodeIp]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1845,6 +2016,31 @@ class FetchIpsResult:
 class DropConnectionsRequest:
     drop_by: Any
     target_nodes: Any
+
+
+@dataclass(frozen=True, slots=True)
+class FetchUsersIpsResultResultUser:
+    user_id: str
+    ips: list[FetchIpsResultResultNodeIp]
+
+
+@dataclass(frozen=True, slots=True)
+class FetchUsersIpsResultResult:
+    success: bool
+    node_uuid: UUID
+    users: list[FetchUsersIpsResultResultUser]
+
+
+@dataclass(frozen=True, slots=True)
+class FetchUsersIpsResult:
+    is_completed: bool
+    is_failed: bool
+    result: FetchUsersIpsResultResult | None
+
+
+@dataclass(frozen=True, slots=True)
+class NodeMetadata:
+    metadata: dict[str, Any]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1912,6 +2108,21 @@ class ServiceEvent:
     event: ServiceEventEvent
     timestamp: datetime
     data: ServiceEventData
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerEventData:
+    node: Node2
+    user: User
+    report: RecordReport
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerEvent:
+    scope: Literal["torrent_blocker"]
+    event: Literal["torrent_blocker.report"]
+    timestamp: datetime
+    data: TorrentBlockerEventData
 
 
 @dataclass(frozen=True, slots=True)
