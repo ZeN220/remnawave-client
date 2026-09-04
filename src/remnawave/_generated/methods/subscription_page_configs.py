@@ -5,6 +5,8 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CloneNodePluginBody,
+    HostsTags,
+    NodePluginsTags,
     ReorderNodePluginsBody,
     SubpageConfig,
     SubpageConfigs,
@@ -17,6 +19,16 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_TAGS: Operation[HostsTags] = Operation(
+    "GET",
+    "/api/subscription-page-configs/tags",
+    HostsTags,
+)
+SET_TAGS: Operation[NodePluginsTags] = Operation(
+    "PATCH",
+    "/api/subscription-page-configs/tags",
+    NodePluginsTags,
+)
 GET_ALL_CONFIGS: Operation[SubpageConfigs] = Operation(
     "GET",
     "/api/subscription-page-configs",
@@ -53,6 +65,14 @@ CLONE_SUBSCRIPTION_PAGE_CONFIG: Operation[SubpageConfig] = Operation(
 
 
 class SubscriptionPageConfigsApi(SyncGroup):
+    def get_tags(self) -> HostsTags:
+        """Get tags of Subpage Configs."""
+        return self._executor.execute(GET_TAGS)
+
+    def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Subpage Config."""
+        return self._executor.execute(SET_TAGS, body=body)
+
     def get_all_configs(self) -> SubpageConfigs:
         """Get all subscription page configs."""
         return self._executor.execute(GET_ALL_CONFIGS)
@@ -89,6 +109,14 @@ class SubscriptionPageConfigsApi(SyncGroup):
 
 
 class AsyncSubscriptionPageConfigsApi(AsyncGroup):
+    async def get_tags(self) -> HostsTags:
+        """Get tags of Subpage Configs."""
+        return await self._executor.execute(GET_TAGS)
+
+    async def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Subpage Config."""
+        return await self._executor.execute(SET_TAGS, body=body)
+
     async def get_all_configs(self) -> SubpageConfigs:
         """Get all subscription page configs."""
         return await self._executor.execute(GET_ALL_CONFIGS)

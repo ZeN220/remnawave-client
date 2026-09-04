@@ -6,7 +6,9 @@ from uuid import UUID
 from remnawave._generated.models import (
     ConfigProfile,
     ConfigProfiles,
+    HostsTags,
     Inbounds,
+    NodePluginsTags,
     ReorderNodePluginsBody,
     SharedList,
     UpdateConfigProfileBody,
@@ -17,6 +19,16 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_TAGS: Operation[HostsTags] = Operation(
+    "GET",
+    "/api/config-profiles/tags",
+    HostsTags,
+)
+SET_TAGS: Operation[NodePluginsTags] = Operation(
+    "PATCH",
+    "/api/config-profiles/tags",
+    NodePluginsTags,
+)
 GET_CONFIG_PROFILES: Operation[ConfigProfiles] = Operation(
     "GET",
     "/api/config-profiles",
@@ -63,6 +75,14 @@ REORDER_CONFIG_PROFILES: Operation[ConfigProfiles] = Operation(
 
 
 class ConfigProfilesApi(SyncGroup):
+    def get_tags(self) -> HostsTags:
+        """Get tags of Config Profiles."""
+        return self._executor.execute(GET_TAGS)
+
+    def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Config Profile."""
+        return self._executor.execute(SET_TAGS, body=body)
+
     def get_config_profiles(self) -> ConfigProfiles:
         """Get config profiles."""
         return self._executor.execute(GET_CONFIG_PROFILES)
@@ -113,6 +133,14 @@ class ConfigProfilesApi(SyncGroup):
 
 
 class AsyncConfigProfilesApi(AsyncGroup):
+    async def get_tags(self) -> HostsTags:
+        """Get tags of Config Profiles."""
+        return await self._executor.execute(GET_TAGS)
+
+    async def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Config Profile."""
+        return await self._executor.execute(SET_TAGS, body=body)
+
     async def get_config_profiles(self) -> ConfigProfiles:
         """Get config profiles."""
         return await self._executor.execute(GET_CONFIG_PROFILES)

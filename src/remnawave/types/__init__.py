@@ -13,6 +13,9 @@ from remnawave._generated.enums import (
     HostAlpn as HostAlpn,
 )
 from remnawave._generated.enums import (
+    HostInternalSquadMode as HostInternalSquadMode,
+)
+from remnawave._generated.enums import (
     HostMihomoIpVersion as HostMihomoIpVersion,
 )
 from remnawave._generated.enums import (
@@ -322,6 +325,9 @@ from remnawave._generated.models import (
     HostInbound as HostInbound,
 )
 from remnawave._generated.models import (
+    HostInternalSquad as HostInternalSquad,
+)
+from remnawave._generated.models import (
     HostMapper as HostMapper,
 )
 from remnawave._generated.models import (
@@ -464,6 +470,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     NodePlugins as NodePlugins,
+)
+from remnawave._generated.models import (
+    NodePluginsTags as NodePluginsTags,
 )
 from remnawave._generated.models import (
     NodeProvider as NodeProvider,

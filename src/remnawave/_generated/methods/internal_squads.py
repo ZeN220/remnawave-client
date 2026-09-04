@@ -7,10 +7,12 @@ from uuid import UUID
 from remnawave._generated.models import (
     BulkDeleteUsersBody,
     CreateInternalSquadBody,
+    HostsTags,
     InternalSquad,
     InternalSquadAccessibleNodes,
     InternalSquads,
     InternalSquadUsage,
+    NodePluginsTags,
     ReorderNodePluginsBody,
     UpdateInternalSquadBody,
 )
@@ -20,6 +22,16 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_TAGS: Operation[HostsTags] = Operation(
+    "GET",
+    "/api/internal-squads/tags",
+    HostsTags,
+)
+SET_TAGS: Operation[NodePluginsTags] = Operation(
+    "PATCH",
+    "/api/internal-squads/tags",
+    NodePluginsTags,
+)
 GET_INTERNAL_SQUADS: Operation[InternalSquads] = Operation(
     "GET",
     "/api/internal-squads",
@@ -75,6 +87,14 @@ REMOVE_MANY_USERS_FROM_INTERNAL_SQUAD = NoContentOperation(
 
 
 class InternalSquadsApi(SyncGroup):
+    def get_tags(self) -> HostsTags:
+        """Get tags of Internal Squads."""
+        return self._executor.execute(GET_TAGS)
+
+    def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Internal Squad."""
+        return self._executor.execute(SET_TAGS, body=body)
+
     def get_internal_squads(self) -> InternalSquads:
         """Get all internal squads."""
         return self._executor.execute(GET_INTERNAL_SQUADS)
@@ -172,6 +192,14 @@ class InternalSquadsApi(SyncGroup):
 
 
 class AsyncInternalSquadsApi(AsyncGroup):
+    async def get_tags(self) -> HostsTags:
+        """Get tags of Internal Squads."""
+        return await self._executor.execute(GET_TAGS)
+
+    async def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of Internal Squad."""
+        return await self._executor.execute(SET_TAGS, body=body)
+
     async def get_internal_squads(self) -> InternalSquads:
         """Get all internal squads."""
         return await self._executor.execute(GET_INTERNAL_SQUADS)

@@ -6,6 +6,8 @@ from uuid import UUID
 from remnawave._generated.models import (
     ExternalSquad,
     ExternalSquads,
+    HostsTags,
+    NodePluginsTags,
     ReorderNodePluginsBody,
     SyncSnippetBody,
     UpdateExternalSquadBody,
@@ -16,6 +18,16 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_TAGS: Operation[HostsTags] = Operation(
+    "GET",
+    "/api/external-squads/tags",
+    HostsTags,
+)
+SET_TAGS: Operation[NodePluginsTags] = Operation(
+    "PATCH",
+    "/api/external-squads/tags",
+    NodePluginsTags,
+)
 GET_EXTERNAL_SQUADS: Operation[ExternalSquads] = Operation(
     "GET",
     "/api/external-squads",
@@ -53,6 +65,14 @@ REORDER_EXTERNAL_SQUADS: Operation[ExternalSquads] = Operation(
 
 
 class ExternalSquadsApi(SyncGroup):
+    def get_tags(self) -> HostsTags:
+        """Get tags of External Squads."""
+        return self._executor.execute(GET_TAGS)
+
+    def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of External Squad."""
+        return self._executor.execute(SET_TAGS, body=body)
+
     def get_external_squads(self) -> ExternalSquads:
         """Get all external squads."""
         return self._executor.execute(GET_EXTERNAL_SQUADS)
@@ -99,6 +119,14 @@ class ExternalSquadsApi(SyncGroup):
 
 
 class AsyncExternalSquadsApi(AsyncGroup):
+    async def get_tags(self) -> HostsTags:
+        """Get tags of External Squads."""
+        return await self._executor.execute(GET_TAGS)
+
+    async def set_tags(self, body: NodePluginsTags) -> NodePluginsTags:
+        """Set tags of External Squad."""
+        return await self._executor.execute(SET_TAGS, body=body)
+
     async def get_external_squads(self) -> ExternalSquads:
         """Get all external squads."""
         return await self._executor.execute(GET_EXTERNAL_SQUADS)

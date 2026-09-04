@@ -97,6 +97,11 @@ class HostSecurityLayer(StrEnum):
     NONE = "NONE"
 
 
+class HostInternalSquadMode(StrEnum):
+    EXCLUDE = "EXCLUDE"
+    ALLOW_ONLY = "ALLOW_ONLY"
+
+
 class SrrMatcherResponseType(StrEnum):
     XRAY_JSON = "XRAY_JSON"
     XRAY_BASE64 = "XRAY_BASE64"

@@ -11,6 +11,7 @@ from remnawave._generated.enums import (
     BulkNodesActionsBodyAction,
     CrmEventEvent,
     HostAlpn,
+    HostInternalSquadMode,
     HostMihomoIpVersion,
     HostSecurityLayer,
     NodeEventEvent,
@@ -153,8 +154,8 @@ class VerifyPasskeyRegistrationBody:
 class PasskeyPasskey:
     id: str
     name: str
-    created_at: datetime
-    last_used_at: datetime
+    created_at: str
+    last_used_at: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -222,10 +223,22 @@ class OAuth2CallbackBody:
 
 
 @dataclass(frozen=True, slots=True)
+class HostsTags:
+    tags: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class NodePluginsTags:
+    uuid: UUID
+    tags: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class SubpageConfig:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     config: Any
 
 
@@ -317,8 +330,8 @@ class CreateUserBody:
     ss_password: Omittable[str] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     traffic_limit_strategy: Omittable[UserTrafficLimitStrategy] = OMITTED
-    created_at: Omittable[datetime] = OMITTED
-    last_traffic_reset_at: Omittable[datetime] = OMITTED
+    created_at: Omittable[str] = OMITTED
+    last_traffic_reset_at: Omittable[str] = OMITTED
     description: Omittable[str] = OMITTED
     tag: Omittable[str | None] = OMITTED
     telegram_id: Omittable[int | None] = OMITTED
@@ -368,11 +381,6 @@ class UsersStream:
     users: list[User]
     next_cursor: str | None
     has_more: bool
-
-
-@dataclass(frozen=True, slots=True)
-class HostsTags:
-    tags: list[str]
 
 
 @dataclass(frozen=True, slots=True)
@@ -634,6 +642,7 @@ class Template:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     template_type: TemplateTemplateType
     template_json: Any
     encoded_template_yaml: str | None
@@ -738,6 +747,7 @@ class ConfigProfile:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     config: Any
     inbounds: list[ConfigProfileInbound]
     nodes: list[RecordNode]
@@ -812,6 +822,7 @@ class InternalSquad:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     info: InternalSquadInfo
     inbounds: list[ConfigProfileInbound]
     created_at: datetime
@@ -930,6 +941,7 @@ class ExternalSquad:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     info: ExternalSquadInfo
     templates: list[ExternalSquadTemplate]
     subscription_settings: ExternalSquadSubscriptionSetting | None
@@ -1188,9 +1200,9 @@ class RecordReportActionReport:
     blocked: bool
     ip: str
     block_duration: int
-    will_unblock_at: datetime
+    will_unblock_at: str
     user_id: str
-    processed_at: datetime
+    processed_at: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -1283,6 +1295,7 @@ class NodePlugin:
     uuid: UUID
     view_position: int
     name: str
+    tags: list[str]
     plugin_config: Any
 
 
@@ -1347,6 +1360,12 @@ class HostInbound:
 
 
 @dataclass(frozen=True, slots=True)
+class HostInternalSquad:
+    mode: HostInternalSquadMode
+    squads: list[UUID]
+
+
+@dataclass(frozen=True, slots=True)
 class Host:
     uuid: UUID
     view_position: int
@@ -1373,9 +1392,9 @@ class Host:
     mihomo_ip_version: HostMihomoIpVersion | None
     nodes: list[UUID]
     xray_json_template_uuid: UUID | None
-    excluded_internal_squads: list[UUID]
     exclude_from_subscription_types: list[TemplateTemplateType]
     mapper: HostMapper
+    internal_squads: HostInternalSquad
     security_layer: HostSecurityLayer | None = None
     tags: list[str] | None = None
     is_hidden: bool | None = None
@@ -1427,11 +1446,11 @@ class CreateHostBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1465,11 +1484,11 @@ class UpdateHostBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1518,11 +1537,11 @@ class UpdateManyHostsBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    excluded_internal_squads: Omittable[list[UUID]] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1745,7 +1764,7 @@ class InfraBillingRecordsPage:
 class CreateInfraBillingRecordBody:
     provider_uuid: UUID
     amount: int
-    billed_at: datetime
+    billed_at: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -1788,7 +1807,7 @@ class InfraBillingNode:
 @dataclass(frozen=True, slots=True)
 class UpdateInfraBillingNodeBody:
     uuids: list[UUID]
-    next_billing_at: datetime
+    next_billing_at: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -1796,7 +1815,7 @@ class CreateInfraBillingNodeBody:
     provider_uuid: UUID
     node_uuid: UUID | None
     name: str | None
-    next_billing_at: datetime
+    next_billing_at: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -2144,7 +2163,7 @@ class Recap:
     this_month: RecapThisMonth
     total: RecapTotal
     version: str
-    init_date: datetime
+    init_date: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -2237,7 +2256,7 @@ class ConnectionsByUserResultProgress:
 @dataclass(frozen=True, slots=True)
 class ConnectionsByNodeResultResultUserIp:
     ip: str
-    last_seen: datetime
+    last_seen: str
 
 
 @dataclass(frozen=True, slots=True)
