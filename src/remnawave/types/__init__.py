@@ -7,10 +7,19 @@ from remnawave._generated.enums import (
     CreateHostRequestFingerprint as CreateHostRequestFingerprint,
 )
 from remnawave._generated.enums import (
+    CrmEventEvent as CrmEventEvent,
+)
+from remnawave._generated.enums import (
     HostSecurityLayer as HostSecurityLayer,
 )
 from remnawave._generated.enums import (
+    NodeEventEvent as NodeEventEvent,
+)
+from remnawave._generated.enums import (
     OAuth2CallbackRequestProvider as OAuth2CallbackRequestProvider,
+)
+from remnawave._generated.enums import (
+    ServiceEventEvent as ServiceEventEvent,
 )
 from remnawave._generated.enums import (
     SrrMatcherMatchedRuleConditionOperator as SrrMatcherMatchedRuleConditionOperator,
@@ -29,6 +38,12 @@ from remnawave._generated.enums import (
 )
 from remnawave._generated.enums import (
     UpdateUserRequestStatus as UpdateUserRequestStatus,
+)
+from remnawave._generated.enums import (
+    UserEventEvent as UserEventEvent,
+)
+from remnawave._generated.enums import (
+    UserHwidDevicesEventEvent as UserHwidDevicesEventEvent,
 )
 from remnawave._generated.enums import (
     UserStatus as UserStatus,
@@ -130,6 +145,12 @@ from remnawave._generated.models import (
     CreateUserRequest as CreateUserRequest,
 )
 from remnawave._generated.models import (
+    CrmEvent as CrmEvent,
+)
+from remnawave._generated.models import (
+    CrmEventData as CrmEventData,
+)
+from remnawave._generated.models import (
     DebugSrrMatcherRequest as DebugSrrMatcherRequest,
 )
 from remnawave._generated.models import (
@@ -164,6 +185,12 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     EncryptHappCryptoLinkRequest as EncryptHappCryptoLinkRequest,
+)
+from remnawave._generated.models import (
+    ErrorsEvent as ErrorsEvent,
+)
+from remnawave._generated.models import (
+    ErrorsEventData as ErrorsEventData,
 )
 from remnawave._generated.models import (
     ExternalSquad as ExternalSquad,
@@ -295,6 +322,21 @@ from remnawave._generated.models import (
     LoginRequest as LoginRequest,
 )
 from remnawave._generated.models import (
+    Metadata as Metadata,
+)
+from remnawave._generated.models import (
+    MetadataBuild as MetadataBuild,
+)
+from remnawave._generated.models import (
+    MetadataGit as MetadataGit,
+)
+from remnawave._generated.models import (
+    MetadataGitBackend as MetadataGitBackend,
+)
+from remnawave._generated.models import (
+    MetadataGitFrontend as MetadataGitFrontend,
+)
+from remnawave._generated.models import (
     Node as Node,
 )
 from remnawave._generated.models import (
@@ -302,6 +344,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     NodeConfigProfile as NodeConfigProfile,
+)
+from remnawave._generated.models import (
+    NodeEvent as NodeEvent,
 )
 from remnawave._generated.models import (
     NodeProvider as NodeProvider,
@@ -382,7 +427,13 @@ from remnawave._generated.models import (
     RemnawaveSettingsOauth2Setting as RemnawaveSettingsOauth2Setting,
 )
 from remnawave._generated.models import (
+    RemnawaveSettingsOauth2SettingGeneric as RemnawaveSettingsOauth2SettingGeneric,
+)
+from remnawave._generated.models import (
     RemnawaveSettingsOauth2SettingGithub as RemnawaveSettingsOauth2SettingGithub,
+)
+from remnawave._generated.models import (
+    RemnawaveSettingsOauth2SettingKeycloak as RemnawaveSettingsOauth2SettingKeycloak,
 )
 from remnawave._generated.models import (
     RemnawaveSettingsOauth2SettingPocketid as RemnawaveSettingsOauth2SettingPocketid,
@@ -410,6 +461,15 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     RevokeUserSubscriptionBody as RevokeUserSubscriptionBody,
+)
+from remnawave._generated.models import (
+    ServiceEvent as ServiceEvent,
+)
+from remnawave._generated.models import (
+    ServiceEventData as ServiceEventData,
+)
+from remnawave._generated.models import (
+    ServiceEventDataLoginAttempt as ServiceEventDataLoginAttempt,
 )
 from remnawave._generated.models import (
     SetInboundToManyHostsRequest as SetInboundToManyHostsRequest,
@@ -577,6 +637,9 @@ from remnawave._generated.models import (
     UpdateRemnawaveSettingsRequest as UpdateRemnawaveSettingsRequest,
 )
 from remnawave._generated.models import (
+    UpdateRemnawaveSettingsRequestOauth2Setting as UpdateRemnawaveSettingsRequestOauth2Setting,
+)
+from remnawave._generated.models import (
     UpdateSubscriptionPageConfigRequest as UpdateSubscriptionPageConfigRequest,
 )
 from remnawave._generated.models import (
@@ -604,7 +667,19 @@ from remnawave._generated.models import (
     UserActiveInternalSquad as UserActiveInternalSquad,
 )
 from remnawave._generated.models import (
+    UserEvent as UserEvent,
+)
+from remnawave._generated.models import (
+    UserEventMeta as UserEventMeta,
+)
+from remnawave._generated.models import (
     UserHwidDevice as UserHwidDevice,
+)
+from remnawave._generated.models import (
+    UserHwidDevicesEvent as UserHwidDevicesEvent,
+)
+from remnawave._generated.models import (
+    UserHwidDevicesEventData as UserHwidDevicesEventData,
 )
 from remnawave._generated.models import (
     UserRef as UserRef,

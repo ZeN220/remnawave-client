@@ -3,6 +3,7 @@
 from adaptix import Provider, name_mapping
 
 from remnawave._generated.models import (
+    ExternalSquadCustomRemark,
     TelegramCallbackRequest,
 )
 
@@ -14,6 +15,13 @@ NAME_MAPPING: tuple[Provider, ...] = (
             "last_name": "last_name",
             "photo_url": "photo_url",
             "auth_date": "auth_date",
+        },
+    ),
+    name_mapping(
+        ExternalSquadCustomRemark,
+        map={
+            "hwid_max_devices_exceeded": "HWIDMaxDevicesExceeded",
+            "hwid_not_supported": "HWIDNotSupported",
         },
     ),
 )

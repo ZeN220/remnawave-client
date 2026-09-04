@@ -9,13 +9,18 @@ from adaptix import Omittable, Omitted
 from remnawave._generated.enums import (
     CreateHostRequestAlpn,
     CreateHostRequestFingerprint,
+    CrmEventEvent,
     HostSecurityLayer,
+    NodeEventEvent,
     OAuth2CallbackRequestProvider,
+    ServiceEventEvent,
     SrrMatcherMatchedRuleConditionOperator,
     SrrMatcherMatchedRuleOperator,
     SrrMatcherResponseType,
     TemplateTemplateType,
     UpdateUserRequestStatus,
+    UserEventEvent,
+    UserHwidDevicesEventEvent,
     UserStatus,
     UserTrafficLimitStrategy,
 )
@@ -48,10 +53,35 @@ class RemnawaveSettingsOauth2SettingPocketid:
 
 
 @dataclass(frozen=True, slots=True)
+class RemnawaveSettingsOauth2SettingKeycloak:
+    enabled: bool
+    realm: str | None
+    client_id: str | None
+    client_secret: str | None
+    frontend_domain: str | None
+    keycloak_domain: str | None
+    allowed_emails: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class RemnawaveSettingsOauth2SettingGeneric:
+    enabled: bool
+    client_id: str | None
+    client_secret: str | None
+    with_pkce: bool
+    authorization_url: str | None
+    token_url: str | None
+    frontend_domain: str | None
+    allowed_emails: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class RemnawaveSettingsOauth2Setting:
     github: RemnawaveSettingsOauth2SettingGithub
     pocketid: RemnawaveSettingsOauth2SettingPocketid
     yandex: RemnawaveSettingsOauth2SettingGithub
+    keycloak: RemnawaveSettingsOauth2SettingKeycloak | None = None
+    generic: RemnawaveSettingsOauth2SettingGeneric | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,9 +112,20 @@ class RemnawaveSettings:
 
 
 @dataclass(frozen=True, slots=True)
+class UpdateRemnawaveSettingsRequestOauth2Setting:
+    github: RemnawaveSettingsOauth2SettingGithub
+    pocketid: RemnawaveSettingsOauth2SettingPocketid
+    yandex: RemnawaveSettingsOauth2SettingGithub
+    keycloak: Omittable[RemnawaveSettingsOauth2SettingKeycloak] = OMITTED
+    generic: Omittable[RemnawaveSettingsOauth2SettingGeneric] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
 class UpdateRemnawaveSettingsRequest:
     passkey_settings: Omittable[RemnawaveSettingsPasskeySetting] = OMITTED
-    oauth2_settings: Omittable[RemnawaveSettingsOauth2Setting] = OMITTED
+    oauth2_settings: Omittable[UpdateRemnawaveSettingsRequestOauth2Setting] = (
+        OMITTED
+    )
     tg_auth_settings: Omittable[RemnawaveSettingsTgAuthSetting] = OMITTED
     password_settings: Omittable[StatusAuthenticationPasskey] = OMITTED
     branding_settings: Omittable[StatusBranding] = OMITTED
@@ -373,6 +414,7 @@ class UserSubscriptionRequestHistory:
 
 @dataclass(frozen=True, slots=True)
 class RevokeUserSubscriptionBody:
+    revoke_only_passwords: Omittable[bool] = OMITTED
     short_uuid: Omittable[str] = OMITTED
 
 
@@ -835,7 +877,8 @@ class ExternalSquadCustomRemark:
     limited_users: list[str]
     disabled_users: list[str]
     empty_hosts: list[str]
-    empty_internal_squads: list[str]
+    hwid_max_devices_exceeded: list[str]
+    hwid_not_supported: list[str]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1443,6 +1486,38 @@ class SubscriptionRequestHistoryStats:
 
 
 @dataclass(frozen=True, slots=True)
+class MetadataBuild:
+    time: str
+    number: str
+
+
+@dataclass(frozen=True, slots=True)
+class MetadataGitBackend:
+    commit_sha: str
+    branch: str
+    commit_url: str
+
+
+@dataclass(frozen=True, slots=True)
+class MetadataGitFrontend:
+    commit_sha: str
+    commit_url: str
+
+
+@dataclass(frozen=True, slots=True)
+class MetadataGit:
+    backend: MetadataGitBackend
+    frontend: MetadataGitFrontend
+
+
+@dataclass(frozen=True, slots=True)
+class Metadata:
+    version: str
+    build: MetadataBuild
+    git: MetadataGit
+
+
+@dataclass(frozen=True, slots=True)
 class StatsCpu:
     cores: int
     physical_cores: int
@@ -1688,3 +1763,91 @@ class UpdateSubscriptionSettingsRequest:
     randomize_hosts: Omittable[bool] = OMITTED
     response_rules: Omittable[DebugSrrMatcherRequestResponseRule] = OMITTED
     hwid_settings: Omittable[ExternalSquadHwidSetting] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class CrmEventData:
+    provider_name: str
+    node_name: str
+    next_billing_at: datetime
+    login_url: str
+
+
+@dataclass(frozen=True, slots=True)
+class CrmEvent:
+    scope: Literal["crm"]
+    event: CrmEventEvent
+    timestamp: datetime
+    data: CrmEventData
+
+
+@dataclass(frozen=True, slots=True)
+class ErrorsEventData:
+    description: str
+
+
+@dataclass(frozen=True, slots=True)
+class ErrorsEvent:
+    scope: Literal["errors"]
+    event: Literal["errors.bandwidth_usage_threshold_reached_max_notifications"]
+    timestamp: datetime
+    data: ErrorsEventData
+
+
+@dataclass(frozen=True, slots=True)
+class NodeEvent:
+    scope: Literal["node"]
+    event: NodeEventEvent
+    timestamp: datetime
+    data: Node2
+
+
+@dataclass(frozen=True, slots=True)
+class ServiceEventDataLoginAttempt:
+    username: str
+    ip: str
+    user_agent: str
+    description: str | None = None
+    password: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ServiceEventData:
+    login_attempt: ServiceEventDataLoginAttempt | None = None
+    panel_version: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ServiceEvent:
+    scope: Literal["service"]
+    event: ServiceEventEvent
+    timestamp: datetime
+    data: ServiceEventData
+
+
+@dataclass(frozen=True, slots=True)
+class UserEventMeta:
+    not_connected_after_hours: int | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class UserEvent:
+    scope: Literal["user"]
+    event: UserEventEvent
+    timestamp: datetime
+    data: User
+    meta: UserEventMeta | None
+
+
+@dataclass(frozen=True, slots=True)
+class UserHwidDevicesEventData:
+    user: User
+    hwid_user_device: Device
+
+
+@dataclass(frozen=True, slots=True)
+class UserHwidDevicesEvent:
+    scope: Literal["user_hwid_devices"]
+    event: UserHwidDevicesEventEvent
+    timestamp: datetime
+    data: UserHwidDevicesEventData

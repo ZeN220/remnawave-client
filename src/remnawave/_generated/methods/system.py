@@ -7,6 +7,7 @@ from remnawave._generated.models import (
     DebugSrrMatcherRequest,
     EncryptHappCryptoLink,
     EncryptHappCryptoLinkRequest,
+    Metadata,
     NodesMetrics,
     NodesStatistics,
     RemnawaveHealth,
@@ -18,6 +19,11 @@ from remnawave.operations import (
     Operation,
 )
 
+GET_METADATA: Operation[Metadata] = Operation(
+    "GET",
+    "/api/system/metadata",
+    Metadata,
+)
 GET_STATS: Operation[Stats] = Operation(
     "GET",
     "/api/system/stats",
@@ -61,6 +67,10 @@ DEBUG_SRR_MATCHER: Operation[SrrMatcher] = Operation(
 
 
 class SystemApi(SyncGroup):
+    def get_metadata(self) -> Metadata:
+        """Get Remnawave Information."""
+        return self._executor.execute(GET_METADATA)
+
     def get_stats(self) -> Stats:
         """Get Stats."""
         return self._executor.execute(GET_STATS)
@@ -97,6 +107,10 @@ class SystemApi(SyncGroup):
 
 
 class AsyncSystemApi(AsyncGroup):
+    async def get_metadata(self) -> Metadata:
+        """Get Remnawave Information."""
+        return await self._executor.execute(GET_METADATA)
+
     async def get_stats(self) -> Stats:
         """Get Stats."""
         return await self._executor.execute(GET_STATS)

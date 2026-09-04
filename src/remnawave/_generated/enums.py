@@ -6,6 +6,8 @@ class OAuth2CallbackRequestProvider(StrEnum):
     GITHUB = "github"
     POCKETID = "pocketid"
     YANDEX = "yandex"
+    KEYCLOAK = "keycloak"
+    GENERIC = "generic"
 
 
 class UserStatus(StrEnum):
@@ -102,3 +104,70 @@ class SrrMatcherMatchedRuleConditionOperator(StrEnum):
     NOT_ENDS_WITH = "NOT_ENDS_WITH"
     REGEX = "REGEX"
     NOT_REGEX = "NOT_REGEX"
+
+
+class CrmEventEvent(StrEnum):
+    CRM_INFRA_BILLING_NODE_PAYMENT_IN_7_DAYS = (
+        "crm.infra_billing_node_payment_in_7_days"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_IN_48HRS = (
+        "crm.infra_billing_node_payment_in_48hrs"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_IN_24HRS = (
+        "crm.infra_billing_node_payment_in_24hrs"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_DUE_TODAY = (
+        "crm.infra_billing_node_payment_due_today"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_OVERDUE_24HRS = (
+        "crm.infra_billing_node_payment_overdue_24hrs"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_OVERDUE_48HRS = (
+        "crm.infra_billing_node_payment_overdue_48hrs"
+    )
+    CRM_INFRA_BILLING_NODE_PAYMENT_OVERDUE_7_DAYS = (
+        "crm.infra_billing_node_payment_overdue_7_days"
+    )
+
+
+class NodeEventEvent(StrEnum):
+    NODE_CREATED = "node.created"
+    NODE_MODIFIED = "node.modified"
+    NODE_DISABLED = "node.disabled"
+    NODE_ENABLED = "node.enabled"
+    NODE_DELETED = "node.deleted"
+    NODE_CONNECTION_LOST = "node.connection_lost"
+    NODE_CONNECTION_RESTORED = "node.connection_restored"
+    NODE_TRAFFIC_NOTIFY = "node.traffic_notify"
+
+
+class ServiceEventEvent(StrEnum):
+    SERVICE_PANEL_STARTED = "service.panel_started"
+    SERVICE_LOGIN_ATTEMPT_FAILED = "service.login_attempt_failed"
+    SERVICE_LOGIN_ATTEMPT_SUCCESS = "service.login_attempt_success"
+
+
+class UserEventEvent(StrEnum):
+    USER_CREATED = "user.created"
+    USER_MODIFIED = "user.modified"
+    USER_DELETED = "user.deleted"
+    USER_REVOKED = "user.revoked"
+    USER_DISABLED = "user.disabled"
+    USER_ENABLED = "user.enabled"
+    USER_LIMITED = "user.limited"
+    USER_EXPIRED = "user.expired"
+    USER_TRAFFIC_RESET = "user.traffic_reset"
+    USER_EXPIRES_IN_72_HOURS = "user.expires_in_72_hours"
+    USER_EXPIRES_IN_48_HOURS = "user.expires_in_48_hours"
+    USER_EXPIRES_IN_24_HOURS = "user.expires_in_24_hours"
+    USER_EXPIRED_24_HOURS_AGO = "user.expired_24_hours_ago"
+    USER_FIRST_CONNECTED = "user.first_connected"
+    USER_BANDWIDTH_USAGE_THRESHOLD_REACHED = (
+        "user.bandwidth_usage_threshold_reached"
+    )
+    USER_NOT_CONNECTED = "user.not_connected"
+
+
+class UserHwidDevicesEventEvent(StrEnum):
+    USER_HWID_DEVICES_ADDED = "user_hwid_devices.added"
+    USER_HWID_DEVICES_DELETED = "user_hwid_devices.deleted"
