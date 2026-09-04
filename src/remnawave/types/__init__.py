@@ -22,6 +22,9 @@ from remnawave._generated.enums import (
     NodeEventEvent as NodeEventEvent,
 )
 from remnawave._generated.enums import (
+    NodeIpStatus as NodeIpStatus,
+)
+from remnawave._generated.enums import (
     OAuth2CallbackBodyProvider as OAuth2CallbackBodyProvider,
 )
 from remnawave._generated.enums import (
@@ -148,6 +151,18 @@ from remnawave._generated.models import (
     ConfigProfiles as ConfigProfiles,
 )
 from remnawave._generated.models import (
+    Configuration as Configuration,
+)
+from remnawave._generated.models import (
+    ConfigurationMisc as ConfigurationMisc,
+)
+from remnawave._generated.models import (
+    ConfigurationNotification as ConfigurationNotification,
+)
+from remnawave._generated.models import (
+    ConfigurationService as ConfigurationService,
+)
+from remnawave._generated.models import (
     ConnectionKeysByUserId as ConnectionKeysByUserId,
 )
 from remnawave._generated.models import (
@@ -245,9 +260,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     DeletePasskeyBody as DeletePasskeyBody,
-)
-from remnawave._generated.models import (
-    DeleteSnippetBody as DeleteSnippetBody,
 )
 from remnawave._generated.models import (
     DeleteUserHwidDeviceBody as DeleteUserHwidDeviceBody,
@@ -425,6 +437,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     NodeEvent as NodeEvent,
+)
+from remnawave._generated.models import (
+    NodeIp as NodeIp,
 )
 from remnawave._generated.models import (
     NodeMetadata as NodeMetadata,
@@ -743,6 +758,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SubscriptionUser as SubscriptionUser,
+)
+from remnawave._generated.models import (
+    SyncSnippetBody as SyncSnippetBody,
 )
 from remnawave._generated.models import (
     Template as Template,

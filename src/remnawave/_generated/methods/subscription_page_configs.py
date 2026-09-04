@@ -5,10 +5,10 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CloneNodePluginBody,
-    DeleteSnippetBody,
     ReorderNodePluginsBody,
     SubpageConfig,
     SubpageConfigs,
+    SyncSnippetBody,
     UpdateSubpageConfigBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -61,7 +61,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
         """Update subscription page config."""
         return self._executor.execute(UPDATE_CONFIG, body=body)
 
-    def create_config(self, body: DeleteSnippetBody) -> SubpageConfig:
+    def create_config(self, body: SyncSnippetBody) -> SubpageConfig:
         """Create subscription page config."""
         return self._executor.execute(CREATE_CONFIG, body=body)
 
@@ -99,7 +99,7 @@ class AsyncSubscriptionPageConfigsApi(AsyncGroup):
         """Update subscription page config."""
         return await self._executor.execute(UPDATE_CONFIG, body=body)
 
-    async def create_config(self, body: DeleteSnippetBody) -> SubpageConfig:
+    async def create_config(self, body: SyncSnippetBody) -> SubpageConfig:
         """Create subscription page config."""
         return await self._executor.execute(CREATE_CONFIG, body=body)
 

@@ -85,6 +85,19 @@ class ApiTokenScopesResourceEndpointKind(StrEnum):
     WRITE = "write"
 
 
+class NodeIpStatus(StrEnum):
+    INBOUND = "INBOUND"
+    OUTBOUND = "OUTBOUND"
+    MANAGEMENT = "MANAGEMENT"
+    TRANSIT = "TRANSIT"
+    MONITORING = "MONITORING"
+    RESERVE = "RESERVE"
+    BLOCKED = "BLOCKED"
+    FLAGGED = "FLAGGED"
+    DEPRECATED = "DEPRECATED"
+    UNKNOWN = "UNKNOWN"
+
+
 class BulkNodesActionsBodyAction(StrEnum):
     ENABLE = "ENABLE"
     DISABLE = "DISABLE"

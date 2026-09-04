@@ -14,6 +14,7 @@ from remnawave._generated.enums import (
     HostMihomoIpVersion,
     HostSecurityLayer,
     NodeEventEvent,
+    NodeIpStatus,
     OAuth2CallbackBodyProvider,
     RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
     RawSubscriptionByShortUuidResolvedProxyConfigSecurity,
@@ -245,7 +246,7 @@ class UpdateSubpageConfigBody:
 
 
 @dataclass(frozen=True, slots=True)
-class DeleteSnippetBody:
+class SyncSnippetBody:
     name: str
 
 
@@ -983,6 +984,12 @@ class NodeSecretKey:
 
 
 @dataclass(frozen=True, slots=True)
+class NodeIp:
+    ip: str
+    status: NodeIpStatus
+
+
+@dataclass(frozen=True, slots=True)
 class NodeConfigProfile:
     active_config_profile_uuid: UUID | None
     active_inbounds: list[ConfigProfileInbound]
@@ -1065,6 +1072,7 @@ class Node:
     consumption_multiplier: float
     node_consumption_multiplier: float
     tags: list[str]
+    ips: list[NodeIp]
     created_at: datetime
     updated_at: datetime
     config_profile: NodeConfigProfile
@@ -1102,6 +1110,7 @@ class CreateNodeBody:
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
     note: Omittable[str] = OMITTED
+    ips: Omittable[list[NodeIp]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1123,6 +1132,7 @@ class UpdateNodeBody:
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
     note: Omittable[str | None] = OMITTED
+    ips: Omittable[list[NodeIp]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1784,6 +1794,36 @@ class Metadata:
     version: str
     build: MetadataBuild
     git: MetadataGit
+
+
+@dataclass(frozen=True, slots=True)
+class ConfigurationNotification:
+    webhook: bool
+    bandwidth_usage: list[int] | None
+    not_connected_after: list[int] | None
+    expiration_notifications: list[int] | None
+
+
+@dataclass(frozen=True, slots=True)
+class ConfigurationService:
+    clean_usage_history: bool
+    disable_user_usage_records: bool
+    disable_srh_records: bool
+    export_to_redis_stream: bool
+
+
+@dataclass(frozen=True, slots=True)
+class ConfigurationMisc:
+    short_uuid_length: int
+    sub_public_domain: str
+    user_usage_ignore_below_bytes: int
+
+
+@dataclass(frozen=True, slots=True)
+class Configuration:
+    notifications: ConfigurationNotification
+    service: ConfigurationService
+    misc: ConfigurationMisc
 
 
 @dataclass(frozen=True, slots=True)

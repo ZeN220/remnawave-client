@@ -6,6 +6,7 @@ from datetime import datetime
 from remnawave._generated.models import (
     X25519,
     BandwidthStats,
+    Configuration,
     DebugSrrMatcherBody,
     HttpStats,
     Metadata,
@@ -26,6 +27,11 @@ GET_METADATA: Operation[Metadata] = Operation(
     "GET",
     "/api/system/metadata",
     Metadata,
+)
+GET_CONFIGURATION: Operation[Configuration] = Operation(
+    "GET",
+    "/api/system/configuration",
+    Configuration,
 )
 GET_STATS: Operation[Stats] = Operation(
     "GET",
@@ -84,6 +90,10 @@ class SystemApi(SyncGroup):
         """Get Remnawave Information."""
         return self._executor.execute(GET_METADATA)
 
+    def get_configuration(self) -> Configuration:
+        """Get Remnawave Configuration."""
+        return self._executor.execute(GET_CONFIGURATION)
+
     def get_stats(self) -> Stats:
         """Get Stats."""
         return self._executor.execute(GET_STATS)
@@ -131,6 +141,10 @@ class AsyncSystemApi(AsyncGroup):
     async def get_metadata(self) -> Metadata:
         """Get Remnawave Information."""
         return await self._executor.execute(GET_METADATA)
+
+    async def get_configuration(self) -> Configuration:
+        """Get Remnawave Configuration."""
+        return await self._executor.execute(GET_CONFIGURATION)
 
     async def get_stats(self) -> Stats:
         """Get Stats."""

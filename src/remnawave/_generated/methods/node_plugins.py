@@ -7,13 +7,13 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CloneNodePluginBody,
-    DeleteSnippetBody,
     NodePlugin,
     NodePlugins,
     PluginExecutorBody,
     QueryFilter,
     QuerySort,
     ReorderNodePluginsBody,
+    SyncSnippetBody,
     TorrentBlockerReport,
     TorrentBlockerReportsPage,
     TorrentBlockerReportsStats,
@@ -123,7 +123,7 @@ class NodePluginsApi(SyncGroup):
         """Update Node Plugin."""
         return self._executor.execute(UPDATE_CONFIG, body=body)
 
-    def create_config(self, body: DeleteSnippetBody) -> NodePlugin:
+    def create_config(self, body: SyncSnippetBody) -> NodePlugin:
         """Create Node Plugin."""
         return self._executor.execute(CREATE_CONFIG, body=body)
 
@@ -200,7 +200,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Update Node Plugin."""
         return await self._executor.execute(UPDATE_CONFIG, body=body)
 
-    async def create_config(self, body: DeleteSnippetBody) -> NodePlugin:
+    async def create_config(self, body: SyncSnippetBody) -> NodePlugin:
         """Create Node Plugin."""
         return await self._executor.execute(CREATE_CONFIG, body=body)
 

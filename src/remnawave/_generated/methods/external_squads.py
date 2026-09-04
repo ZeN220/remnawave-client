@@ -4,10 +4,10 @@
 from uuid import UUID
 
 from remnawave._generated.models import (
-    DeleteSnippetBody,
     ExternalSquad,
     ExternalSquads,
     ReorderNodePluginsBody,
+    SyncSnippetBody,
     UpdateExternalSquadBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -57,7 +57,7 @@ class ExternalSquadsApi(SyncGroup):
         """Get all external squads."""
         return self._executor.execute(GET_EXTERNAL_SQUADS)
 
-    def create_external_squad(self, body: DeleteSnippetBody) -> ExternalSquad:
+    def create_external_squad(self, body: SyncSnippetBody) -> ExternalSquad:
         """Create external squad."""
         return self._executor.execute(CREATE_EXTERNAL_SQUAD, body=body)
 
@@ -104,7 +104,7 @@ class AsyncExternalSquadsApi(AsyncGroup):
         return await self._executor.execute(GET_EXTERNAL_SQUADS)
 
     async def create_external_squad(
-        self, body: DeleteSnippetBody
+        self, body: SyncSnippetBody
     ) -> ExternalSquad:
         """Create external squad."""
         return await self._executor.execute(CREATE_EXTERNAL_SQUAD, body=body)

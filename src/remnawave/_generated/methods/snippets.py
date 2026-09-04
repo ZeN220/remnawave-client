@@ -3,8 +3,8 @@
 
 from remnawave._generated.models import (
     CreateSnippetBody,
-    DeleteSnippetBody,
     Snippet,
+    SyncSnippetBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -28,6 +28,7 @@ UPDATE_SNIPPET: Operation[Snippet] = Operation(
     "/api/snippets",
     Snippet,
 )
+SYNC_SNIPPET = NoContentOperation("POST", "/api/snippets/actions/sync")
 
 
 class SnippetsApi(SyncGroup):
@@ -35,7 +36,7 @@ class SnippetsApi(SyncGroup):
         """Get snippets."""
         return self._executor.execute(GET_SNIPPETS)
 
-    def delete_snippet_by_name(self, body: DeleteSnippetBody) -> None:
+    def delete_snippet_by_name(self, body: SyncSnippetBody) -> None:
         """Delete snippet."""
         return self._executor.execute(DELETE_SNIPPET_BY_NAME, body=body)
 
@@ -47,13 +48,17 @@ class SnippetsApi(SyncGroup):
         """Update snippet."""
         return self._executor.execute(UPDATE_SNIPPET, body=body)
 
+    def sync_snippet(self, body: SyncSnippetBody) -> None:
+        """Sync snippet to affected config profiles."""
+        return self._executor.execute(SYNC_SNIPPET, body=body)
+
 
 class AsyncSnippetsApi(AsyncGroup):
     async def get_snippets(self) -> Snippet:
         """Get snippets."""
         return await self._executor.execute(GET_SNIPPETS)
 
-    async def delete_snippet_by_name(self, body: DeleteSnippetBody) -> None:
+    async def delete_snippet_by_name(self, body: SyncSnippetBody) -> None:
         """Delete snippet."""
         return await self._executor.execute(DELETE_SNIPPET_BY_NAME, body=body)
 
@@ -64,3 +69,7 @@ class AsyncSnippetsApi(AsyncGroup):
     async def update_snippet(self, body: CreateSnippetBody) -> Snippet:
         """Update snippet."""
         return await self._executor.execute(UPDATE_SNIPPET, body=body)
+
+    async def sync_snippet(self, body: SyncSnippetBody) -> None:
+        """Sync snippet to affected config profiles."""
+        return await self._executor.execute(SYNC_SNIPPET, body=body)
