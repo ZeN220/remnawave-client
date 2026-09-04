@@ -52,6 +52,10 @@ from remnawave._generated.methods.metadata import (
     AsyncMetadataApi,
     MetadataApi,
 )
+from remnawave._generated.methods.node_integrations import (
+    AsyncNodeIntegrationsApi,
+    NodeIntegrationsApi,
+)
 from remnawave._generated.methods.node_plugins import (
     AsyncNodePluginsApi,
     NodePluginsApi,
@@ -125,6 +129,7 @@ class SyncGroups:
     internal_squads: InternalSquadsApi
     keygen: KeygenApi
     metadata: MetadataApi
+    node_integrations: NodeIntegrationsApi
     node_plugins: NodePluginsApi
     nodes: NodesApi
     passkeys: PasskeysApi
@@ -154,6 +159,7 @@ class SyncGroups:
         self.internal_squads = InternalSquadsApi(executor)
         self.keygen = KeygenApi(executor)
         self.metadata = MetadataApi(executor)
+        self.node_integrations = NodeIntegrationsApi(executor)
         self.node_plugins = NodePluginsApi(executor)
         self.nodes = NodesApi(executor)
         self.passkeys = PasskeysApi(executor)
@@ -186,6 +192,7 @@ class AsyncGroups:
     internal_squads: AsyncInternalSquadsApi
     keygen: AsyncKeygenApi
     metadata: AsyncMetadataApi
+    node_integrations: AsyncNodeIntegrationsApi
     node_plugins: AsyncNodePluginsApi
     nodes: AsyncNodesApi
     passkeys: AsyncPasskeysApi
@@ -215,6 +222,7 @@ class AsyncGroups:
         self.internal_squads = AsyncInternalSquadsApi(executor)
         self.keygen = AsyncKeygenApi(executor)
         self.metadata = AsyncMetadataApi(executor)
+        self.node_integrations = AsyncNodeIntegrationsApi(executor)
         self.node_plugins = AsyncNodePluginsApi(executor)
         self.nodes = AsyncNodesApi(executor)
         self.passkeys = AsyncPasskeysApi(executor)

@@ -4,10 +4,12 @@
 from uuid import UUID
 
 from remnawave._generated.models import (
-    ConnectionsByNode,
     ConnectionsByNodeResult,
     ConnectionsByUserResult,
     DropConnectionsBody,
+    GeocheckByNode,
+    GeocheckByNodeBody,
+    GeocheckByNodeResult,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -15,10 +17,10 @@ from remnawave.operations import (
     Operation,
 )
 
-CONNECTIONS_BY_USER: Operation[ConnectionsByNode] = Operation(
+CONNECTIONS_BY_USER: Operation[GeocheckByNode] = Operation(
     "POST",
     "/api/connections/by-user/{userId}",
-    ConnectionsByNode,
+    GeocheckByNode,
 )
 CONNECTIONS_BY_USER_RESULT: Operation[ConnectionsByUserResult] = Operation(
     "GET",
@@ -26,20 +28,30 @@ CONNECTIONS_BY_USER_RESULT: Operation[ConnectionsByUserResult] = Operation(
     ConnectionsByUserResult,
 )
 DROP_CONNECTIONS = NoContentOperation("POST", "/api/connections/drop")
-CONNECTIONS_BY_NODE: Operation[ConnectionsByNode] = Operation(
+CONNECTIONS_BY_NODE: Operation[GeocheckByNode] = Operation(
     "POST",
     "/api/connections/by-node/{nodeUuid}",
-    ConnectionsByNode,
+    GeocheckByNode,
 )
 CONNECTIONS_BY_NODE_RESULT: Operation[ConnectionsByNodeResult] = Operation(
     "GET",
     "/api/connections/by-node/{jobId}",
     ConnectionsByNodeResult,
 )
+GEOCHECK_BY_NODE: Operation[GeocheckByNode] = Operation(
+    "POST",
+    "/api/connections/geocheck/{nodeUuid}",
+    GeocheckByNode,
+)
+GEOCHECK_BY_NODE_RESULT: Operation[GeocheckByNodeResult] = Operation(
+    "GET",
+    "/api/connections/geocheck/{jobId}",
+    GeocheckByNodeResult,
+)
 
 
 class ConnectionsApi(SyncGroup):
-    def connections_by_user(self, user_id: int) -> ConnectionsByNode:
+    def connections_by_user(self, user_id: int) -> GeocheckByNode:
         """Request Connections for User."""
         return self._executor.execute(
             CONNECTIONS_BY_USER, path={"userId": user_id}
@@ -57,7 +69,7 @@ class ConnectionsApi(SyncGroup):
         """Drop Connections for Users or IPs."""
         return self._executor.execute(DROP_CONNECTIONS, body=body)
 
-    def connections_by_node(self, node_uuid: UUID) -> ConnectionsByNode:
+    def connections_by_node(self, node_uuid: UUID) -> GeocheckByNode:
         """Request Connections for Node."""
         return self._executor.execute(
             CONNECTIONS_BY_NODE, path={"nodeUuid": node_uuid}
@@ -71,9 +83,23 @@ class ConnectionsApi(SyncGroup):
             CONNECTIONS_BY_NODE_RESULT, path={"jobId": job_id}
         )
 
+    def geocheck_by_node(
+        self, node_uuid: UUID, body: GeocheckByNodeBody
+    ) -> GeocheckByNode:
+        """Request Geocheck for Node."""
+        return self._executor.execute(
+            GEOCHECK_BY_NODE, path={"nodeUuid": node_uuid}, body=body
+        )
+
+    def geocheck_by_node_result(self, job_id: str) -> GeocheckByNodeResult:
+        """Get Geocheck for Node by Job ID."""
+        return self._executor.execute(
+            GEOCHECK_BY_NODE_RESULT, path={"jobId": job_id}
+        )
+
 
 class AsyncConnectionsApi(AsyncGroup):
-    async def connections_by_user(self, user_id: int) -> ConnectionsByNode:
+    async def connections_by_user(self, user_id: int) -> GeocheckByNode:
         """Request Connections for User."""
         return await self._executor.execute(
             CONNECTIONS_BY_USER, path={"userId": user_id}
@@ -91,7 +117,7 @@ class AsyncConnectionsApi(AsyncGroup):
         """Drop Connections for Users or IPs."""
         return await self._executor.execute(DROP_CONNECTIONS, body=body)
 
-    async def connections_by_node(self, node_uuid: UUID) -> ConnectionsByNode:
+    async def connections_by_node(self, node_uuid: UUID) -> GeocheckByNode:
         """Request Connections for Node."""
         return await self._executor.execute(
             CONNECTIONS_BY_NODE, path={"nodeUuid": node_uuid}
@@ -103,4 +129,20 @@ class AsyncConnectionsApi(AsyncGroup):
         """Get Connections for Node by Job ID."""
         return await self._executor.execute(
             CONNECTIONS_BY_NODE_RESULT, path={"jobId": job_id}
+        )
+
+    async def geocheck_by_node(
+        self, node_uuid: UUID, body: GeocheckByNodeBody
+    ) -> GeocheckByNode:
+        """Request Geocheck for Node."""
+        return await self._executor.execute(
+            GEOCHECK_BY_NODE, path={"nodeUuid": node_uuid}, body=body
+        )
+
+    async def geocheck_by_node_result(
+        self, job_id: str
+    ) -> GeocheckByNodeResult:
+        """Get Geocheck for Node by Job ID."""
+        return await self._executor.execute(
+            GEOCHECK_BY_NODE_RESULT, path={"jobId": job_id}
         )

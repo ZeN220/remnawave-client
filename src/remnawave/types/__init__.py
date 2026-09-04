@@ -28,15 +28,6 @@ from remnawave._generated.enums import (
     OAuth2CallbackBodyProvider as OAuth2CallbackBodyProvider,
 )
 from remnawave._generated.enums import (
-    RawSubscriptionByShortUuidResolvedProxyConfigProtocol as RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
-)
-from remnawave._generated.enums import (
-    RawSubscriptionByShortUuidResolvedProxyConfigSecurity as RawSubscriptionByShortUuidResolvedProxyConfigSecurity,
-)
-from remnawave._generated.enums import (
-    RawSubscriptionByShortUuidResolvedProxyConfigTransport as RawSubscriptionByShortUuidResolvedProxyConfigTransport,
-)
-from remnawave._generated.enums import (
     ServiceEventDataSubpageConfigAction as ServiceEventDataSubpageConfigAction,
 )
 from remnawave._generated.enums import (
@@ -166,9 +157,6 @@ from remnawave._generated.models import (
     ConnectionKeysByUserId as ConnectionKeysByUserId,
 )
 from remnawave._generated.models import (
-    ConnectionsByNode as ConnectionsByNode,
-)
-from remnawave._generated.models import (
     ConnectionsByNodeResult as ConnectionsByNodeResult,
 )
 from remnawave._generated.models import (
@@ -196,13 +184,13 @@ from remnawave._generated.models import (
     CreateApiTokenBody as CreateApiTokenBody,
 )
 from remnawave._generated.models import (
-    CreateConfigProfileBody as CreateConfigProfileBody,
-)
-from remnawave._generated.models import (
     CreateHostBody as CreateHostBody,
 )
 from remnawave._generated.models import (
     CreateHostBodyInbound as CreateHostBodyInbound,
+)
+from remnawave._generated.models import (
+    CreateHostBodyMapper as CreateHostBodyMapper,
 )
 from remnawave._generated.models import (
     CreateInfraBillingNodeBody as CreateInfraBillingNodeBody,
@@ -221,6 +209,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     CreateNodeBodyConfigProfile as CreateNodeBodyConfigProfile,
+)
+from remnawave._generated.models import (
+    CreateNodeIntegrationBody as CreateNodeIntegrationBody,
 )
 from remnawave._generated.models import (
     CreateSnippetBody as CreateSnippetBody,
@@ -304,6 +295,21 @@ from remnawave._generated.models import (
     ExternalSquadTemplate as ExternalSquadTemplate,
 )
 from remnawave._generated.models import (
+    GeocheckByNode as GeocheckByNode,
+)
+from remnawave._generated.models import (
+    GeocheckByNodeBody as GeocheckByNodeBody,
+)
+from remnawave._generated.models import (
+    GeocheckByNodeResult as GeocheckByNodeResult,
+)
+from remnawave._generated.models import (
+    GeocheckByNodeResultResult as GeocheckByNodeResultResult,
+)
+from remnawave._generated.models import (
+    GeocheckByNodeResultResultImage as GeocheckByNodeResultResultImage,
+)
+from remnawave._generated.models import (
     GetNodeUsageBody as GetNodeUsageBody,
 )
 from remnawave._generated.models import (
@@ -314,6 +320,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     HostInbound as HostInbound,
+)
+from remnawave._generated.models import (
+    HostMapper as HostMapper,
 )
 from remnawave._generated.models import (
     Hosts as Hosts,
@@ -437,6 +446,12 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     NodeEvent as NodeEvent,
+)
+from remnawave._generated.models import (
+    NodeIntegration as NodeIntegration,
+)
+from remnawave._generated.models import (
+    NodeIntegrations as NodeIntegrations,
 )
 from remnawave._generated.models import (
     NodeIp as NodeIp,
@@ -637,6 +652,15 @@ from remnawave._generated.models import (
     ServiceEventDataSubpageConfig as ServiceEventDataSubpageConfig,
 )
 from remnawave._generated.models import (
+    SharedList as SharedList,
+)
+from remnawave._generated.models import (
+    SharedLists as SharedLists,
+)
+from remnawave._generated.models import (
+    SharedListsSharedList as SharedListsSharedList,
+)
+from remnawave._generated.models import (
     Snippet as Snippet,
 )
 from remnawave._generated.models import (
@@ -760,6 +784,9 @@ from remnawave._generated.models import (
     SubscriptionUser as SubscriptionUser,
 )
 from remnawave._generated.models import (
+    SyncNodePluginBody as SyncNodePluginBody,
+)
+from remnawave._generated.models import (
     SyncSnippetBody as SyncSnippetBody,
 )
 from remnawave._generated.models import (
@@ -827,6 +854,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UpdateNodeBody as UpdateNodeBody,
+)
+from remnawave._generated.models import (
+    UpdateNodeIntegrationBody as UpdateNodeIntegrationBody,
 )
 from remnawave._generated.models import (
     UpdateNodePluginBody as UpdateNodePluginBody,

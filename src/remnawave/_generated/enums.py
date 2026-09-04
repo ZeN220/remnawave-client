@@ -40,29 +40,6 @@ class SubscriptionControllerGetSubscriptionByClientType(StrEnum):
     CLASH = "clash"
 
 
-class RawSubscriptionByShortUuidResolvedProxyConfigProtocol(StrEnum):
-    VLESS = "vless"
-    TROJAN = "trojan"
-    SHADOWSOCKS = "shadowsocks"
-    HYSTERIA = "hysteria"
-
-
-class RawSubscriptionByShortUuidResolvedProxyConfigTransport(StrEnum):
-    TCP = "tcp"
-    XHTTP = "xhttp"
-    WS = "ws"
-    HTTPUPGRADE = "httpupgrade"
-    GRPC = "grpc"
-    KCP = "kcp"
-    HYSTERIA = "hysteria"
-
-
-class RawSubscriptionByShortUuidResolvedProxyConfigSecurity(StrEnum):
-    TLS = "tls"
-    REALITY = "reality"
-    NONE = "none"
-
-
 class HostMihomoIpVersion(StrEnum):
     DUAL = "dual"
     IPV4 = "ipv4"

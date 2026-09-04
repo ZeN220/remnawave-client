@@ -16,9 +16,6 @@ from remnawave._generated.enums import (
     NodeEventEvent,
     NodeIpStatus,
     OAuth2CallbackBodyProvider,
-    RawSubscriptionByShortUuidResolvedProxyConfigProtocol,
-    RawSubscriptionByShortUuidResolvedProxyConfigSecurity,
-    RawSubscriptionByShortUuidResolvedProxyConfigTransport,
     ServiceEventDataSubpageConfigAction,
     ServiceEventEvent,
     SrrMatcherMatchedRuleConditionOperator,
@@ -558,12 +555,21 @@ class RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride:
 
 
 @dataclass(frozen=True, slots=True)
+class HostMapper:
+    xray_json: list[Any] | None = None
+    mihomo: list[Any] | None = None
+    base64: list[Any] | None = None
+    singbox: list[Any] | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
     shuffle_host: bool
     mihomo_x25519: bool
     mihomo_ip_version: HostMihomoIpVersion | None
     server_description: str | None
     xray_json_template: Any
+    mapper: HostMapper
 
 
 @dataclass(frozen=True, slots=True)
@@ -587,11 +593,6 @@ class RawSubscriptionByShortUuidResolvedProxyConfig:
     final_remark: str
     address: str
     port: int
-    protocol: RawSubscriptionByShortUuidResolvedProxyConfigProtocol
-    protocol_options: Any
-    transport: RawSubscriptionByShortUuidResolvedProxyConfigTransport
-    transport_options: Any
-    security: RawSubscriptionByShortUuidResolvedProxyConfigSecurity
     stream_overrides: (
         RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride
     )
@@ -600,7 +601,6 @@ class RawSubscriptionByShortUuidResolvedProxyConfig:
         RawSubscriptionByShortUuidResolvedProxyConfigClientOverride
     )
     metadata: RawSubscriptionByShortUuidResolvedProxyConfigMetadata
-    security_options: Any | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -752,7 +752,7 @@ class ConfigProfiles:
 
 
 @dataclass(frozen=True, slots=True)
-class CreateConfigProfileBody:
+class SharedList:
     name: str
     config: dict[str, Any]
 
@@ -1072,6 +1072,7 @@ class Node:
     consumption_multiplier: float
     node_consumption_multiplier: float
     tags: list[str]
+    integration_uuids: list[UUID]
     ips: list[NodeIp]
     created_at: datetime
     updated_at: datetime
@@ -1109,6 +1110,7 @@ class CreateNodeBody:
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    integration_uuids: Omittable[list[UUID]] = OMITTED
     note: Omittable[str] = OMITTED
     ips: Omittable[list[NodeIp]] = OMITTED
 
@@ -1131,6 +1133,7 @@ class UpdateNodeBody:
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    integration_uuids: Omittable[list[UUID]] = OMITTED
     note: Omittable[str | None] = OMITTED
     ips: Omittable[list[NodeIp]] = OMITTED
 
@@ -1165,6 +1168,7 @@ class BulkNodesUpdateBodyField:
     provider_uuid: Omittable[UUID | None] = OMITTED
     tags: Omittable[list[str]] = OMITTED
     active_plugin_uuid: Omittable[UUID | None] = OMITTED
+    integration_uuids: Omittable[list[UUID]] = OMITTED
     note: Omittable[str | None] = OMITTED
 
 
@@ -1262,6 +1266,19 @@ class TorrentBlockerReportsStats:
 
 
 @dataclass(frozen=True, slots=True)
+class SharedListsSharedList:
+    name: str
+    type: str
+    items_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class SharedLists:
+    total: int
+    shared_lists: list[SharedListsSharedList]
+
+
+@dataclass(frozen=True, slots=True)
 class NodePlugin:
     uuid: UUID
     view_position: int
@@ -1283,9 +1300,44 @@ class UpdateNodePluginBody:
 
 
 @dataclass(frozen=True, slots=True)
+class SyncNodePluginBody:
+    uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
 class PluginExecutorBody:
     command: Any
     target_nodes: Any
+
+
+@dataclass(frozen=True, slots=True)
+class NodeIntegration:
+    uuid: UUID
+    name: str
+    description: str | None
+    config: dict[str, Any]
+
+
+@dataclass(frozen=True, slots=True)
+class NodeIntegrations:
+    total: int
+    node_integrations: list[NodeIntegration]
+
+
+@dataclass(frozen=True, slots=True)
+class CreateNodeIntegrationBody:
+    name: str
+    config: dict[str, Any]
+    description: Omittable[str | None] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class UpdateNodeIntegrationBody:
+    uuid: UUID
+    name: Omittable[str] = OMITTED
+    description: Omittable[str | None] = OMITTED
+    config: Omittable[dict[str, Any]] = OMITTED
+    restart_nodes: Omittable[bool] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1323,6 +1375,7 @@ class Host:
     xray_json_template_uuid: UUID | None
     excluded_internal_squads: list[UUID]
     exclude_from_subscription_types: list[TemplateTemplateType]
+    mapper: HostMapper
     security_layer: HostSecurityLayer | None = None
     tags: list[str] | None = None
     is_hidden: bool | None = None
@@ -1334,6 +1387,14 @@ class Host:
 class CreateHostBodyInbound:
     config_profile_uuid: UUID
     config_profile_inbound_uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
+class CreateHostBodyMapper:
+    xray_json: Omittable[list[Any]] = OMITTED
+    mihomo: Omittable[list[Any]] = OMITTED
+    base64: Omittable[list[Any]] = OMITTED
+    singbox: Omittable[list[Any]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1370,6 +1431,7 @@ class CreateHostBody:
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
+    mapper: Omittable[CreateHostBodyMapper] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1407,6 +1469,7 @@ class UpdateHostBody:
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
+    mapper: Omittable[CreateHostBodyMapper] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1459,6 +1522,7 @@ class UpdateManyHostsBody:
     exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
         OMITTED
     )
+    mapper: Omittable[CreateHostBodyMapper] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1986,6 +2050,7 @@ class SrrMatcherMatchedRuleResponseModification:
         None
     )
     exclude_hosts_by_tags: list[str] | None = None
+    respond_with_remarks: list[str] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -2030,6 +2095,7 @@ class DebugSrrMatcherBodyResponseRuleRuleResponseModification:
         SrrMatcherMatchedRuleResponseModificationEncryption
     ] = OMITTED
     exclude_hosts_by_tags: Omittable[list[str]] = OMITTED
+    respond_with_remarks: Omittable[list[str]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -2157,7 +2223,7 @@ class UpdateSubscriptionSettingsBody:
 
 
 @dataclass(frozen=True, slots=True)
-class ConnectionsByNode:
+class GeocheckByNode:
     job_id: str
 
 
@@ -2221,6 +2287,36 @@ class ConnectionsByNodeResult:
     is_completed: bool
     is_failed: bool
     result: ConnectionsByNodeResultResult | None
+
+
+@dataclass(frozen=True, slots=True)
+class GeocheckByNodeBody:
+    ip: Omittable[str] = OMITTED
+    interface: Omittable[str] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class GeocheckByNodeResultResultImage:
+    format: Literal["svg"]
+    media_type: Literal["image/svg+xml"]
+    encoding: Literal["base64"]
+    data: str
+
+
+@dataclass(frozen=True, slots=True)
+class GeocheckByNodeResultResult:
+    success: bool
+    node_uuid: UUID
+    image: GeocheckByNodeResultResultImage | None
+    raw_report: dict[str, Any] | None
+    message: str | None
+
+
+@dataclass(frozen=True, slots=True)
+class GeocheckByNodeResult:
+    is_completed: bool
+    is_failed: bool
+    result: GeocheckByNodeResultResult | None
 
 
 @dataclass(frozen=True, slots=True)

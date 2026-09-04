@@ -4,6 +4,7 @@ from adaptix import Provider, name_mapping
 
 from remnawave._generated.models import (
     ExternalSquadCustomRemark,
+    GeocheckByNodeResultResultImage,
 )
 
 NAME_MAPPING: tuple[Provider, ...] = (
@@ -12,6 +13,12 @@ NAME_MAPPING: tuple[Provider, ...] = (
         map={
             "hwid_max_devices_exceeded": "HWIDMaxDevicesExceeded",
             "hwid_not_supported": "HWIDNotSupported",
+        },
+    ),
+    name_mapping(
+        GeocheckByNodeResultResultImage,
+        map={
+            "media_type": "media_type",
         },
     ),
 )

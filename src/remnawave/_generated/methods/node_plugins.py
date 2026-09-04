@@ -13,6 +13,9 @@ from remnawave._generated.models import (
     QueryFilter,
     QuerySort,
     ReorderNodePluginsBody,
+    SharedList,
+    SharedLists,
+    SyncNodePluginBody,
     SyncSnippetBody,
     TorrentBlockerReport,
     TorrentBlockerReportsPage,
@@ -41,6 +44,32 @@ GET_TORRENT_BLOCKER_REPORTS_STATS: Operation[TorrentBlockerReportsStats] = (
 )
 TRUNCATE_TORRENT_BLOCKER_REPORTS = NoContentOperation(
     "DELETE", "/api/node-plugins/torrent-blocker/truncate"
+)
+GET_ALL_SHARED_LISTS: Operation[SharedLists] = Operation(
+    "GET",
+    "/api/node-plugins/shared-lists",
+    SharedLists,
+)
+CREATE_SHARED_LIST: Operation[SharedList] = Operation(
+    "POST",
+    "/api/node-plugins/shared-lists",
+    SharedList,
+)
+UPDATE_SHARED_LIST: Operation[SharedList] = Operation(
+    "PATCH",
+    "/api/node-plugins/shared-lists",
+    SharedList,
+)
+GET_SHARED_LIST_BY_NAME: Operation[SharedList] = Operation(
+    "GET",
+    "/api/node-plugins/shared-lists/{name}",
+    SharedList,
+)
+DELETE_SHARED_LIST = NoContentOperation(
+    "DELETE", "/api/node-plugins/shared-lists/{name}"
+)
+SYNC_SHARED_LIST = NoContentOperation(
+    "POST", "/api/node-plugins/shared-lists/actions/sync"
 )
 GET_ALL_CONFIGS: Operation[NodePlugins] = Operation(
     "GET",
@@ -73,6 +102,7 @@ CLONE_NODE_PLUGIN: Operation[NodePlugin] = Operation(
     "/api/node-plugins/actions/clone",
     NodePlugin,
 )
+SYNC_NODE_PLUGIN = NoContentOperation("POST", "/api/node-plugins/actions/sync")
 PLUGIN_EXECUTOR = NoContentOperation("POST", "/api/node-plugins/executor")
 
 
@@ -115,6 +145,32 @@ class NodePluginsApi(SyncGroup):
         """Truncate Torrent Blocker Reports."""
         return self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
+    def get_all_shared_lists(self) -> SharedLists:
+        """Get Shared Lists (Preview)."""
+        return self._executor.execute(GET_ALL_SHARED_LISTS)
+
+    def create_shared_list(self, body: SharedList) -> SharedList:
+        """Create Shared List."""
+        return self._executor.execute(CREATE_SHARED_LIST, body=body)
+
+    def update_shared_list(self, body: SharedList) -> SharedList:
+        """Update Shared List."""
+        return self._executor.execute(UPDATE_SHARED_LIST, body=body)
+
+    def get_shared_list_by_name(self, name: str) -> SharedList:
+        """Get Shared List by name."""
+        return self._executor.execute(
+            GET_SHARED_LIST_BY_NAME, path={"name": name}
+        )
+
+    def delete_shared_list(self, name: str) -> None:
+        """Delete Shared List by name."""
+        return self._executor.execute(DELETE_SHARED_LIST, path={"name": name})
+
+    def sync_shared_list(self, body: SyncSnippetBody) -> None:
+        """Sync Shared List to nodes."""
+        return self._executor.execute(SYNC_SHARED_LIST, body=body)
+
     def get_all_configs(self) -> NodePlugins:
         """Get all Node Plugins."""
         return self._executor.execute(GET_ALL_CONFIGS)
@@ -142,6 +198,10 @@ class NodePluginsApi(SyncGroup):
     def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
         """Clone Node Plugin."""
         return self._executor.execute(CLONE_NODE_PLUGIN, body=body)
+
+    def sync_node_plugin(self, body: SyncNodePluginBody) -> None:
+        """Sync Node Plugin to nodes."""
+        return self._executor.execute(SYNC_NODE_PLUGIN, body=body)
 
     def plugin_executor(self, body: PluginExecutorBody) -> None:
         """Execute command on node plugins."""
@@ -192,6 +252,34 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Truncate Torrent Blocker Reports."""
         return await self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
+    async def get_all_shared_lists(self) -> SharedLists:
+        """Get Shared Lists (Preview)."""
+        return await self._executor.execute(GET_ALL_SHARED_LISTS)
+
+    async def create_shared_list(self, body: SharedList) -> SharedList:
+        """Create Shared List."""
+        return await self._executor.execute(CREATE_SHARED_LIST, body=body)
+
+    async def update_shared_list(self, body: SharedList) -> SharedList:
+        """Update Shared List."""
+        return await self._executor.execute(UPDATE_SHARED_LIST, body=body)
+
+    async def get_shared_list_by_name(self, name: str) -> SharedList:
+        """Get Shared List by name."""
+        return await self._executor.execute(
+            GET_SHARED_LIST_BY_NAME, path={"name": name}
+        )
+
+    async def delete_shared_list(self, name: str) -> None:
+        """Delete Shared List by name."""
+        return await self._executor.execute(
+            DELETE_SHARED_LIST, path={"name": name}
+        )
+
+    async def sync_shared_list(self, body: SyncSnippetBody) -> None:
+        """Sync Shared List to nodes."""
+        return await self._executor.execute(SYNC_SHARED_LIST, body=body)
+
     async def get_all_configs(self) -> NodePlugins:
         """Get all Node Plugins."""
         return await self._executor.execute(GET_ALL_CONFIGS)
@@ -223,6 +311,10 @@ class AsyncNodePluginsApi(AsyncGroup):
     async def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
         """Clone Node Plugin."""
         return await self._executor.execute(CLONE_NODE_PLUGIN, body=body)
+
+    async def sync_node_plugin(self, body: SyncNodePluginBody) -> None:
+        """Sync Node Plugin to nodes."""
+        return await self._executor.execute(SYNC_NODE_PLUGIN, body=body)
 
     async def plugin_executor(self, body: PluginExecutorBody) -> None:
         """Execute command on node plugins."""

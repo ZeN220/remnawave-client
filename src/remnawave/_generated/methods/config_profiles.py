@@ -6,9 +6,9 @@ from uuid import UUID
 from remnawave._generated.models import (
     ConfigProfile,
     ConfigProfiles,
-    CreateConfigProfileBody,
     Inbounds,
     ReorderNodePluginsBody,
+    SharedList,
     UpdateConfigProfileBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -67,9 +67,7 @@ class ConfigProfilesApi(SyncGroup):
         """Get config profiles."""
         return self._executor.execute(GET_CONFIG_PROFILES)
 
-    def create_config_profile(
-        self, body: CreateConfigProfileBody
-    ) -> ConfigProfile:
+    def create_config_profile(self, body: SharedList) -> ConfigProfile:
         """Create config profile."""
         return self._executor.execute(CREATE_CONFIG_PROFILE, body=body)
 
@@ -119,9 +117,7 @@ class AsyncConfigProfilesApi(AsyncGroup):
         """Get config profiles."""
         return await self._executor.execute(GET_CONFIG_PROFILES)
 
-    async def create_config_profile(
-        self, body: CreateConfigProfileBody
-    ) -> ConfigProfile:
+    async def create_config_profile(self, body: SharedList) -> ConfigProfile:
         """Create config profile."""
         return await self._executor.execute(CREATE_CONFIG_PROFILE, body=body)
 
