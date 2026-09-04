@@ -3,11 +3,6 @@
 Sync and async client for the [Remnawave](https://docs.rw) API, generated from
 the panel's OpenAPI specification.
 
-- Every endpoint typed end to end — `mypy --strict` clean, `py.typed` shipped
-- The same surface synchronously and asynchronously
-- Listings walked lazily through `iter_*`
-- Webhook events parsed and their signatures verified
-- Transport, serializer, auth and retry policy are all replaceable
 
 ```bash
 pip install remnawave-client
@@ -23,11 +18,6 @@ your deployment:
 
 ```bash
 pip install remnawave-client==3.0.0
-```
-
-```
-2.0.8  2.1.19  2.2.6  2.3.2  2.4.4  2.5.7  2.6.4
-2.7.4  2.8.1   3.0.0  3.1.0  3.2.3  3.3.2  3.4.3
 ```
 
 ## Quick start
