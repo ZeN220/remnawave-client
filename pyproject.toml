@@ -1,6 +1,6 @@
 [project]
 name = "remnawave-client"
-version = "2.3.2"
+version = "2.4.4"
 description = "Sync and async client for the Remnawave API"
 readme = "README.md"
 requires-python = ">=3.11"

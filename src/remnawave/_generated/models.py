@@ -191,6 +191,53 @@ class OAuth2CallbackRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class SubscriptionPageConfig:
+    uuid: UUID
+    view_position: int
+    name: str
+    config: Any
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionPageConfigs:
+    total: int
+    configs: list[SubscriptionPageConfig]
+
+
+@dataclass(frozen=True, slots=True)
+class UpdateSubscriptionPageConfigRequest:
+    uuid: UUID
+    name: Omittable[str] = OMITTED
+    config: Omittable[Any] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class DeleteSnippetRequest:
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
+class Host:
+    is_deleted: bool
+
+
+@dataclass(frozen=True, slots=True)
+class ReorderHostRequestHost:
+    view_position: int
+    uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
+class ReorderConfigProfilesRequest:
+    items: list[ReorderHostRequestHost]
+
+
+@dataclass(frozen=True, slots=True)
+class CloneSubscriptionPageConfigRequest:
+    clone_from_uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
 class UserActiveInternalSquad:
     uuid: UUID
     name: str
@@ -280,11 +327,6 @@ class UpdateUserRequest:
 class UsersPage:
     users: list[User]
     total: int
-
-
-@dataclass(frozen=True, slots=True)
-class Host:
-    is_deleted: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -402,16 +444,6 @@ class BulkAllUpdateUsersRequest:
 @dataclass(frozen=True, slots=True)
 class BulkAllExtendExpirationDateRequest:
     extend_days: int
-
-
-@dataclass(frozen=True, slots=True)
-class UserUsageByRange:
-    user_uuid: UUID
-    node_uuid: UUID
-    node_name: str
-    country_code: str
-    total: int
-    date: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -548,6 +580,17 @@ class RawSubscriptionByShortUuid:
 
 
 @dataclass(frozen=True, slots=True)
+class SubpageConfigByShortUuid:
+    subpage_config_uuid: UUID | None
+    webpage_allowed: bool
+
+
+@dataclass(frozen=True, slots=True)
+class GetSubpageConfigByShortUuidRequestBody:
+    request_headers: dict[str, Any]
+
+
+@dataclass(frozen=True, slots=True)
 class Template:
     uuid: UUID
     view_position: int
@@ -575,17 +618,6 @@ class UpdateTemplateRequest:
 class CreateSubscriptionTemplateRequest:
     name: str
     template_type: TemplateTemplateType
-
-
-@dataclass(frozen=True, slots=True)
-class ReorderHostRequestHost:
-    view_position: int
-    uuid: UUID
-
-
-@dataclass(frozen=True, slots=True)
-class ReorderConfigProfilesRequest:
-    items: list[ReorderHostRequestHost]
 
 
 @dataclass(frozen=True, slots=True)
@@ -700,11 +732,6 @@ class SnippetSnippet:
 class Snippet:
     total: int
     snippets: list[SnippetSnippet]
-
-
-@dataclass(frozen=True, slots=True)
-class DeleteSnippetRequest:
-    name: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -823,6 +850,7 @@ class ExternalSquad:
     response_headers: dict[str, Any] | None
     hwid_settings: ExternalSquadHwidSetting | None
     custom_remarks: ExternalSquadCustomRemark | None
+    subpage_config_uuid: UUID | None
     created_at: datetime
     updated_at: datetime
 
@@ -864,6 +892,7 @@ class UpdateExternalSquadRequest:
     response_headers: Omittable[dict[str, Any] | None] = OMITTED
     hwid_settings: Omittable[ExternalSquadHwidSetting | None] = OMITTED
     custom_remarks: Omittable[ExternalSquadCustomRemark | None] = OMITTED
+    subpage_config_uuid: Omittable[UUID | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1105,7 +1134,7 @@ class SetPortToManyHostsRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class NodeUserUsageByRange:
+class LegacyStatsNodesUsersUsage:
     user_uuid: UUID
     username: str
     node_uuid: UUID
@@ -1114,7 +1143,7 @@ class NodeUserUsageByRange:
 
 
 @dataclass(frozen=True, slots=True)
-class NodesRealtimeUsage:
+class StatsNodesRealtimeUsage:
     node_uuid: UUID
     node_name: str
     country_code: str
@@ -1124,6 +1153,57 @@ class NodesRealtimeUsage:
     download_speed_bps: int
     upload_speed_bps: int
     total_speed_bps: int
+
+
+@dataclass(frozen=True, slots=True)
+class StatsNodeUsersUsageTopUser:
+    color: str
+    username: str
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class StatsNodeUsersUsage:
+    categories: list[str]
+    sparkline_data: list[int]
+    top_users: list[StatsNodeUsersUsageTopUser]
+
+
+@dataclass(frozen=True, slots=True)
+class LegacyStatsUserUsage:
+    user_uuid: UUID
+    node_uuid: UUID
+    node_name: str
+    country_code: str
+    total: int
+    date: str
+
+
+@dataclass(frozen=True, slots=True)
+class StatsUserUsageTopNode:
+    uuid: UUID
+    color: str
+    name: str
+    country_code: str
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class StatsUserUsageSery:
+    uuid: UUID
+    name: str
+    color: str
+    country_code: str
+    total: int
+    data: list[int]
+
+
+@dataclass(frozen=True, slots=True)
+class StatsUserUsage:
+    categories: list[str]
+    sparkline_data: list[int]
+    top_nodes: list[StatsUserUsageTopNode]
+    series: list[StatsUserUsageSery]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1209,20 +1289,6 @@ class UserRef:
 class TopUsersPage:
     users: list[UserRef]
     total: int
-
-
-@dataclass(frozen=True, slots=True)
-class NodesUsageByRange:
-    node_uuid: UUID
-    node_name: str
-    node_country_code: str
-    total: int
-    total_download: int
-    total_upload: int
-    human_readable_total: str
-    human_readable_total_download: str
-    human_readable_total_upload: str
-    date: str
 
 
 @dataclass(frozen=True, slots=True)

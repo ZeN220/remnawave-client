@@ -4,75 +4,178 @@
 from datetime import datetime
 
 from remnawave._generated.models import (
-    NodesRealtimeUsage,
-    NodesUsageByRange,
-    NodeUserUsageByRange,
+    LegacyStatsNodesUsersUsage,
+    LegacyStatsUserUsage,
+    StatsNodesRealtimeUsage,
+    StatsNodeUsersUsage,
+    StatsUserUsage,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
     Operation,
 )
 
-GET_NODE_USER_USAGE: Operation[list[NodeUserUsageByRange]] = Operation(
+GET_NODE_USER_USAGE: Operation[list[LegacyStatsNodesUsersUsage]] = Operation(
     "GET",
-    "/api/nodes/usage/{uuid}/users/range",
-    list[NodeUserUsageByRange],
+    "/api/bandwidth-stats/nodes/{uuid}/users/legacy",
+    list[LegacyStatsNodesUsersUsage],
 )
-GET_NODES_REALTIME_USAGE: Operation[list[NodesRealtimeUsage]] = Operation(
+GET_NODES_REALTIME_USAGE: Operation[list[StatsNodesRealtimeUsage]] = Operation(
     "GET",
-    "/api/nodes/usage/realtime",
-    list[NodesRealtimeUsage],
+    "/api/bandwidth-stats/nodes/realtime",
+    list[StatsNodesRealtimeUsage],
 )
-GET_NODES_USAGE_BY_RANGE: Operation[list[NodesUsageByRange]] = Operation(
+GET_STATS_NODE_USERS_USAGE: Operation[StatsNodeUsersUsage] = Operation(
     "GET",
-    "/api/nodes/usage/range",
-    list[NodesUsageByRange],
+    "/api/bandwidth-stats/nodes/{uuid}/users",
+    StatsNodeUsersUsage,
+)
+GET_USER_USAGE_BY_RANGE: Operation[list[LegacyStatsUserUsage]] = Operation(
+    "GET",
+    "/api/bandwidth-stats/users/{uuid}/legacy",
+    list[LegacyStatsUserUsage],
+)
+GET_STATS_NODES_USAGE: Operation[StatsUserUsage] = Operation(
+    "GET",
+    "/api/bandwidth-stats/users/{uuid}",
+    StatsUserUsage,
+)
+GET_NODES_USAGE: Operation[StatsUserUsage] = Operation(
+    "GET",
+    "/api/bandwidth-stats/nodes",
+    StatsUserUsage,
 )
 
 
 class BandwidthStatsApi(SyncGroup):
     def get_node_user_usage(
         self, uuid: str, start: datetime, end: datetime
-    ) -> list[NodeUserUsageByRange]:
-        """Get node user usage by range and Node UUID."""
+    ) -> list[LegacyStatsNodesUsersUsage]:
+        """Get Node User Usage by Range and Node UUID (Legacy)."""
         return self._executor.execute(
             GET_NODE_USER_USAGE,
             path={"uuid": uuid},
             query={"start": start, "end": end},
         )
 
-    def get_nodes_realtime_usage(self) -> list[NodesRealtimeUsage]:
-        """Get nodes realtime usage."""
+    def get_nodes_realtime_usage(self) -> list[StatsNodesRealtimeUsage]:
+        """Get Nodes Realtime Usage."""
         return self._executor.execute(GET_NODES_REALTIME_USAGE)
 
-    def get_nodes_usage_by_range(
-        self, start: datetime, end: datetime
-    ) -> list[NodesUsageByRange]:
-        """Get nodes usage by range."""
+    def get_stats_node_users_usage(
+        self, uuid: str, top_users_limit: int, start: datetime, end: datetime
+    ) -> StatsNodeUsersUsage:
+        """Get Node Users Usage by Node UUID."""
         return self._executor.execute(
-            GET_NODES_USAGE_BY_RANGE, query={"start": start, "end": end}
+            GET_STATS_NODE_USERS_USAGE,
+            path={"uuid": uuid},
+            query={
+                "topUsersLimit": top_users_limit,
+                "start": start,
+                "end": end,
+            },
+        )
+
+    def get_user_usage_by_range(
+        self, uuid: str, start: datetime, end: datetime
+    ) -> list[LegacyStatsUserUsage]:
+        """Get User Usage by Range (Legacy)."""
+        return self._executor.execute(
+            GET_USER_USAGE_BY_RANGE,
+            path={"uuid": uuid},
+            query={"start": start, "end": end},
+        )
+
+    def get_stats_nodes_usage(
+        self, uuid: str, top_nodes_limit: int, start: datetime, end: datetime
+    ) -> StatsUserUsage:
+        """Get User Usage by Range."""
+        return self._executor.execute(
+            GET_STATS_NODES_USAGE,
+            path={"uuid": uuid},
+            query={
+                "topNodesLimit": top_nodes_limit,
+                "start": start,
+                "end": end,
+            },
+        )
+
+    def get_nodes_usage(
+        self, top_nodes_limit: int, start: datetime, end: datetime
+    ) -> StatsUserUsage:
+        """Get Nodes Usage by Range."""
+        return self._executor.execute(
+            GET_NODES_USAGE,
+            query={
+                "topNodesLimit": top_nodes_limit,
+                "start": start,
+                "end": end,
+            },
         )
 
 
 class AsyncBandwidthStatsApi(AsyncGroup):
     async def get_node_user_usage(
         self, uuid: str, start: datetime, end: datetime
-    ) -> list[NodeUserUsageByRange]:
-        """Get node user usage by range and Node UUID."""
+    ) -> list[LegacyStatsNodesUsersUsage]:
+        """Get Node User Usage by Range and Node UUID (Legacy)."""
         return await self._executor.execute(
             GET_NODE_USER_USAGE,
             path={"uuid": uuid},
             query={"start": start, "end": end},
         )
 
-    async def get_nodes_realtime_usage(self) -> list[NodesRealtimeUsage]:
-        """Get nodes realtime usage."""
+    async def get_nodes_realtime_usage(self) -> list[StatsNodesRealtimeUsage]:
+        """Get Nodes Realtime Usage."""
         return await self._executor.execute(GET_NODES_REALTIME_USAGE)
 
-    async def get_nodes_usage_by_range(
-        self, start: datetime, end: datetime
-    ) -> list[NodesUsageByRange]:
-        """Get nodes usage by range."""
+    async def get_stats_node_users_usage(
+        self, uuid: str, top_users_limit: int, start: datetime, end: datetime
+    ) -> StatsNodeUsersUsage:
+        """Get Node Users Usage by Node UUID."""
         return await self._executor.execute(
-            GET_NODES_USAGE_BY_RANGE, query={"start": start, "end": end}
+            GET_STATS_NODE_USERS_USAGE,
+            path={"uuid": uuid},
+            query={
+                "topUsersLimit": top_users_limit,
+                "start": start,
+                "end": end,
+            },
+        )
+
+    async def get_user_usage_by_range(
+        self, uuid: str, start: datetime, end: datetime
+    ) -> list[LegacyStatsUserUsage]:
+        """Get User Usage by Range (Legacy)."""
+        return await self._executor.execute(
+            GET_USER_USAGE_BY_RANGE,
+            path={"uuid": uuid},
+            query={"start": start, "end": end},
+        )
+
+    async def get_stats_nodes_usage(
+        self, uuid: str, top_nodes_limit: int, start: datetime, end: datetime
+    ) -> StatsUserUsage:
+        """Get User Usage by Range."""
+        return await self._executor.execute(
+            GET_STATS_NODES_USAGE,
+            path={"uuid": uuid},
+            query={
+                "topNodesLimit": top_nodes_limit,
+                "start": start,
+                "end": end,
+            },
+        )
+
+    async def get_nodes_usage(
+        self, top_nodes_limit: int, start: datetime, end: datetime
+    ) -> StatsUserUsage:
+        """Get Nodes Usage by Range."""
+        return await self._executor.execute(
+            GET_NODES_USAGE,
+            query={
+                "topNodesLimit": top_nodes_limit,
+                "start": start,
+                "end": end,
+            },
         )

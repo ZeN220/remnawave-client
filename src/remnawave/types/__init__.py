@@ -73,6 +73,9 @@ from remnawave._generated.models import (
     BulkUpdateUsersSquadsRequest as BulkUpdateUsersSquadsRequest,
 )
 from remnawave._generated.models import (
+    CloneSubscriptionPageConfigRequest as CloneSubscriptionPageConfigRequest,
+)
+from remnawave._generated.models import (
     ConfigProfile as ConfigProfile,
 )
 from remnawave._generated.models import (
@@ -196,6 +199,9 @@ from remnawave._generated.models import (
     FindAllApiTokensDoc as FindAllApiTokensDoc,
 )
 from remnawave._generated.models import (
+    GetSubpageConfigByShortUuidRequestBody as GetSubpageConfigByShortUuidRequestBody,
+)
+from remnawave._generated.models import (
     Host as Host,
 )
 from remnawave._generated.models import (
@@ -277,6 +283,12 @@ from remnawave._generated.models import (
     InternalSquads as InternalSquads,
 )
 from remnawave._generated.models import (
+    LegacyStatsNodesUsersUsage as LegacyStatsNodesUsersUsage,
+)
+from remnawave._generated.models import (
+    LegacyStatsUserUsage as LegacyStatsUserUsage,
+)
+from remnawave._generated.models import (
     Login as Login,
 )
 from remnawave._generated.models import (
@@ -304,19 +316,10 @@ from remnawave._generated.models import (
     NodesMetricsNodeInboundsStat as NodesMetricsNodeInboundsStat,
 )
 from remnawave._generated.models import (
-    NodesRealtimeUsage as NodesRealtimeUsage,
-)
-from remnawave._generated.models import (
     NodesStatistics as NodesStatistics,
 )
 from remnawave._generated.models import (
     NodesStatisticsLastSevenDay as NodesStatisticsLastSevenDay,
-)
-from remnawave._generated.models import (
-    NodesUsageByRange as NodesUsageByRange,
-)
-from remnawave._generated.models import (
-    NodeUserUsageByRange as NodeUserUsageByRange,
 )
 from remnawave._generated.models import (
     OAuth2Authorize as OAuth2Authorize,
@@ -448,10 +451,28 @@ from remnawave._generated.models import (
     StatsNode as StatsNode,
 )
 from remnawave._generated.models import (
+    StatsNodesRealtimeUsage as StatsNodesRealtimeUsage,
+)
+from remnawave._generated.models import (
+    StatsNodeUsersUsage as StatsNodeUsersUsage,
+)
+from remnawave._generated.models import (
+    StatsNodeUsersUsageTopUser as StatsNodeUsersUsageTopUser,
+)
+from remnawave._generated.models import (
     StatsOnlineStat as StatsOnlineStat,
 )
 from remnawave._generated.models import (
     StatsUser as StatsUser,
+)
+from remnawave._generated.models import (
+    StatsUserUsage as StatsUserUsage,
+)
+from remnawave._generated.models import (
+    StatsUserUsageSery as StatsUserUsageSery,
+)
+from remnawave._generated.models import (
+    StatsUserUsageTopNode as StatsUserUsageTopNode,
 )
 from remnawave._generated.models import (
     Status as Status,
@@ -472,7 +493,16 @@ from remnawave._generated.models import (
     StatusBranding as StatusBranding,
 )
 from remnawave._generated.models import (
+    SubpageConfigByShortUuid as SubpageConfigByShortUuid,
+)
+from remnawave._generated.models import (
     Subscription as Subscription,
+)
+from remnawave._generated.models import (
+    SubscriptionPageConfig as SubscriptionPageConfig,
+)
+from remnawave._generated.models import (
+    SubscriptionPageConfigs as SubscriptionPageConfigs,
 )
 from remnawave._generated.models import (
     SubscriptionRequestHistoryStats as SubscriptionRequestHistoryStats,
@@ -547,6 +577,9 @@ from remnawave._generated.models import (
     UpdateRemnawaveSettingsRequest as UpdateRemnawaveSettingsRequest,
 )
 from remnawave._generated.models import (
+    UpdateSubscriptionPageConfigRequest as UpdateSubscriptionPageConfigRequest,
+)
+from remnawave._generated.models import (
     UpdateSubscriptionSettingsRequest as UpdateSubscriptionSettingsRequest,
 )
 from remnawave._generated.models import (
@@ -584,9 +617,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     UserSubscriptionRequestHistoryRecord as UserSubscriptionRequestHistoryRecord,
-)
-from remnawave._generated.models import (
-    UserUsageByRange as UserUsageByRange,
 )
 from remnawave._generated.models import (
     UserUserTraffic as UserUserTraffic,

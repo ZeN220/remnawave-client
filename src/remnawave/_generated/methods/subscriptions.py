@@ -4,7 +4,9 @@
 from collections.abc import AsyncIterator, Iterator
 
 from remnawave._generated.models import (
+    GetSubpageConfigByShortUuidRequestBody,
     RawSubscriptionByShortUuid,
+    SubpageConfigByShortUuid,
     Subscription,
     SubscriptionsPage,
 )
@@ -40,6 +42,13 @@ GET_RAW_SUBSCRIPTION_BY_SHORT_UUID: Operation[RawSubscriptionByShortUuid] = (
         "GET",
         "/api/subscriptions/by-short-uuid/{shortUuid}/raw",
         RawSubscriptionByShortUuid,
+    )
+)
+GET_SUBPAGE_CONFIG_BY_SHORT_UUID: Operation[SubpageConfigByShortUuid] = (
+    Operation(
+        "GET",
+        "/api/subscriptions/subpage-config/{shortUuid}",
+        SubpageConfigByShortUuid,
     )
 )
 
@@ -91,6 +100,16 @@ class SubscriptionsApi(SyncGroup):
             query={"withDisabledHosts": with_disabled_hosts},
         )
 
+    def get_subpage_config_by_short_uuid(
+        self, short_uuid: str, body: GetSubpageConfigByShortUuidRequestBody
+    ) -> SubpageConfigByShortUuid:
+        """Get Subpage Config by Short UUID."""
+        return self._executor.execute(
+            GET_SUBPAGE_CONFIG_BY_SHORT_UUID,
+            path={"shortUuid": short_uuid},
+            body=body,
+        )
+
 
 class AsyncSubscriptionsApi(AsyncGroup):
     async def get_all_subscriptions(
@@ -138,4 +157,14 @@ class AsyncSubscriptionsApi(AsyncGroup):
             GET_RAW_SUBSCRIPTION_BY_SHORT_UUID,
             path={"shortUuid": short_uuid},
             query={"withDisabledHosts": with_disabled_hosts},
+        )
+
+    async def get_subpage_config_by_short_uuid(
+        self, short_uuid: str, body: GetSubpageConfigByShortUuidRequestBody
+    ) -> SubpageConfigByShortUuid:
+        """Get Subpage Config by Short UUID."""
+        return await self._executor.execute(
+            GET_SUBPAGE_CONFIG_BY_SHORT_UUID,
+            path={"shortUuid": short_uuid},
+            body=body,
         )

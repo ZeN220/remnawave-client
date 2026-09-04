@@ -64,6 +64,10 @@ from remnawave._generated.methods.subscription import (
     AsyncSubscriptionApi,
     SubscriptionApi,
 )
+from remnawave._generated.methods.subscription_page_configs import (
+    AsyncSubscriptionPageConfigsApi,
+    SubscriptionPageConfigsApi,
+)
 from remnawave._generated.methods.subscription_request_history import (
     AsyncSubscriptionRequestHistoryApi,
     SubscriptionRequestHistoryApi,
@@ -92,10 +96,6 @@ from remnawave._generated.methods.users_bulk_actions import (
     AsyncUsersBulkActionsApi,
     UsersBulkActionsApi,
 )
-from remnawave._generated.methods.users_stats import (
-    AsyncUsersStatsApi,
-    UsersStatsApi,
-)
 from remnawave.execution import AsyncExecutor, SyncExecutor
 
 
@@ -116,6 +116,7 @@ class SyncGroups:
     remnawave_settings: RemnawaveSettingsApi
     snippets: SnippetsApi
     subscription: SubscriptionApi
+    subscription_page_configs: SubscriptionPageConfigsApi
     subscription_request_history: SubscriptionRequestHistoryApi
     subscription_settings: SubscriptionSettingsApi
     subscription_template: SubscriptionTemplateApi
@@ -123,7 +124,6 @@ class SyncGroups:
     system: SystemApi
     users: UsersApi
     users_bulk_actions: UsersBulkActionsApi
-    users_stats: UsersStatsApi
 
     def _attach(self, executor: SyncExecutor) -> None:
         self.api_tokens = ApiTokensApi(executor)
@@ -142,6 +142,7 @@ class SyncGroups:
         self.remnawave_settings = RemnawaveSettingsApi(executor)
         self.snippets = SnippetsApi(executor)
         self.subscription = SubscriptionApi(executor)
+        self.subscription_page_configs = SubscriptionPageConfigsApi(executor)
         self.subscription_request_history = SubscriptionRequestHistoryApi(
             executor
         )
@@ -151,7 +152,6 @@ class SyncGroups:
         self.system = SystemApi(executor)
         self.users = UsersApi(executor)
         self.users_bulk_actions = UsersBulkActionsApi(executor)
-        self.users_stats = UsersStatsApi(executor)
 
 
 class AsyncGroups:
@@ -171,6 +171,7 @@ class AsyncGroups:
     remnawave_settings: AsyncRemnawaveSettingsApi
     snippets: AsyncSnippetsApi
     subscription: AsyncSubscriptionApi
+    subscription_page_configs: AsyncSubscriptionPageConfigsApi
     subscription_request_history: AsyncSubscriptionRequestHistoryApi
     subscription_settings: AsyncSubscriptionSettingsApi
     subscription_template: AsyncSubscriptionTemplateApi
@@ -178,7 +179,6 @@ class AsyncGroups:
     system: AsyncSystemApi
     users: AsyncUsersApi
     users_bulk_actions: AsyncUsersBulkActionsApi
-    users_stats: AsyncUsersStatsApi
 
     def _attach(self, executor: AsyncExecutor) -> None:
         self.api_tokens = AsyncApiTokensApi(executor)
@@ -197,6 +197,9 @@ class AsyncGroups:
         self.remnawave_settings = AsyncRemnawaveSettingsApi(executor)
         self.snippets = AsyncSnippetsApi(executor)
         self.subscription = AsyncSubscriptionApi(executor)
+        self.subscription_page_configs = AsyncSubscriptionPageConfigsApi(
+            executor
+        )
         self.subscription_request_history = AsyncSubscriptionRequestHistoryApi(
             executor
         )
@@ -206,4 +209,3 @@ class AsyncGroups:
         self.system = AsyncSystemApi(executor)
         self.users = AsyncUsersApi(executor)
         self.users_bulk_actions = AsyncUsersBulkActionsApi(executor)
-        self.users_stats = AsyncUsersStatsApi(executor)
