@@ -12,6 +12,7 @@ from remnawave._generated.enums import (
     HostSecurityLayer,
     OAuth2CallbackRequestProvider,
     TemplateTemplateType,
+    UpdateUserRequestStatus,
     UserStatus,
     UserTrafficLimitStrategy,
 )
@@ -41,11 +42,18 @@ class StatusOauth2:
 
 
 @dataclass(frozen=True, slots=True)
+class StatusBranding:
+    title: str | None
+    logo_url: str | None
+
+
+@dataclass(frozen=True, slots=True)
 class Status:
     is_login_allowed: bool
     is_register_allowed: bool
     tg_auth: StatusTgAuth | None
     oauth2: StatusOauth2
+    branding: StatusBranding
 
 
 @dataclass(frozen=True, slots=True)
@@ -86,6 +94,7 @@ class UserActiveInternalSquad:
 class UserLastConnectedNode:
     connected_at: datetime
     node_name: str
+    country_code: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -146,12 +155,14 @@ class CreateUserRequest:
     email: Omittable[str | None] = OMITTED
     hwid_device_limit: Omittable[int] = OMITTED
     active_internal_squads: Omittable[list[UUID]] = OMITTED
+    uuid: Omittable[UUID] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
 class UpdateUserRequest:
-    uuid: UUID
-    status: Omittable[UserStatus] = OMITTED
+    username: Omittable[str] = OMITTED
+    uuid: Omittable[UUID] = OMITTED
+    status: Omittable[UpdateUserRequestStatus] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     traffic_limit_strategy: Omittable[UserTrafficLimitStrategy] = OMITTED
     expire_at: Omittable[datetime] = OMITTED
@@ -202,6 +213,21 @@ class UserAccessibleNodes:
 
 
 @dataclass(frozen=True, slots=True)
+class UserSubscriptionRequestHistoryRecord:
+    id: int
+    user_uuid: UUID
+    request_at: datetime
+    request_ip: str | None
+    user_agent: str | None
+
+
+@dataclass(frozen=True, slots=True)
+class UserSubscriptionRequestHistory:
+    total: int
+    records: list[UserSubscriptionRequestHistoryRecord]
+
+
+@dataclass(frozen=True, slots=True)
 class RevokeUserSubscriptionBody:
     short_uuid: Omittable[str] = OMITTED
 
@@ -231,6 +257,7 @@ class BulkAllUpdateUsersRequest:
     telegram_id: Omittable[int | None] = OMITTED
     email: Omittable[str | None] = OMITTED
     tag: Omittable[str | None] = OMITTED
+    hwid_device_limit: Omittable[int | None] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -255,8 +282,36 @@ class UserUsageByRange:
     user_uuid: UUID
     node_uuid: UUID
     node_name: str
+    country_code: str
     total: int
     date: str
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionInfoUser:
+    short_uuid: str
+    days_left: int
+    traffic_used: str
+    traffic_limit: str
+    lifetime_traffic_used: str
+    traffic_used_bytes: str
+    traffic_limit_bytes: str
+    lifetime_traffic_used_bytes: str
+    username: str
+    expires_at: datetime
+    is_active: bool
+    user_status: UserStatus
+    traffic_limit_strategy: UserTrafficLimitStrategy
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionInfo:
+    is_found: bool
+    user: SubscriptionInfoUser
+    links: list[str]
+    ss_conf_links: dict[str, Any]
+    subscription_url: str
+    happ: UserHapp
 
 
 @dataclass(frozen=True, slots=True)
@@ -273,13 +328,34 @@ class SubscriptionUser:
 
 
 @dataclass(frozen=True, slots=True)
-class SubscriptionInfo:
+class Subscription:
     is_found: bool
     user: SubscriptionUser
     links: list[str]
     ss_conf_links: dict[str, Any]
     subscription_url: str
-    happ: UserHapp
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionsPage:
+    subscriptions: list[Subscription]
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class RawSubscriptionByShortUuidConvertedUserInfo:
+    days_left: int
+    traffic_limit: str
+    traffic_used: str
+    lifetime_traffic_used: str
+    is_hwid_limited: bool
+
+
+@dataclass(frozen=True, slots=True)
+class RawSubscriptionByShortUuidRawHostPassword:
+    ss_password: str
+    trojan_password: str
+    vless_password: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -299,13 +375,28 @@ class RawSubscriptionByShortUuidRawHostProtocolOption:
 
 
 @dataclass(frozen=True, slots=True)
+class RawSubscriptionByShortUuidRawHostDbData:
+    raw_inbound: dict[str, Any] | None
+    inbound_tag: str
+    uuid: str
+    config_profile_uuid: str | None
+    config_profile_inbound_uuid: str | None
+    is_disabled: bool
+    view_position: int
+    remark: str
+    is_hidden: bool
+    tag: str | None
+    vless_route_id: int | None
+
+
+@dataclass(frozen=True, slots=True)
 class RawSubscriptionByShortUuidRawHost:
+    password: RawSubscriptionByShortUuidRawHostPassword
     address: str | None = None
     alpn: str | None = None
     fingerprint: str | None = None
     host: str | None = None
     network: str | None = None
-    password: str | None = None
     path: str | None = None
     public_key: str | None = None
     port: int | None = None
@@ -324,33 +415,23 @@ class RawSubscriptionByShortUuidRawHost:
     sockopt_params: dict[str, Any] | None = None
     server_description: str | None = None
     flow: str | None = None
+    allow_insecure: bool | None = None
+    shuffle_host: bool | None = None
+    mihomo_x25519: bool | None = None
+    mldsa65_verify: str | None = None
+    encryption: str | None = None
     protocol_options: (
         RawSubscriptionByShortUuidRawHostProtocolOption | None
     ) = None
+    db_data: RawSubscriptionByShortUuidRawHostDbData | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class RawSubscriptionByShortUuid:
-    user: SubscriptionUser
-    subscription_url: str
-    raw_hosts: list[RawSubscriptionByShortUuidRawHost]
+    user: User
+    converted_user_info: RawSubscriptionByShortUuidConvertedUserInfo
     headers: dict[str, Any]
-    is_hwid_limited: bool
-
-
-@dataclass(frozen=True, slots=True)
-class Subscription:
-    is_found: bool
-    user: SubscriptionUser
-    links: list[str]
-    ss_conf_links: dict[str, Any]
-    subscription_url: str
-
-
-@dataclass(frozen=True, slots=True)
-class SubscriptionsPage:
-    subscriptions: list[Subscription]
-    total: int
+    raw_hosts: list[RawSubscriptionByShortUuidRawHost]
 
 
 @dataclass(frozen=True, slots=True)
@@ -402,7 +483,7 @@ class FindAllApiTokens:
 
 
 @dataclass(frozen=True, slots=True)
-class InboundsInbound:
+class ConfigProfileInbound:
     uuid: UUID
     profile_uuid: UUID
     tag: str
@@ -425,7 +506,7 @@ class ConfigProfile:
     uuid: UUID
     name: str
     config: Any
-    inbounds: list[InboundsInbound]
+    inbounds: list[ConfigProfileInbound]
     nodes: list[ConfigProfileNode]
     created_at: datetime
     updated_at: datetime
@@ -446,7 +527,21 @@ class CreateConfigProfileRequest:
 @dataclass(frozen=True, slots=True)
 class UpdateConfigProfileRequest:
     uuid: UUID
-    config: dict[str, Any]
+    name: Omittable[str] = OMITTED
+    config: Omittable[dict[str, Any]] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class InboundsInbound:
+    uuid: UUID
+    profile_uuid: UUID
+    tag: str
+    type: str
+    network: str | None
+    security: str | None
+    port: int | None
+    raw_inbound: Any
+    active_squads: list[UUID]
 
 
 @dataclass(frozen=True, slots=True)
@@ -466,7 +561,7 @@ class InternalSquad:
     uuid: UUID
     name: str
     info: InternalSquadInfo
-    inbounds: list[InboundsInbound]
+    inbounds: list[ConfigProfileInbound]
     created_at: datetime
     updated_at: datetime
 
@@ -486,7 +581,24 @@ class CreateInternalSquadRequest:
 @dataclass(frozen=True, slots=True)
 class UpdateInternalSquadRequest:
     uuid: UUID
-    inbounds: list[UUID]
+    name: Omittable[str] = OMITTED
+    inbounds: Omittable[list[UUID]] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class InternalSquadAccessibleNodesAccessibleNode:
+    uuid: UUID
+    node_name: str
+    country_code: str
+    config_profile_uuid: UUID
+    config_profile_name: str
+    active_inbounds: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class InternalSquadAccessibleNodes:
+    squad_uuid: UUID
+    accessible_nodes: list[InternalSquadAccessibleNodesAccessibleNode]
 
 
 @dataclass(frozen=True, slots=True)
@@ -497,7 +609,7 @@ class PubKey:
 @dataclass(frozen=True, slots=True)
 class NodeConfigProfile:
     active_config_profile_uuid: UUID | None
-    active_inbounds: list[InboundsInbound]
+    active_inbounds: list[ConfigProfileInbound]
 
 
 @dataclass(frozen=True, slots=True)
@@ -583,6 +695,11 @@ class UpdateNodeRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class RestartAllNodesRequestBody:
+    force_restart: Omittable[bool] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
 class ReorderHostRequestHost:
     view_position: int
     uuid: UUID
@@ -616,8 +733,16 @@ class Host2:
     sockopt_params: Any
     inbound: HostInbound
     server_description: str | None
+    tag: str | None
+    vless_route_id: int | None
+    shuffle_host: bool
+    mihomo_x25519: bool
+    nodes: list[UUID]
     is_disabled: bool | None = None
     security_layer: HostSecurityLayer | None = None
+    is_hidden: bool | None = None
+    override_sni_from_address: bool | None = None
+    allow_insecure: bool | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -643,6 +768,14 @@ class CreateHostRequest:
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
+    tag: Omittable[str | None] = OMITTED
+    is_hidden: Omittable[bool] = OMITTED
+    override_sni_from_address: Omittable[bool] = OMITTED
+    allow_insecure: Omittable[bool] = OMITTED
+    vless_route_id: Omittable[int | None] = OMITTED
+    shuffle_host: Omittable[bool] = OMITTED
+    mihomo_x25519: Omittable[bool] = OMITTED
+    nodes: Omittable[list[UUID]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -663,6 +796,14 @@ class UpdateHostRequest:
     mux_params: Omittable[Any] = OMITTED
     sockopt_params: Omittable[Any] = OMITTED
     server_description: Omittable[str | None] = OMITTED
+    tag: Omittable[str | None] = OMITTED
+    is_hidden: Omittable[bool] = OMITTED
+    override_sni_from_address: Omittable[bool] = OMITTED
+    vless_route_id: Omittable[int | None] = OMITTED
+    allow_insecure: Omittable[bool] = OMITTED
+    shuffle_host: Omittable[bool] = OMITTED
+    mihomo_x25519: Omittable[bool] = OMITTED
+    nodes: Omittable[list[UUID]] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -711,7 +852,7 @@ class NodesRealtimeUsage:
 
 
 @dataclass(frozen=True, slots=True)
-class UserHwidDeviceDevice:
+class Device:
     hwid: str
     user_uuid: UUID
     platform: str | None
@@ -723,9 +864,15 @@ class UserHwidDeviceDevice:
 
 
 @dataclass(frozen=True, slots=True)
+class HwidDevices:
+    devices: list[Device]
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
 class UserHwidDevice:
     total: int
-    devices: list[UserHwidDeviceDevice]
+    devices: list[Device]
 
 
 @dataclass(frozen=True, slots=True)
@@ -745,9 +892,41 @@ class DeleteUserHwidDeviceRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class DeleteAllUserHwidDevicesRequest:
+    user_uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
+class HwidDevicesStatsByPlatform:
+    platform: str
+    count: int
+
+
+@dataclass(frozen=True, slots=True)
+class HwidDevicesStatsByApp:
+    app: str
+    count: int
+
+
+@dataclass(frozen=True, slots=True)
+class HwidDevicesStatsStat:
+    total_unique_devices: int
+    total_hwid_devices: int
+    average_hwid_devices_per_user: int
+
+
+@dataclass(frozen=True, slots=True)
+class HwidDevicesStats:
+    by_platform: list[HwidDevicesStatsByPlatform]
+    by_app: list[HwidDevicesStatsByApp]
+    stats: HwidDevicesStatsStat
+
+
+@dataclass(frozen=True, slots=True)
 class NodesUsageByRange:
     node_uuid: UUID
     node_name: str
+    node_country_code: str
     total: int
     total_download: int
     total_upload: int
@@ -870,7 +1049,7 @@ class InfraBillingNode:
 
 @dataclass(frozen=True, slots=True)
 class UpdateInfraBillingNodeRequest:
-    uuid: UUID
+    uuids: list[UUID]
     next_billing_at: datetime
 
 
@@ -879,6 +1058,33 @@ class CreateInfraBillingNodeRequest:
     provider_uuid: UUID
     node_uuid: UUID
     next_billing_at: Omittable[datetime] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class TorrentBlockerReport:
+    id: int
+    user_uuid: UUID
+    request_ip: str | None
+    user_agent: str | None
+    request_at: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionRequestsPage:
+    records: list[TorrentBlockerReport]
+    total: int
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionRequestHistoryStatsHourlyRequestStat:
+    date_time: datetime
+    request_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class SubscriptionRequestHistoryStats:
+    by_parsed_app: list[HwidDevicesStatsByApp]
+    hourly_request_stats: list[SubscriptionRequestHistoryStatsHourlyRequestStat]
 
 
 @dataclass(frozen=True, slots=True)
@@ -988,6 +1194,27 @@ class NodesMetricsNode:
 @dataclass(frozen=True, slots=True)
 class NodesMetrics:
     nodes: list[NodesMetricsNode]
+
+
+@dataclass(frozen=True, slots=True)
+class X25519Keypair:
+    public_key: str
+    private_key: str
+
+
+@dataclass(frozen=True, slots=True)
+class X25519:
+    keypairs: list[X25519Keypair]
+
+
+@dataclass(frozen=True, slots=True)
+class EncryptHappCryptoLink:
+    encrypted_link: str
+
+
+@dataclass(frozen=True, slots=True)
+class EncryptHappCryptoLinkRequest:
+    link_to_encrypt: str
 
 
 @dataclass(frozen=True, slots=True)

@@ -12,6 +12,7 @@ from remnawave._generated.models import (
     User,
     UserAccessibleNodes,
     UsersPage,
+    UserSubscriptionRequestHistory,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -54,6 +55,13 @@ GET_USER_ACCESSIBLE_NODES: Operation[UserAccessibleNodes] = Operation(
     "GET",
     "/api/users/{uuid}/accessible-nodes",
     UserAccessibleNodes,
+)
+GET_USER_SUBSCRIPTION_REQUEST_HISTORY: Operation[
+    UserSubscriptionRequestHistory
+] = Operation(
+    "GET",
+    "/api/users/{uuid}/subscription-request-history",
+    UserSubscriptionRequestHistory,
 )
 GET_USER_BY_SHORT_UUID: Operation[User] = Operation(
     "GET",
@@ -108,7 +116,7 @@ class UsersApi(SyncGroup):
         return self._executor.execute(CREATE_USER, body=body)
 
     def update_user(self, body: UpdateUserRequest) -> User:
-        """Update a user."""
+        """Update a user by UUID or username."""
         return self._executor.execute(UPDATE_USER, body=body)
 
     def get_all_users(
@@ -142,6 +150,14 @@ class UsersApi(SyncGroup):
         """Get user accessible nodes."""
         return self._executor.execute(
             GET_USER_ACCESSIBLE_NODES, path={"uuid": uuid}
+        )
+
+    def get_user_subscription_request_history(
+        self, uuid: str
+    ) -> UserSubscriptionRequestHistory:
+        """Get user subscription request history, recent 24 records."""
+        return self._executor.execute(
+            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"uuid": uuid}
         )
 
     def get_user_by_short_uuid(self, short_uuid: str) -> User:
@@ -197,7 +213,7 @@ class AsyncUsersApi(AsyncGroup):
         return await self._executor.execute(CREATE_USER, body=body)
 
     async def update_user(self, body: UpdateUserRequest) -> User:
-        """Update a user."""
+        """Update a user by UUID or username."""
         return await self._executor.execute(UPDATE_USER, body=body)
 
     async def get_all_users(
@@ -234,6 +250,14 @@ class AsyncUsersApi(AsyncGroup):
         """Get user accessible nodes."""
         return await self._executor.execute(
             GET_USER_ACCESSIBLE_NODES, path={"uuid": uuid}
+        )
+
+    async def get_user_subscription_request_history(
+        self, uuid: str
+    ) -> UserSubscriptionRequestHistory:
+        """Get user subscription request history, recent 24 records."""
+        return await self._executor.execute(
+            GET_USER_SUBSCRIPTION_REQUEST_HISTORY, path={"uuid": uuid}
         )
 
     async def get_user_by_short_uuid(self, short_uuid: str) -> User:

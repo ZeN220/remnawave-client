@@ -142,7 +142,7 @@ class InfraBillingApi(SyncGroup):
     def update_infra_billing_node(
         self, body: UpdateInfraBillingNodeRequest
     ) -> InfraBillingNode:
-        """Update infra billing node."""
+        """Update infra billing nodes."""
         return self._executor.execute(UPDATE_INFRA_BILLING_NODE, body=body)
 
     def create_infra_billing_node(
@@ -216,7 +216,7 @@ class AsyncInfraBillingApi(AsyncGroup):
     async def update_infra_billing_node(
         self, body: UpdateInfraBillingNodeRequest
     ) -> InfraBillingNode:
-        """Update infra billing node."""
+        """Update infra billing nodes."""
         return await self._executor.execute(
             UPDATE_INFRA_BILLING_NODE, body=body
         )

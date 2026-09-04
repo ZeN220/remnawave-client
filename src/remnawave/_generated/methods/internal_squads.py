@@ -5,6 +5,7 @@ from remnawave._generated.models import (
     CreateInternalSquadRequest,
     Host,
     InternalSquad,
+    InternalSquadAccessibleNodes,
     InternalSquads,
     Node,
     UpdateInternalSquadRequest,
@@ -38,6 +39,13 @@ DELETE_INTERNAL_SQUAD: Operation[Host] = Operation(
     "DELETE",
     "/api/internal-squads/{uuid}",
     Host,
+)
+GET_INTERNAL_SQUAD_ACCESSIBLE_NODES: Operation[InternalSquadAccessibleNodes] = (
+    Operation(
+        "GET",
+        "/api/internal-squads/{uuid}/accessible-nodes",
+        InternalSquadAccessibleNodes,
+    )
 )
 ADD_USERS_TO_INTERNAL_SQUAD: Operation[Node] = Operation(
     "POST",
@@ -80,6 +88,14 @@ class InternalSquadsApi(SyncGroup):
             DELETE_INTERNAL_SQUAD, path={"uuid": uuid}
         )
 
+    def get_internal_squad_accessible_nodes(
+        self, uuid: str
+    ) -> InternalSquadAccessibleNodes:
+        """Get internal squad accessible nodes."""
+        return self._executor.execute(
+            GET_INTERNAL_SQUAD_ACCESSIBLE_NODES, path={"uuid": uuid}
+        )
+
     def add_users_to_internal_squad(self, uuid: str) -> Node:
         """Add all users to internal squad."""
         return self._executor.execute(
@@ -120,6 +136,14 @@ class AsyncInternalSquadsApi(AsyncGroup):
         """Delete internal squad."""
         return await self._executor.execute(
             DELETE_INTERNAL_SQUAD, path={"uuid": uuid}
+        )
+
+    async def get_internal_squad_accessible_nodes(
+        self, uuid: str
+    ) -> InternalSquadAccessibleNodes:
+        """Get internal squad accessible nodes."""
+        return await self._executor.execute(
+            GET_INTERNAL_SQUAD_ACCESSIBLE_NODES, path={"uuid": uuid}
         )
 
     async def add_users_to_internal_squad(self, uuid: str) -> Node:

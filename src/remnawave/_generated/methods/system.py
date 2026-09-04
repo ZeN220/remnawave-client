@@ -2,7 +2,10 @@
 """System Controller."""
 
 from remnawave._generated.models import (
+    X25519,
     BandwidthStats,
+    EncryptHappCryptoLink,
+    EncryptHappCryptoLinkRequest,
     NodesMetrics,
     NodesStatistics,
     RemnawaveHealth,
@@ -38,6 +41,16 @@ GET_NODES_METRICS: Operation[NodesMetrics] = Operation(
     "/api/system/nodes/metrics",
     NodesMetrics,
 )
+GET_X25519_KEYPAIRS: Operation[X25519] = Operation(
+    "GET",
+    "/api/system/tools/x25519/generate",
+    X25519,
+)
+ENCRYPT_HAPP_CRYPTO_LINK: Operation[EncryptHappCryptoLink] = Operation(
+    "POST",
+    "/api/system/tools/happ/encrypt",
+    EncryptHappCryptoLink,
+)
 
 
 class SystemApi(SyncGroup):
@@ -61,6 +74,16 @@ class SystemApi(SyncGroup):
         """Get Nodes Metrics."""
         return self._executor.execute(GET_NODES_METRICS)
 
+    def get_x25519_keypairs(self) -> X25519:
+        """Generate 30 X25519 keypairs."""
+        return self._executor.execute(GET_X25519_KEYPAIRS)
+
+    def encrypt_happ_crypto_link(
+        self, body: EncryptHappCryptoLinkRequest
+    ) -> EncryptHappCryptoLink:
+        """Encrypt Happ Crypto Link."""
+        return self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)
+
 
 class AsyncSystemApi(AsyncGroup):
     async def get_stats(self) -> Stats:
@@ -82,3 +105,13 @@ class AsyncSystemApi(AsyncGroup):
     async def get_nodes_metrics(self) -> NodesMetrics:
         """Get Nodes Metrics."""
         return await self._executor.execute(GET_NODES_METRICS)
+
+    async def get_x25519_keypairs(self) -> X25519:
+        """Generate 30 X25519 keypairs."""
+        return await self._executor.execute(GET_X25519_KEYPAIRS)
+
+    async def encrypt_happ_crypto_link(
+        self, body: EncryptHappCryptoLinkRequest
+    ) -> EncryptHappCryptoLink:
+        """Encrypt Happ Crypto Link."""
+        return await self._executor.execute(ENCRYPT_HAPP_CRYPTO_LINK, body=body)

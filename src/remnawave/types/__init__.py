@@ -19,10 +19,16 @@ from remnawave._generated.enums import (
     TemplateTemplateType as TemplateTemplateType,
 )
 from remnawave._generated.enums import (
+    UpdateUserRequestStatus as UpdateUserRequestStatus,
+)
+from remnawave._generated.enums import (
     UserStatus as UserStatus,
 )
 from remnawave._generated.enums import (
     UserTrafficLimitStrategy as UserTrafficLimitStrategy,
+)
+from remnawave._generated.models import (
+    X25519 as X25519,
 )
 from remnawave._generated.models import (
     ApiToken as ApiToken,
@@ -50,6 +56,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     ConfigProfile as ConfigProfile,
+)
+from remnawave._generated.models import (
+    ConfigProfileInbound as ConfigProfileInbound,
 )
 from remnawave._generated.models import (
     ConfigProfileNode as ConfigProfileNode,
@@ -94,10 +103,22 @@ from remnawave._generated.models import (
     CreateUserRequest as CreateUserRequest,
 )
 from remnawave._generated.models import (
+    DeleteAllUserHwidDevicesRequest as DeleteAllUserHwidDevicesRequest,
+)
+from remnawave._generated.models import (
     DeleteUserHwidDeviceRequest as DeleteUserHwidDeviceRequest,
 )
 from remnawave._generated.models import (
     DeleteUsers as DeleteUsers,
+)
+from remnawave._generated.models import (
+    Device as Device,
+)
+from remnawave._generated.models import (
+    EncryptHappCryptoLink as EncryptHappCryptoLink,
+)
+from remnawave._generated.models import (
+    EncryptHappCryptoLinkRequest as EncryptHappCryptoLinkRequest,
 )
 from remnawave._generated.models import (
     FindAllApiTokens as FindAllApiTokens,
@@ -119,6 +140,21 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     HostInbound as HostInbound,
+)
+from remnawave._generated.models import (
+    HwidDevices as HwidDevices,
+)
+from remnawave._generated.models import (
+    HwidDevicesStats as HwidDevicesStats,
+)
+from remnawave._generated.models import (
+    HwidDevicesStatsByApp as HwidDevicesStatsByApp,
+)
+from remnawave._generated.models import (
+    HwidDevicesStatsByPlatform as HwidDevicesStatsByPlatform,
+)
+from remnawave._generated.models import (
+    HwidDevicesStatsStat as HwidDevicesStatsStat,
 )
 from remnawave._generated.models import (
     Inbounds as Inbounds,
@@ -161,6 +197,12 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     InternalSquad as InternalSquad,
+)
+from remnawave._generated.models import (
+    InternalSquadAccessibleNodes as InternalSquadAccessibleNodes,
+)
+from remnawave._generated.models import (
+    InternalSquadAccessibleNodesAccessibleNode as InternalSquadAccessibleNodesAccessibleNode,
 )
 from remnawave._generated.models import (
     InternalSquadInfo as InternalSquadInfo,
@@ -226,10 +268,19 @@ from remnawave._generated.models import (
     RawSubscriptionByShortUuid as RawSubscriptionByShortUuid,
 )
 from remnawave._generated.models import (
+    RawSubscriptionByShortUuidConvertedUserInfo as RawSubscriptionByShortUuidConvertedUserInfo,
+)
+from remnawave._generated.models import (
     RawSubscriptionByShortUuidRawHost as RawSubscriptionByShortUuidRawHost,
 )
 from remnawave._generated.models import (
     RawSubscriptionByShortUuidRawHostAdditionalParam as RawSubscriptionByShortUuidRawHostAdditionalParam,
+)
+from remnawave._generated.models import (
+    RawSubscriptionByShortUuidRawHostDbData as RawSubscriptionByShortUuidRawHostDbData,
+)
+from remnawave._generated.models import (
+    RawSubscriptionByShortUuidRawHostPassword as RawSubscriptionByShortUuidRawHostPassword,
 )
 from remnawave._generated.models import (
     RawSubscriptionByShortUuidRawHostProtocolOption as RawSubscriptionByShortUuidRawHostProtocolOption,
@@ -251,6 +302,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     ReorderNodeRequest as ReorderNodeRequest,
+)
+from remnawave._generated.models import (
+    RestartAllNodesRequestBody as RestartAllNodesRequestBody,
 )
 from remnawave._generated.models import (
     RevokeUserSubscriptionBody as RevokeUserSubscriptionBody,
@@ -283,6 +337,9 @@ from remnawave._generated.models import (
     Status as Status,
 )
 from remnawave._generated.models import (
+    StatusBranding as StatusBranding,
+)
+from remnawave._generated.models import (
     StatusOauth2 as StatusOauth2,
 )
 from remnawave._generated.models import (
@@ -293,6 +350,18 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SubscriptionInfo as SubscriptionInfo,
+)
+from remnawave._generated.models import (
+    SubscriptionInfoUser as SubscriptionInfoUser,
+)
+from remnawave._generated.models import (
+    SubscriptionRequestHistoryStats as SubscriptionRequestHistoryStats,
+)
+from remnawave._generated.models import (
+    SubscriptionRequestHistoryStatsHourlyRequestStat as SubscriptionRequestHistoryStatsHourlyRequestStat,
+)
+from remnawave._generated.models import (
+    SubscriptionRequestsPage as SubscriptionRequestsPage,
 )
 from remnawave._generated.models import (
     SubscriptionSettings as SubscriptionSettings,
@@ -311,6 +380,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     Template as Template,
+)
+from remnawave._generated.models import (
+    TorrentBlockerReport as TorrentBlockerReport,
 )
 from remnawave._generated.models import (
     UpdateConfigProfileRequest as UpdateConfigProfileRequest,
@@ -361,14 +433,20 @@ from remnawave._generated.models import (
     UserHwidDevice as UserHwidDevice,
 )
 from remnawave._generated.models import (
-    UserHwidDeviceDevice as UserHwidDeviceDevice,
-)
-from remnawave._generated.models import (
     UserLastConnectedNode as UserLastConnectedNode,
 )
 from remnawave._generated.models import (
     UsersPage as UsersPage,
 )
 from remnawave._generated.models import (
+    UserSubscriptionRequestHistory as UserSubscriptionRequestHistory,
+)
+from remnawave._generated.models import (
+    UserSubscriptionRequestHistoryRecord as UserSubscriptionRequestHistoryRecord,
+)
+from remnawave._generated.models import (
     UserUsageByRange as UserUsageByRange,
+)
+from remnawave._generated.models import (
+    X25519Keypair as X25519Keypair,
 )

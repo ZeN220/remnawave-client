@@ -7,6 +7,7 @@ from remnawave._generated.models import (
     Node,
     Node2,
     ReorderNodeRequest,
+    RestartAllNodesRequestBody,
     UpdateNodeRequest,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -99,9 +100,9 @@ class NodesApi(SyncGroup):
         """Restart node."""
         return self._executor.execute(RESTART_NODE, path={"uuid": uuid})
 
-    def restart_all_nodes(self) -> Node:
+    def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
         """Restart all nodes."""
-        return self._executor.execute(RESTART_ALL_NODES)
+        return self._executor.execute(RESTART_ALL_NODES, body=body)
 
     def reorder_nodes(self, body: ReorderNodeRequest) -> list[Node2]:
         """Reorder nodes."""
@@ -141,9 +142,9 @@ class AsyncNodesApi(AsyncGroup):
         """Restart node."""
         return await self._executor.execute(RESTART_NODE, path={"uuid": uuid})
 
-    async def restart_all_nodes(self) -> Node:
+    async def restart_all_nodes(self, body: RestartAllNodesRequestBody) -> Node:
         """Restart all nodes."""
-        return await self._executor.execute(RESTART_ALL_NODES)
+        return await self._executor.execute(RESTART_ALL_NODES, body=body)
 
     async def reorder_nodes(self, body: ReorderNodeRequest) -> list[Node2]:
         """Reorder nodes."""

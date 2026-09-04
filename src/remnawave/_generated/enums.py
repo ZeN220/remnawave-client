@@ -22,6 +22,11 @@ class UserTrafficLimitStrategy(StrEnum):
     MONTH = "MONTH"
 
 
+class UpdateUserRequestStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    DISABLED = "DISABLED"
+
+
 class SubscriptionControllerGetSubscriptionByClientType(StrEnum):
     STASH = "stash"
     SINGBOX = "singbox"
