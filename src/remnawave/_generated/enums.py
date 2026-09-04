@@ -47,6 +47,13 @@ class TemplateTemplateType(StrEnum):
     SINGBOX = "SINGBOX"
 
 
+class BulkNodesActionsRequestAction(StrEnum):
+    ENABLE = "ENABLE"
+    DISABLE = "DISABLE"
+    RESTART = "RESTART"
+    RESET_TRAFFIC = "RESET_TRAFFIC"
+
+
 class HostSecurityLayer(StrEnum):
     DEFAULT = "DEFAULT"
     TLS = "TLS"
@@ -145,6 +152,13 @@ class ServiceEventEvent(StrEnum):
     SERVICE_PANEL_STARTED = "service.panel_started"
     SERVICE_LOGIN_ATTEMPT_FAILED = "service.login_attempt_failed"
     SERVICE_LOGIN_ATTEMPT_SUCCESS = "service.login_attempt_success"
+    SERVICE_SUBPAGE_CONFIG_CHANGED = "service.subpage_config_changed"
+
+
+class ServiceEventDataSubpageConfigAction(StrEnum):
+    CREATED = "CREATED"
+    UPDATED = "UPDATED"
+    DELETED = "DELETED"
 
 
 class UserEventEvent(StrEnum):

@@ -40,6 +40,10 @@ from remnawave._generated.methods.internal_squads import (
     AsyncInternalSquadsApi,
     InternalSquadsApi,
 )
+from remnawave._generated.methods.ip_management import (
+    AsyncIpManagementApi,
+    IpManagementApi,
+)
 from remnawave._generated.methods.keygen import (
     AsyncKeygenApi,
     KeygenApi,
@@ -110,6 +114,7 @@ class SyncGroups:
     hwid_user_devices: HwidUserDevicesApi
     infra_billing: InfraBillingApi
     internal_squads: InternalSquadsApi
+    ip_management: IpManagementApi
     keygen: KeygenApi
     nodes: NodesApi
     passkeys: PasskeysApi
@@ -136,6 +141,7 @@ class SyncGroups:
         self.hwid_user_devices = HwidUserDevicesApi(executor)
         self.infra_billing = InfraBillingApi(executor)
         self.internal_squads = InternalSquadsApi(executor)
+        self.ip_management = IpManagementApi(executor)
         self.keygen = KeygenApi(executor)
         self.nodes = NodesApi(executor)
         self.passkeys = PasskeysApi(executor)
@@ -165,6 +171,7 @@ class AsyncGroups:
     hwid_user_devices: AsyncHwidUserDevicesApi
     infra_billing: AsyncInfraBillingApi
     internal_squads: AsyncInternalSquadsApi
+    ip_management: AsyncIpManagementApi
     keygen: AsyncKeygenApi
     nodes: AsyncNodesApi
     passkeys: AsyncPasskeysApi
@@ -191,6 +198,7 @@ class AsyncGroups:
         self.hwid_user_devices = AsyncHwidUserDevicesApi(executor)
         self.infra_billing = AsyncInfraBillingApi(executor)
         self.internal_squads = AsyncInternalSquadsApi(executor)
+        self.ip_management = AsyncIpManagementApi(executor)
         self.keygen = AsyncKeygenApi(executor)
         self.nodes = AsyncNodesApi(executor)
         self.passkeys = AsyncPasskeysApi(executor)

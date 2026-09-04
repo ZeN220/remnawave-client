@@ -4,6 +4,7 @@
 from collections.abc import AsyncIterator, Iterator
 
 from remnawave._generated.models import (
+    ConnectionKeysByUuid,
     GetSubpageConfigByShortUuidRequestBody,
     RawSubscriptionByShortUuid,
     SubpageConfigByShortUuid,
@@ -50,6 +51,11 @@ GET_SUBPAGE_CONFIG_BY_SHORT_UUID: Operation[SubpageConfigByShortUuid] = (
         "/api/subscriptions/subpage-config/{shortUuid}",
         SubpageConfigByShortUuid,
     )
+)
+GET_CONNECTION_KEYS_BY_UUID: Operation[ConnectionKeysByUuid] = Operation(
+    "GET",
+    "/api/subscriptions/connection-keys/{uuid}",
+    ConnectionKeysByUuid,
 )
 
 
@@ -110,6 +116,12 @@ class SubscriptionsApi(SyncGroup):
             body=body,
         )
 
+    def get_connection_keys_by_uuid(self, uuid: str) -> ConnectionKeysByUuid:
+        """Get connection keys (base64 format) by uuid."""
+        return self._executor.execute(
+            GET_CONNECTION_KEYS_BY_UUID, path={"uuid": uuid}
+        )
+
 
 class AsyncSubscriptionsApi(AsyncGroup):
     async def get_all_subscriptions(
@@ -167,4 +179,12 @@ class AsyncSubscriptionsApi(AsyncGroup):
             GET_SUBPAGE_CONFIG_BY_SHORT_UUID,
             path={"shortUuid": short_uuid},
             body=body,
+        )
+
+    async def get_connection_keys_by_uuid(
+        self, uuid: str
+    ) -> ConnectionKeysByUuid:
+        """Get connection keys (base64 format) by uuid."""
+        return await self._executor.execute(
+            GET_CONNECTION_KEYS_BY_UUID, path={"uuid": uuid}
         )

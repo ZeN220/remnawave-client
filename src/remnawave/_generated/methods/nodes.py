@@ -2,6 +2,7 @@
 """Nodes Controller."""
 
 from remnawave._generated.models import (
+    BulkNodesActionsRequest,
     CreateNodeRequest,
     Host,
     Node,
@@ -82,6 +83,11 @@ PROFILE_MODIFICATION: Operation[Node] = Operation(
     "/api/nodes/bulk-actions/profile-modification",
     Node,
 )
+BULK_NODES_ACTIONS: Operation[Node] = Operation(
+    "POST",
+    "/api/nodes/bulk-actions",
+    Node,
+)
 
 
 class NodesApi(SyncGroup):
@@ -136,6 +142,10 @@ class NodesApi(SyncGroup):
     def profile_modification(self, body: ProfileModificationRequest) -> Node:
         """Modify Inbounds & Profile for many nodes."""
         return self._executor.execute(PROFILE_MODIFICATION, body=body)
+
+    def bulk_nodes_actions(self, body: BulkNodesActionsRequest) -> Node:
+        """Perform actions for many nodes."""
+        return self._executor.execute(BULK_NODES_ACTIONS, body=body)
 
 
 class AsyncNodesApi(AsyncGroup):
@@ -194,3 +204,7 @@ class AsyncNodesApi(AsyncGroup):
     ) -> Node:
         """Modify Inbounds & Profile for many nodes."""
         return await self._executor.execute(PROFILE_MODIFICATION, body=body)
+
+    async def bulk_nodes_actions(self, body: BulkNodesActionsRequest) -> Node:
+        """Perform actions for many nodes."""
+        return await self._executor.execute(BULK_NODES_ACTIONS, body=body)

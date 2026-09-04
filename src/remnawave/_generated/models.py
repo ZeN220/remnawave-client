@@ -7,12 +7,14 @@ from uuid import UUID
 from adaptix import Omittable, Omitted
 
 from remnawave._generated.enums import (
+    BulkNodesActionsRequestAction,
     CreateHostRequestAlpn,
     CreateHostRequestFingerprint,
     CrmEventEvent,
     HostSecurityLayer,
     NodeEventEvent,
     OAuth2CallbackRequestProvider,
+    ServiceEventDataSubpageConfigAction,
     ServiceEventEvent,
     SrrMatcherMatchedRuleConditionOperator,
     SrrMatcherMatchedRuleOperator,
@@ -633,6 +635,13 @@ class GetSubpageConfigByShortUuidRequestBody:
 
 
 @dataclass(frozen=True, slots=True)
+class ConnectionKeysByUuid:
+    enabled_keys: list[str]
+    hidden_keys: list[str]
+    disabled_keys: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class Template:
     uuid: UUID
     view_position: int
@@ -1049,6 +1058,12 @@ class ProfileModificationRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class BulkNodesActionsRequest:
+    uuids: list[UUID]
+    action: BulkNodesActionsRequestAction
+
+
+@dataclass(frozen=True, slots=True)
 class HostInbound:
     config_profile_uuid: UUID | None
     config_profile_inbound_uuid: UUID | None
@@ -1084,6 +1099,7 @@ class Host2:
     override_sni_from_address: bool | None = None
     keep_sni_blank: bool | None = None
     allow_insecure: bool | None = None
+    exclude_from_subscription_types: list[TemplateTemplateType] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1120,6 +1136,9 @@ class CreateHostRequest:
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     excluded_internal_squads: Omittable[list[UUID]] = OMITTED
+    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
+        OMITTED
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -1151,6 +1170,9 @@ class UpdateHostRequest:
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     excluded_internal_squads: Omittable[list[UUID]] = OMITTED
+    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
+        OMITTED
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -1664,7 +1686,10 @@ class SrrMatcherMatchedRuleResponseModificationHeader:
 @dataclass(frozen=True, slots=True)
 class SrrMatcherMatchedRuleResponseModification:
     headers: list[SrrMatcherMatchedRuleResponseModificationHeader] | None = None
+    apply_headers_to_end: bool | None = None
     subscription_template: str | None = None
+    ignore_host_xray_json_template: bool | None = None
+    ignore_serve_json_at_base_subscription: bool | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1690,11 +1715,19 @@ class SrrMatcher:
 
 
 @dataclass(frozen=True, slots=True)
+class DebugSrrMatcherRequestResponseRuleSetting:
+    disable_subscription_access_by_path: Omittable[bool] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
 class DebugSrrMatcherRequestResponseRuleRuleResponseModification:
     headers: Omittable[
         list[SrrMatcherMatchedRuleResponseModificationHeader]
     ] = OMITTED
+    apply_headers_to_end: Omittable[bool] = OMITTED
     subscription_template: Omittable[str] = OMITTED
+    ignore_host_xray_json_template: Omittable[bool] = OMITTED
+    ignore_serve_json_at_base_subscription: Omittable[bool] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1714,6 +1747,7 @@ class DebugSrrMatcherRequestResponseRuleRule:
 class DebugSrrMatcherRequestResponseRule:
     version: Literal["1"]
     rules: list[DebugSrrMatcherRequestResponseRuleRule]
+    settings: Omittable[DebugSrrMatcherRequestResponseRuleSetting] = OMITTED
 
 
 @dataclass(frozen=True, slots=True)
@@ -1722,9 +1756,15 @@ class DebugSrrMatcherRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class SubscriptionSettingsResponseRuleSetting:
+    disable_subscription_access_by_path: bool | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class SubscriptionSettingsResponseRule:
     version: Literal["1"]
     rules: list[SrrMatcherMatchedRule]
+    settings: SubscriptionSettingsResponseRuleSetting | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1763,6 +1803,48 @@ class UpdateSubscriptionSettingsRequest:
     randomize_hosts: Omittable[bool] = OMITTED
     response_rules: Omittable[DebugSrrMatcherRequestResponseRule] = OMITTED
     hwid_settings: Omittable[ExternalSquadHwidSetting] = OMITTED
+
+
+@dataclass(frozen=True, slots=True)
+class FetchIps:
+    job_id: str
+
+
+@dataclass(frozen=True, slots=True)
+class FetchIpsResultProgress:
+    total: int
+    completed: int
+    percent: int
+
+
+@dataclass(frozen=True, slots=True)
+class FetchIpsResultResultNode:
+    node_uuid: UUID
+    node_name: str
+    country_code: str
+    ips: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class FetchIpsResultResult:
+    success: bool
+    user_uuid: UUID
+    user_id: str
+    nodes: list[FetchIpsResultResultNode]
+
+
+@dataclass(frozen=True, slots=True)
+class FetchIpsResult:
+    is_completed: bool
+    is_failed: bool
+    progress: FetchIpsResultProgress
+    result: FetchIpsResultResult | None
+
+
+@dataclass(frozen=True, slots=True)
+class DropConnectionsRequest:
+    drop_by: Any
+    target_nodes: Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -1812,9 +1894,16 @@ class ServiceEventDataLoginAttempt:
 
 
 @dataclass(frozen=True, slots=True)
+class ServiceEventDataSubpageConfig:
+    action: ServiceEventDataSubpageConfigAction
+    uuid: UUID
+
+
+@dataclass(frozen=True, slots=True)
 class ServiceEventData:
     login_attempt: ServiceEventDataLoginAttempt | None = None
     panel_version: str | None = None
+    subpage_config: ServiceEventDataSubpageConfig | None = None
 
 
 @dataclass(frozen=True, slots=True)
