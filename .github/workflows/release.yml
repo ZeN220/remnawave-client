@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    name: Check and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      # A tag that disagrees with pyproject would publish the wrong number
+      - name: Tag matches the declared version
+        run: |
+          declared=$(uv version --short)
+          if [ "$declared" != "$GITHUB_REF_NAME" ]; then
+            echo "tag is $GITHUB_REF_NAME but pyproject says $declared"
+            exit 1
+          fi
+      - run: uv sync --group dev
+      - run: uv run ruff check src tests tools examples
+      - run: uv run ruff format --check src tests tools examples
+      - run: uv run mypy
+      - run: uv run pytest
+      - run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: astral-sh/setup-uv@v5
+      - run: uv publish --trusted-publishing always
