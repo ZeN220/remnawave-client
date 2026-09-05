@@ -154,8 +154,8 @@ class VerifyPasskeyRegistrationBody:
 class PasskeyPasskey:
     id: str
     name: str
-    created_at: str
-    last_used_at: str
+    created_at: datetime
+    last_used_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -330,8 +330,8 @@ class CreateUserBody:
     ss_password: Omittable[str] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     traffic_limit_strategy: Omittable[UserTrafficLimitStrategy] = OMITTED
-    created_at: Omittable[str] = OMITTED
-    last_traffic_reset_at: Omittable[str] = OMITTED
+    created_at: Omittable[datetime] = OMITTED
+    last_traffic_reset_at: Omittable[datetime] = OMITTED
     description: Omittable[str] = OMITTED
     tag: Omittable[str | None] = OMITTED
     telegram_id: Omittable[int | None] = OMITTED
@@ -1200,9 +1200,9 @@ class RecordReportActionReport:
     blocked: bool
     ip: str
     block_duration: int
-    will_unblock_at: str
+    will_unblock_at: datetime
     user_id: str
-    processed_at: str
+    processed_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -1764,7 +1764,7 @@ class InfraBillingRecordsPage:
 class CreateInfraBillingRecordBody:
     provider_uuid: UUID
     amount: int
-    billed_at: str
+    billed_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -1807,7 +1807,7 @@ class InfraBillingNode:
 @dataclass(frozen=True, slots=True)
 class UpdateInfraBillingNodeBody:
     uuids: list[UUID]
-    next_billing_at: str
+    next_billing_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -1815,7 +1815,7 @@ class CreateInfraBillingNodeBody:
     provider_uuid: UUID
     node_uuid: UUID | None
     name: str | None
-    next_billing_at: str
+    next_billing_at: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -2163,7 +2163,7 @@ class Recap:
     this_month: RecapThisMonth
     total: RecapTotal
     version: str
-    init_date: str
+    init_date: datetime
 
 
 @dataclass(frozen=True, slots=True)
@@ -2256,7 +2256,7 @@ class ConnectionsByUserResultProgress:
 @dataclass(frozen=True, slots=True)
 class ConnectionsByNodeResultResultUserIp:
     ip: str
-    last_seen: str
+    last_seen: datetime
 
 
 @dataclass(frozen=True, slots=True)

@@ -33,6 +33,48 @@ PRIMITIVES: dict[tuple[str | None, str | None], str] = {
     ("number", None): "int",
 }
 
+# Панель описывает даты регуляркой и не всегда сопровождает её форматом:
+# в 3.4.3 у двух десятков полей format: date-time просто пропал. Разбирать
+# текст регулярки хрупко, поэтому спрашиваем её саму — что она принимает.
+_DATETIME_SAMPLES = ("2024-01-15T10:30:00Z", "2000-02-29T23:59:59.123Z")
+_DATE_SAMPLES = ("2024-01-15", "2000-02-29", "1999-12-31")
+# Без отбраковки в дату попал бы любой паттерн вида ^[A-Za-z0-9-]+$.
+_NOT_DATE_SAMPLES = (
+    "2024-13-01",
+    "2024-01-32",
+    "2024-02-30",
+    "20240115",
+    "abc",
+)
+
+
+def date_type(pattern: str | None) -> str | None:
+    """datetime, date или ничего — по тому, что регулярка принимает."""
+    if not pattern:
+        return None
+    try:
+        matcher = re.compile(pattern)
+    except re.error:
+        return None
+    if all(matcher.search(sample) for sample in _DATETIME_SAMPLES):
+        return "datetime"
+    if all(matcher.search(sample) for sample in _DATE_SAMPLES) and not any(
+        matcher.search(sample) for sample in _NOT_DATE_SAMPLES
+    ):
+        return "date"
+    return None
+
+
+def _primitive(schema: dict[str, Any]) -> str | None:
+    """Скаляр по типу и формату, а без формата — по регулярке."""
+    fmt = schema.get("format")
+    if fmt is None:
+        dated = date_type(schema.get("pattern"))
+        if dated is not None:
+            return dated
+    return PRIMITIVES.get((schema.get("type"), fmt))
+
+
 Names = dict[str, str]
 Models = tuple[Model, ...]
 Enums = tuple[Enum, ...]
@@ -139,7 +181,7 @@ class Builder:
         if kind == "object" or "properties" in schema:
             return self._object(schema, hint, body=body)
 
-        primitive = PRIMITIVES.get((kind, schema.get("format")))
+        primitive = _primitive(schema)
         if primitive is not None:
             return primitive
         if kind == "number":
@@ -147,10 +189,7 @@ class Builder:
         return "Any"
 
     def _variants(self, variants: list[dict[str, Any]], hint: str) -> str:
-        scalars = {
-            PRIMITIVES.get((v.get("type"), v.get("format")))
-            for v in map(self._deref, variants)
-        }
+        scalars = {_primitive(v) for v in map(self._deref, variants)}
         if len(scalars) == 1 and None not in scalars:
             return scalars.pop() or "Any"
         self.unsupported.append(hint)

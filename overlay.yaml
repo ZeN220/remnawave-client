@@ -45,7 +45,6 @@ field_types:
   uptime: float
   eventLoopDelayMs: float
   eventLoopP99Ms: float
-  expireAt: datetime
 
 field_names:
   HWIDMaxDevicesExceeded: hwid_max_devices_exceeded

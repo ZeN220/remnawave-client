@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from tools.codegen.parse import date_type
 from tools.codegen.specs import newest
 
 # От файла, а не от рабочего каталога: pytest могут запустить откуда угодно.
@@ -94,6 +95,11 @@ def _string(schema: dict[str, Any]) -> str:
         return "2026-01-01T00:00:00.000Z"
     if fmt == "email":
         return "user@example.com"
+    dated = date_type(schema.get("pattern"))
+    if dated == "datetime":
+        return "2026-01-01T00:00:00.000Z"
+    if dated == "date":
+        return "2026-01-01"
     return "value"
 
 
