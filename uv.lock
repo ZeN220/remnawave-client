@@ -691,7 +691,7 @@ wheels = [
 
 [[package]]
 name = "remnawave-client"
-version = "3.4.3"
+version = "3.4.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "adaptix" },
