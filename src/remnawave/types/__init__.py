@@ -298,6 +298,9 @@ from remnawave._generated.models import (
     ExternalSquadTemplate as ExternalSquadTemplate,
 )
 from remnawave._generated.models import (
+    Filter as Filter,
+)
+from remnawave._generated.models import (
     GeocheckByNode as GeocheckByNode,
 )
 from remnawave._generated.models import (
@@ -541,12 +544,6 @@ from remnawave._generated.models import (
     ProfileModificationBody as ProfileModificationBody,
 )
 from remnawave._generated.models import (
-    QueryFilter as QueryFilter,
-)
-from remnawave._generated.models import (
-    QuerySort as QuerySort,
-)
-from remnawave._generated.models import (
     RawSubscriptionByShortUuid as RawSubscriptionByShortUuid,
 )
 from remnawave._generated.models import (
@@ -674,6 +671,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SnippetSnippet as SnippetSnippet,
+)
+from remnawave._generated.models import (
+    Sorting as Sorting,
 )
 from remnawave._generated.models import (
     SrrMatcher as SrrMatcher,

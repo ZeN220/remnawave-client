@@ -5,8 +5,8 @@ from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from remnawave._generated.models import (
-    QueryFilter,
-    QuerySort,
+    Filter,
+    Sorting,
     SubscriptionRequest,
     SubscriptionRequestHistoryStats,
     SubscriptionRequestsPage,
@@ -40,10 +40,10 @@ class SubscriptionRequestHistoryApi(SyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> SubscriptionRequestsPage:
         """Get all subscription request history."""
         return self._executor.execute(
@@ -78,10 +78,10 @@ class AsyncSubscriptionRequestHistoryApi(AsyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> SubscriptionRequestsPage:
         """Get all subscription request history."""
         return await self._executor.execute(

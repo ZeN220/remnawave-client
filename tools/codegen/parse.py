@@ -100,6 +100,20 @@ def _shorten(hint: str, busy: set[str]) -> str:
     return hint if short == hint or short in busy else short
 
 
+def _param_hint(schema: dict[str, Any], wire: str, hint: str) -> str:
+    """Объектные query-параметры (filters, sorting) в спеке безымянны, и одну
+    их форму принимает несколько листингов — имя операции для них врёт.
+    Имя параметра это то, что пользователь видит в документации. Скаляры
+    трогать нельзя: короткое имя поля отобрало бы UserStatus у енума.
+    """
+    items = schema.get("items") or {}
+    shaped = "properties" in schema or schema.get("type") == "object"
+    listed = schema.get("type") == "array" and (
+        "properties" in items or items.get("type") == "object"
+    )
+    return pascal(singular(wire)) if shaped or listed else pascal(hint)
+
+
 def _pick(candidates: set[str], taken: set[str], busy: set[str]) -> str:
     """Имя из кандидатов, а не цифра: цифра зависела бы от порядка обхода."""
     for hint in sorted(candidates, key=lambda c: (len(c), c)):
@@ -427,10 +441,13 @@ class Builder:
 
     def _param(self, raw: dict[str, Any], hint: str) -> tuple[Param, str]:
         wire = raw["name"]
+        schema = raw.get("schema") or {}
         param = Param(
             name=snake(wire),
             wire=wire,
-            type=self._type(raw.get("schema") or {}, pascal(hint), body=False),
+            type=self._type(
+                schema, _param_hint(schema, wire, hint), body=False
+            ),
             required=bool(raw.get("required")),
         )
         return param, raw["in"]

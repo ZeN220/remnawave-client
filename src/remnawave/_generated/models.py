@@ -359,13 +359,13 @@ class UpdateUserBody:
 
 
 @dataclass(frozen=True, slots=True)
-class QueryFilter:
+class Filter:
     id: str
     value: Any
 
 
 @dataclass(frozen=True, slots=True)
-class QuerySort:
+class Sorting:
     id: str
     desc: bool
 

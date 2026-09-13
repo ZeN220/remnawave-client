@@ -17,11 +17,6 @@ types:
   User2: UserRef
   TopUsersByHwidDevicesUser: TopUserByDevices
 
-  # Элементы query-параметров filters и sorting у листингов.
-  # Безымянные объекты в спеке, поэтому имя пришло из operationId.
-  UsersControllerGetUser: QueryFilter
-  HwidUserDevicesControllerGetAllUser: QuerySort
-
   Users: UsersPage
   Subscriptions: SubscriptionsPage
   TorrentBlockerReports: TorrentBlockerReportsPage

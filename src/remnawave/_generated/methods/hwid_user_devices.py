@@ -9,10 +9,10 @@ from remnawave._generated.models import (
     DeleteAllUserHwidDevicesBody,
     DeleteUserHwidDeviceBody,
     Device,
+    Filter,
     HwidDevicesPage,
     HwidDevicesStats,
-    QueryFilter,
-    QuerySort,
+    Sorting,
     TopUserByDevices,
     TopUsersPage,
     UserHwidDevice,
@@ -68,10 +68,10 @@ class HwidUserDevicesApi(SyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> HwidDevicesPage:
         """Get HWID devices."""
         return self._executor.execute(
@@ -143,10 +143,10 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> HwidDevicesPage:
         """Get HWID devices."""
         return await self._executor.execute(

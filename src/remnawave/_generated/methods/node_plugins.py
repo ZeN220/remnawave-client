@@ -7,16 +7,16 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CloneNodePluginBody,
+    Filter,
     HostsTags,
     NodePlugin,
     NodePlugins,
     NodePluginsTags,
     PluginExecutorBody,
-    QueryFilter,
-    QuerySort,
     ReorderNodePluginsBody,
     SharedList,
     SharedLists,
+    Sorting,
     SyncNodePluginBody,
     SyncSnippetBody,
     TorrentBlockerReport,
@@ -124,10 +124,10 @@ class NodePluginsApi(SyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> TorrentBlockerReportsPage:
         """Get Torrent Blocker Reports."""
         return self._executor.execute(
@@ -234,10 +234,10 @@ class AsyncNodePluginsApi(AsyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> TorrentBlockerReportsPage:
         """Get Torrent Blocker Reports."""
         return await self._executor.execute(

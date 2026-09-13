@@ -12,11 +12,11 @@ from remnawave._generated.enums import (
 from remnawave._generated.models import (
     CreateUserBody,
     ExtendUserBody,
+    Filter,
     HostsTags,
-    QueryFilter,
-    QuerySort,
     ResolveUserBody,
     RevokeUserSubscriptionBody,
+    Sorting,
     UpdateUserBody,
     User,
     UserAccessibleNodes,
@@ -132,10 +132,10 @@ class UsersApi(SyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> UsersPage:
         """Get all users using offset-based pagination."""
         return self._executor.execute(
@@ -274,10 +274,10 @@ class AsyncUsersApi(AsyncGroup):
         *,
         start: int | None = None,
         size: int | None = None,
-        filters: list[QueryFilter] | None = None,
+        filters: list[Filter] | None = None,
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
-        sorting: list[QuerySort] | None = None,
+        sorting: list[Sorting] | None = None,
     ) -> UsersPage:
         """Get all users using offset-based pagination."""
         return await self._executor.execute(
