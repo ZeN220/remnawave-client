@@ -5,36 +5,32 @@ groups:
 methods:
   NodesUsageHistoryController_getStatsNodesUsage: get_nodes_usage  # conflict with BandwidthStatsUsersController_getStatsNodesUsage
 
-# Имена типов. Ключ — авто-имя, которое выбрал генератор.
-# Авто-правило (самое короткое имя-кандидат без ведущего глагола) даёт
-# осмысленный результат почти везде; здесь только то, где оно промахнулось.
+# Type names the generator got wrong. Its rule — shortest candidate, leading
+# verb and repeated words dropped — is right almost everywhere.
 types:
-  # Единственный кандидат занят настоящим User, а цифра рядом с ним
-  # ничего не объясняет. Форма — {id, username, shortUuid}.
+  # Its only candidate is taken by the real User; a digit says nothing.
   User2: UserRef
 
-  # Обёртка заняла имя элемента: хинт Passkey плюс поле passkeys даёт
-  # PasskeyPasskey. Имя возвращаем элементу, обёртку ставим во
-  # множественное число — как в спеке и как у прочих листингов.
+  # Wrapper took its element's name (hint Passkey + field passkeys). Element
+  # gets it back, wrapper goes plural like Users and GetPasskeysResponseDto.
   Passkey: Passkeys
   PasskeyPasskey: Passkey
   Snippet: Snippets
   SnippetSnippet: Snippet
 
-  # Поле event у вебхука — это имя события. Модель события и её поле
-  # хотят одно имя, суффикс обязан быть у кого-то из двух: оставляем
-  # хорошее имя модели.
+  # An event model and its own event field want one name, so one needs a
+  # suffix. The model keeps the plain one.
   CrmEventEvent: CrmEventName
   NodeEventEvent: NodeEventName
   ServiceEventEvent: ServiceEventName
   UserEventEvent: UserEventName
   UserHwidDevicesEventEvent: UserHwidDevicesEventName
 
-  # Одну анонимную форму отдают несвязанные эндпоинты. Склейка верна, но
-  # имя достаётся тому, кто идёт первым, и указывает на чужака.
-  GeocheckByNode: JobRef             # {jobId}, ещё connections by user/node
-  HostsTags: Tags                    # {tags} девяти листингов
-  ReorderHostsBodyHost: ReorderItem  # {viewPosition, uuid} восьми reorder
+  # Unrelated endpoints share an anonymous shape. Merging is right, but the
+  # name comes from whichever sorts first and so points at a stranger.
+  GeocheckByNode: JobRef             # {jobId}, also connections by user/node
+  HostsTags: Tags                    # {tags} of nine listings
+  ReorderHostsBodyHost: ReorderItem  # {viewPosition, uuid} of eight reorders
   ReorderNodePluginsBody: ReorderBody
 
 secret_fields:
@@ -44,9 +40,7 @@ secret_fields:
     - vlessUuid
     - subscriptionUrl
 
-# Принудительный тип поля там, где спека его не выражает.
-# Множители дробные, хотя объявлены как number. В 3.4.3 у expireAt
-# пропал format: date-time, хотя панель по-прежнему ждёт ISO-дату.
+# Multipliers are fractional despite being declared as plain number.
 field_types:
   consumptionMultiplier: float
   nodeConsumptionMultiplier: float
@@ -54,7 +48,7 @@ field_types:
   eventLoopDelayMs: float
   eventLoopP99Ms: float
 
+# snake() would turn HWID into h_w_i_d.
 field_names:
   HWIDMaxDevicesExceeded: hwid_max_devices_exceeded
   HWIDNotSupported: hwid_not_supported
-  media_type: media_type
