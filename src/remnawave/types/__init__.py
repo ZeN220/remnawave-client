@@ -346,7 +346,7 @@ from remnawave._generated.models import (
     HttpStatsRoute as HttpStatsRoute,
 )
 from remnawave._generated.models import (
-    HwidDevicesPage as HwidDevicesPage,
+    HwidDevicesQuery as HwidDevicesQuery,
 )
 from remnawave._generated.models import (
     HwidDevicesStats as HwidDevicesStats,
@@ -382,7 +382,7 @@ from remnawave._generated.models import (
     InfraBillingRecord as InfraBillingRecord,
 )
 from remnawave._generated.models import (
-    InfraBillingRecordsPage as InfraBillingRecordsPage,
+    InfraBillingRecordRecord as InfraBillingRecordRecord,
 )
 from remnawave._generated.models import (
     InfraProvider as InfraProvider,
@@ -572,6 +572,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     RecapTotal as RecapTotal,
+)
+from remnawave._generated.models import (
+    Record as Record,
 )
 from remnawave._generated.models import (
     RecordNode as RecordNode,
@@ -766,7 +769,10 @@ from remnawave._generated.models import (
     Subscription as Subscription,
 )
 from remnawave._generated.models import (
-    SubscriptionRequest as SubscriptionRequest,
+    SubscriptionRequestHistory as SubscriptionRequestHistory,
+)
+from remnawave._generated.models import (
+    SubscriptionRequestHistoryRecord as SubscriptionRequestHistoryRecord,
 )
 from remnawave._generated.models import (
     SubscriptionRequestHistoryStats as SubscriptionRequestHistoryStats,
@@ -775,7 +781,7 @@ from remnawave._generated.models import (
     SubscriptionRequestHistoryStatsHourlyRequestStat as SubscriptionRequestHistoryStatsHourlyRequestStat,
 )
 from remnawave._generated.models import (
-    SubscriptionRequestsPage as SubscriptionRequestsPage,
+    Subscriptions as Subscriptions,
 )
 from remnawave._generated.models import (
     SubscriptionSettings as SubscriptionSettings,
@@ -785,9 +791,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SubscriptionSettingsResponseRuleSetting as SubscriptionSettingsResponseRuleSetting,
-)
-from remnawave._generated.models import (
-    SubscriptionsPage as SubscriptionsPage,
 )
 from remnawave._generated.models import (
     SubscriptionUser as SubscriptionUser,
@@ -805,10 +808,10 @@ from remnawave._generated.models import (
     Templates as Templates,
 )
 from remnawave._generated.models import (
-    TopUserByDevices as TopUserByDevices,
+    TopUsersByHwidDevices as TopUsersByHwidDevices,
 )
 from remnawave._generated.models import (
-    TopUsersPage as TopUsersPage,
+    TopUsersByHwidDevicesUser as TopUsersByHwidDevicesUser,
 )
 from remnawave._generated.models import (
     TorrentBlockerEvent as TorrentBlockerEvent,
@@ -817,10 +820,7 @@ from remnawave._generated.models import (
     TorrentBlockerEventData as TorrentBlockerEventData,
 )
 from remnawave._generated.models import (
-    TorrentBlockerReport as TorrentBlockerReport,
-)
-from remnawave._generated.models import (
-    TorrentBlockerReportsPage as TorrentBlockerReportsPage,
+    TorrentBlockerReports as TorrentBlockerReports,
 )
 from remnawave._generated.models import (
     TorrentBlockerReportsStats as TorrentBlockerReportsStats,
@@ -925,7 +925,7 @@ from remnawave._generated.models import (
     UserRef as UserRef,
 )
 from remnawave._generated.models import (
-    UsersPage as UsersPage,
+    Users as Users,
 )
 from remnawave._generated.models import (
     UsersStream as UsersStream,

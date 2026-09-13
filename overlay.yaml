@@ -9,21 +9,9 @@ methods:
 # Авто-правило (самое короткое имя-кандидат без ведущего глагола) даёт
 # осмысленный результат почти везде; здесь только то, где оно промахнулось.
 types:
-  # Несколько форм претендуют на одно имя. Проигравшие берут свой
-  # следующий кандидат: цифра зависела бы от порядка обхода спеки.
-  Record: TorrentBlockerReport
-  InfraBillingRecordRecord: InfraBillingRecord
-  SubscriptionRequestHistoryRecord: SubscriptionRequest
+  # Единственный кандидат занят настоящим User, а цифра рядом с ним
+  # ничего не объясняет. Форма — {id, username, shortUuid}.
   User2: UserRef
-  TopUsersByHwidDevicesUser: TopUserByDevices
-
-  Users: UsersPage
-  Subscriptions: SubscriptionsPage
-  TorrentBlockerReports: TorrentBlockerReportsPage
-  SubscriptionRequestHistory: SubscriptionRequestsPage
-  InfraBillingRecord: InfraBillingRecordsPage
-  TopUsersByHwidDevices: TopUsersPage
-  HwidDevicesQuery: HwidDevicesPage
 
 secret_fields:
   User:

@@ -21,7 +21,7 @@ from remnawave._generated.models import (
     User,
     UserAccessibleNodes,
     UserRef,
-    UsersPage,
+    Users,
     UsersStream,
     UserSubscriptionRequestHistory,
 )
@@ -42,10 +42,10 @@ UPDATE_USER: Operation[User] = Operation(
     "/api/users",
     User,
 )
-GET_USERS: Operation[UsersPage] = Operation(
+GET_USERS: Operation[Users] = Operation(
     "GET",
     "/api/users",
-    UsersPage,
+    Users,
     pagination=Pagination(items_field="users", max_page_size=1000),
 )
 DELETE_USER = NoContentOperation("DELETE", "/api/users/{userId}")
@@ -136,7 +136,7 @@ class UsersApi(SyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> UsersPage:
+    ) -> Users:
         """Get all users using offset-based pagination."""
         return self._executor.execute(
             GET_USERS,
@@ -278,7 +278,7 @@ class AsyncUsersApi(AsyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> UsersPage:
+    ) -> Users:
         """Get all users using offset-based pagination."""
         return await self._executor.execute(
             GET_USERS,

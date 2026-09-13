@@ -10,7 +10,7 @@ from remnawave._generated.models import (
     CreateInfraProviderBody,
     InfraBillingNode,
     InfraBillingRecord,
-    InfraBillingRecordsPage,
+    InfraBillingRecordRecord,
     InfraProvider,
     InfraProviders,
     UpdateInfraBillingNodeBody,
@@ -46,15 +46,15 @@ GET_INFRA_PROVIDER: Operation[InfraProvider] = Operation(
 DELTE_INFRA_PROVIDER = NoContentOperation(
     "DELETE", "/api/infra-billing/providers/{uuid}"
 )
-CREATE_INFRA_BILLING_RECORD: Operation[InfraBillingRecordsPage] = Operation(
+CREATE_INFRA_BILLING_RECORD: Operation[InfraBillingRecord] = Operation(
     "POST",
     "/api/infra-billing/history",
-    InfraBillingRecordsPage,
+    InfraBillingRecord,
 )
-GET_INFRA_BILLING_RECORDS: Operation[InfraBillingRecordsPage] = Operation(
+GET_INFRA_BILLING_RECORDS: Operation[InfraBillingRecord] = Operation(
     "GET",
     "/api/infra-billing/history",
-    InfraBillingRecordsPage,
+    InfraBillingRecord,
     pagination=Pagination(items_field="records", max_page_size=500),
 )
 DELETE_INFRA_BILLING_RECORD = NoContentOperation(
@@ -107,13 +107,13 @@ class InfraBillingApi(SyncGroup):
 
     def create_infra_billing_record(
         self, body: CreateInfraBillingRecordBody
-    ) -> InfraBillingRecordsPage:
+    ) -> InfraBillingRecord:
         """Create infra billing history."""
         return self._executor.execute(CREATE_INFRA_BILLING_RECORD, body=body)
 
     def get_infra_billing_records(
         self, *, start: int | None = None, size: int | None = None
-    ) -> InfraBillingRecordsPage:
+    ) -> InfraBillingRecord:
         """Get infra billing history."""
         return self._executor.execute(
             GET_INFRA_BILLING_RECORDS, query={"start": start, "size": size}
@@ -122,7 +122,7 @@ class InfraBillingApi(SyncGroup):
     def iter_infra_billing_records(
         self,
         page_size: int | None = None,
-    ) -> Iterator[InfraBillingRecord]:
+    ) -> Iterator[InfraBillingRecordRecord]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_INFRA_BILLING_RECORDS, page_size)
 
@@ -186,7 +186,7 @@ class AsyncInfraBillingApi(AsyncGroup):
 
     async def create_infra_billing_record(
         self, body: CreateInfraBillingRecordBody
-    ) -> InfraBillingRecordsPage:
+    ) -> InfraBillingRecord:
         """Create infra billing history."""
         return await self._executor.execute(
             CREATE_INFRA_BILLING_RECORD, body=body
@@ -194,7 +194,7 @@ class AsyncInfraBillingApi(AsyncGroup):
 
     async def get_infra_billing_records(
         self, *, start: int | None = None, size: int | None = None
-    ) -> InfraBillingRecordsPage:
+    ) -> InfraBillingRecord:
         """Get infra billing history."""
         return await self._executor.execute(
             GET_INFRA_BILLING_RECORDS, query={"start": start, "size": size}
@@ -203,7 +203,7 @@ class AsyncInfraBillingApi(AsyncGroup):
     async def iter_infra_billing_records(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[InfraBillingRecord]:
+    ) -> AsyncIterator[InfraBillingRecordRecord]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(GET_INFRA_BILLING_RECORDS, page_size):
             yield item

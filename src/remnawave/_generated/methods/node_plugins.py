@@ -13,14 +13,14 @@ from remnawave._generated.models import (
     NodePlugins,
     NodePluginsTags,
     PluginExecutorBody,
+    Record,
     ReorderNodePluginsBody,
     SharedList,
     SharedLists,
     Sorting,
     SyncNodePluginBody,
     SyncSnippetBody,
-    TorrentBlockerReport,
-    TorrentBlockerReportsPage,
+    TorrentBlockerReports,
     TorrentBlockerReportsStats,
     UpdateNodePluginBody,
 )
@@ -31,10 +31,10 @@ from remnawave.operations import (
     Pagination,
 )
 
-GET_TORRENT_BLOCKER_REPORTS: Operation[TorrentBlockerReportsPage] = Operation(
+GET_TORRENT_BLOCKER_REPORTS: Operation[TorrentBlockerReports] = Operation(
     "GET",
     "/api/node-plugins/torrent-blocker",
-    TorrentBlockerReportsPage,
+    TorrentBlockerReports,
     pagination=Pagination(items_field="records", max_page_size=1000),
 )
 GET_TORRENT_BLOCKER_REPORTS_STATS: Operation[TorrentBlockerReportsStats] = (
@@ -128,7 +128,7 @@ class NodePluginsApi(SyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> TorrentBlockerReportsPage:
+    ) -> TorrentBlockerReports:
         """Get Torrent Blocker Reports."""
         return self._executor.execute(
             GET_TORRENT_BLOCKER_REPORTS,
@@ -145,7 +145,7 @@ class NodePluginsApi(SyncGroup):
     def iter_torrent_blocker_reports(
         self,
         page_size: int | None = None,
-    ) -> Iterator[TorrentBlockerReport]:
+    ) -> Iterator[Record]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TORRENT_BLOCKER_REPORTS, page_size)
 
@@ -238,7 +238,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> TorrentBlockerReportsPage:
+    ) -> TorrentBlockerReports:
         """Get Torrent Blocker Reports."""
         return await self._executor.execute(
             GET_TORRENT_BLOCKER_REPORTS,
@@ -255,7 +255,7 @@ class AsyncNodePluginsApi(AsyncGroup):
     async def iter_torrent_blocker_reports(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[TorrentBlockerReport]:
+    ) -> AsyncIterator[Record]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_TORRENT_BLOCKER_REPORTS, page_size

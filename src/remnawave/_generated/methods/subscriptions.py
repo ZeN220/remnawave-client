@@ -9,7 +9,7 @@ from remnawave._generated.models import (
     RawSubscriptionByShortUuid,
     SubpageConfigByShortUuid,
     Subscription,
-    SubscriptionsPage,
+    Subscriptions,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -17,10 +17,10 @@ from remnawave.operations import (
     Pagination,
 )
 
-GET_ALL_SUBSCRIPTIONS: Operation[SubscriptionsPage] = Operation(
+GET_ALL_SUBSCRIPTIONS: Operation[Subscriptions] = Operation(
     "GET",
     "/api/subscriptions",
-    SubscriptionsPage,
+    Subscriptions,
     pagination=Pagination(items_field="subscriptions", max_page_size=500),
 )
 GET_SUBSCRIPTION_BY_USERNAME: Operation[Subscription] = Operation(
@@ -62,7 +62,7 @@ GET_CONNECTION_KEYS_BY_USER_ID: Operation[ConnectionKeysByUserId] = Operation(
 class SubscriptionsApi(SyncGroup):
     def get_all_subscriptions(
         self, *, start: int | None = None, size: int | None = None
-    ) -> SubscriptionsPage:
+    ) -> Subscriptions:
         """Get all subscriptions."""
         return self._executor.execute(
             GET_ALL_SUBSCRIPTIONS, query={"start": start, "size": size}
@@ -128,7 +128,7 @@ class SubscriptionsApi(SyncGroup):
 class AsyncSubscriptionsApi(AsyncGroup):
     async def get_all_subscriptions(
         self, *, start: int | None = None, size: int | None = None
-    ) -> SubscriptionsPage:
+    ) -> Subscriptions:
         """Get all subscriptions."""
         return await self._executor.execute(
             GET_ALL_SUBSCRIPTIONS, query={"start": start, "size": size}

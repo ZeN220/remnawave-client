@@ -371,7 +371,7 @@ class Sorting:
 
 
 @dataclass(frozen=True, slots=True)
-class UsersPage:
+class Users:
     users: list[User]
     total: int
 
@@ -534,7 +534,7 @@ class Subscription:
 
 
 @dataclass(frozen=True, slots=True)
-class SubscriptionsPage:
+class Subscriptions:
     subscriptions: list[Subscription]
     total: int
 
@@ -1229,7 +1229,7 @@ class RecordReport:
 
 
 @dataclass(frozen=True, slots=True)
-class TorrentBlockerReport:
+class Record:
     id: int
     user_id: int
     node_id: int
@@ -1240,8 +1240,8 @@ class TorrentBlockerReport:
 
 
 @dataclass(frozen=True, slots=True)
-class TorrentBlockerReportsPage:
-    records: list[TorrentBlockerReport]
+class TorrentBlockerReports:
+    records: list[Record]
     total: int
 
 
@@ -1609,7 +1609,7 @@ class Device:
 
 
 @dataclass(frozen=True, slots=True)
-class HwidDevicesPage:
+class HwidDevicesQuery:
     devices: list[Device]
     total: int
 
@@ -1669,15 +1669,15 @@ class HwidDevicesStats:
 
 
 @dataclass(frozen=True, slots=True)
-class TopUserByDevices:
+class TopUsersByHwidDevicesUser:
     id: int
     username: str
     devices_count: int
 
 
 @dataclass(frozen=True, slots=True)
-class TopUsersPage:
-    users: list[TopUserByDevices]
+class TopUsersByHwidDevices:
+    users: list[TopUsersByHwidDevicesUser]
     total: int
 
 
@@ -1740,7 +1740,7 @@ class RecordProvider:
 
 
 @dataclass(frozen=True, slots=True)
-class InfraBillingRecord:
+class InfraBillingRecordRecord:
     uuid: UUID
     provider_uuid: UUID
     amount: int
@@ -1749,8 +1749,8 @@ class InfraBillingRecord:
 
 
 @dataclass(frozen=True, slots=True)
-class InfraBillingRecordsPage:
-    records: list[InfraBillingRecord]
+class InfraBillingRecord:
+    records: list[InfraBillingRecordRecord]
     total: int
 
 
@@ -1813,7 +1813,7 @@ class CreateInfraBillingNodeBody:
 
 
 @dataclass(frozen=True, slots=True)
-class SubscriptionRequest:
+class SubscriptionRequestHistoryRecord:
     id: int
     user_id: int
     srr_response_type: str
@@ -1824,8 +1824,8 @@ class SubscriptionRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class SubscriptionRequestsPage:
-    records: list[SubscriptionRequest]
+class SubscriptionRequestHistory:
+    records: list[SubscriptionRequestHistoryRecord]
     total: int
 
 

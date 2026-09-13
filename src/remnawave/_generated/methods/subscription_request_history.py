@@ -7,9 +7,9 @@ from typing import Any
 from remnawave._generated.models import (
     Filter,
     Sorting,
-    SubscriptionRequest,
+    SubscriptionRequestHistory,
+    SubscriptionRequestHistoryRecord,
     SubscriptionRequestHistoryStats,
-    SubscriptionRequestsPage,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
 from remnawave.operations import (
@@ -17,11 +17,11 @@ from remnawave.operations import (
     Pagination,
 )
 
-GET_SUBSCRIPTION_REQUEST_HISTORY: Operation[SubscriptionRequestsPage] = (
+GET_SUBSCRIPTION_REQUEST_HISTORY: Operation[SubscriptionRequestHistory] = (
     Operation(
         "GET",
         "/api/subscription-request-history",
-        SubscriptionRequestsPage,
+        SubscriptionRequestHistory,
         pagination=Pagination(items_field="records", max_page_size=1000),
     )
 )
@@ -44,7 +44,7 @@ class SubscriptionRequestHistoryApi(SyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> SubscriptionRequestsPage:
+    ) -> SubscriptionRequestHistory:
         """Get all subscription request history."""
         return self._executor.execute(
             GET_SUBSCRIPTION_REQUEST_HISTORY,
@@ -61,7 +61,7 @@ class SubscriptionRequestHistoryApi(SyncGroup):
     def iter_subscription_request_history(
         self,
         page_size: int | None = None,
-    ) -> Iterator[SubscriptionRequest]:
+    ) -> Iterator[SubscriptionRequestHistoryRecord]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_SUBSCRIPTION_REQUEST_HISTORY, page_size)
 
@@ -82,7 +82,7 @@ class AsyncSubscriptionRequestHistoryApi(AsyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> SubscriptionRequestsPage:
+    ) -> SubscriptionRequestHistory:
         """Get all subscription request history."""
         return await self._executor.execute(
             GET_SUBSCRIPTION_REQUEST_HISTORY,
@@ -99,7 +99,7 @@ class AsyncSubscriptionRequestHistoryApi(AsyncGroup):
     async def iter_subscription_request_history(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[SubscriptionRequest]:
+    ) -> AsyncIterator[SubscriptionRequestHistoryRecord]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_SUBSCRIPTION_REQUEST_HISTORY, page_size

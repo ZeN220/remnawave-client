@@ -10,11 +10,11 @@ from remnawave._generated.models import (
     DeleteUserHwidDeviceBody,
     Device,
     Filter,
-    HwidDevicesPage,
+    HwidDevicesQuery,
     HwidDevicesStats,
     Sorting,
-    TopUserByDevices,
-    TopUsersPage,
+    TopUsersByHwidDevices,
+    TopUsersByHwidDevicesUser,
     UserHwidDevice,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -23,10 +23,10 @@ from remnawave.operations import (
     Pagination,
 )
 
-GET_ALL_USERS: Operation[HwidDevicesPage] = Operation(
+GET_ALL_USERS: Operation[HwidDevicesQuery] = Operation(
     "GET",
     "/api/hwid/devices",
-    HwidDevicesPage,
+    HwidDevicesQuery,
     pagination=Pagination(items_field="devices", max_page_size=1000),
 )
 CREATE_USER_HWID_DEVICE: Operation[UserHwidDevice] = Operation(
@@ -49,10 +49,10 @@ GET_HWID_DEVICES_STATS: Operation[HwidDevicesStats] = Operation(
     "/api/hwid/devices/stats",
     HwidDevicesStats,
 )
-GET_TOP_USERS_BY_HWID_DEVICES: Operation[TopUsersPage] = Operation(
+GET_TOP_USERS_BY_HWID_DEVICES: Operation[TopUsersByHwidDevices] = Operation(
     "GET",
     "/api/hwid/devices/top-users",
-    TopUsersPage,
+    TopUsersByHwidDevices,
     pagination=Pagination(items_field="users", max_page_size=100),
 )
 GET_USER_HWID_DEVICES: Operation[UserHwidDevice] = Operation(
@@ -72,7 +72,7 @@ class HwidUserDevicesApi(SyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> HwidDevicesPage:
+    ) -> HwidDevicesQuery:
         """Get HWID devices."""
         return self._executor.execute(
             GET_ALL_USERS,
@@ -117,7 +117,7 @@ class HwidUserDevicesApi(SyncGroup):
 
     def get_top_users_by_hwid_devices(
         self, *, start: int | None = None, size: int | None = None
-    ) -> TopUsersPage:
+    ) -> TopUsersByHwidDevices:
         """Get top users by HWID devices."""
         return self._executor.execute(
             GET_TOP_USERS_BY_HWID_DEVICES, query={"start": start, "size": size}
@@ -126,7 +126,7 @@ class HwidUserDevicesApi(SyncGroup):
     def iter_top_users_by_hwid_devices(
         self,
         page_size: int | None = None,
-    ) -> Iterator[TopUserByDevices]:
+    ) -> Iterator[TopUsersByHwidDevicesUser]:
         """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TOP_USERS_BY_HWID_DEVICES, page_size)
 
@@ -147,7 +147,7 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         filter_modes: dict[str, Any] | None = None,
         global_filter_mode: str | None = None,
         sorting: list[Sorting] | None = None,
-    ) -> HwidDevicesPage:
+    ) -> HwidDevicesQuery:
         """Get HWID devices."""
         return await self._executor.execute(
             GET_ALL_USERS,
@@ -195,7 +195,7 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
 
     async def get_top_users_by_hwid_devices(
         self, *, start: int | None = None, size: int | None = None
-    ) -> TopUsersPage:
+    ) -> TopUsersByHwidDevices:
         """Get top users by HWID devices."""
         return await self._executor.execute(
             GET_TOP_USERS_BY_HWID_DEVICES, query={"start": start, "size": size}
@@ -204,7 +204,7 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
     async def iter_top_users_by_hwid_devices(
         self,
         page_size: int | None = None,
-    ) -> AsyncIterator[TopUserByDevices]:
+    ) -> AsyncIterator[TopUsersByHwidDevicesUser]:
         """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_TOP_USERS_BY_HWID_DEVICES, page_size
