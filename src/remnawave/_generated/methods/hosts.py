@@ -7,8 +7,8 @@ from remnawave._generated.models import (
     CreateHostBody,
     Host,
     Hosts,
-    HostsTags,
     ReorderHostsBody,
+    Tags,
     UpdateHostBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -17,10 +17,10 @@ from remnawave.operations import (
     Operation,
 )
 
-GET_HOSTS_TAGS: Operation[HostsTags] = Operation(
+GET_HOSTS_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/hosts/tags",
-    HostsTags,
+    Tags,
 )
 CREATE_HOST: Operation[Host] = Operation(
     "POST",
@@ -51,7 +51,7 @@ REORDER_HOSTS: Operation[Hosts] = Operation(
 
 
 class HostsApi(SyncGroup):
-    def get_hosts_tags(self) -> HostsTags:
+    def get_hosts_tags(self) -> Tags:
         """Get tags of hosts."""
         return self._executor.execute(GET_HOSTS_TAGS)
 
@@ -81,7 +81,7 @@ class HostsApi(SyncGroup):
 
 
 class AsyncHostsApi(AsyncGroup):
-    async def get_hosts_tags(self) -> HostsTags:
+    async def get_hosts_tags(self) -> Tags:
         """Get tags of hosts."""
         return await self._executor.execute(GET_HOSTS_TAGS)
 

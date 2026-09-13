@@ -5,9 +5,9 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CreateSubscriptionTemplateBody,
-    HostsTags,
     NodePluginsTags,
-    ReorderNodePluginsBody,
+    ReorderBody,
+    Tags,
     Template,
     Templates,
     UpdateTemplateBody,
@@ -18,10 +18,10 @@ from remnawave.operations import (
     Operation,
 )
 
-GET_TAGS: Operation[HostsTags] = Operation(
+GET_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/subscription-templates/tags",
-    HostsTags,
+    Tags,
 )
 SET_TAGS: Operation[NodePluginsTags] = Operation(
     "PATCH",
@@ -59,7 +59,7 @@ REORDER_SUBSCRIPTION_TEMPLATES: Operation[Templates] = Operation(
 
 
 class SubscriptionTemplateApi(SyncGroup):
-    def get_tags(self) -> HostsTags:
+    def get_tags(self) -> Tags:
         """Get tags of Subscription Templates."""
         return self._executor.execute(GET_TAGS)
 
@@ -87,15 +87,13 @@ class SubscriptionTemplateApi(SyncGroup):
         """Delete subscription template."""
         return self._executor.execute(DELETE_TEMPLATE, path={"uuid": uuid})
 
-    def reorder_subscription_templates(
-        self, body: ReorderNodePluginsBody
-    ) -> Templates:
+    def reorder_subscription_templates(self, body: ReorderBody) -> Templates:
         """Reorder subscription templates."""
         return self._executor.execute(REORDER_SUBSCRIPTION_TEMPLATES, body=body)
 
 
 class AsyncSubscriptionTemplateApi(AsyncGroup):
-    async def get_tags(self) -> HostsTags:
+    async def get_tags(self) -> Tags:
         """Get tags of Subscription Templates."""
         return await self._executor.execute(GET_TAGS)
 
@@ -130,7 +128,7 @@ class AsyncSubscriptionTemplateApi(AsyncGroup):
         )
 
     async def reorder_subscription_templates(
-        self, body: ReorderNodePluginsBody
+        self, body: ReorderBody
     ) -> Templates:
         """Reorder subscription templates."""
         return await self._executor.execute(

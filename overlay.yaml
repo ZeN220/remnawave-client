@@ -30,6 +30,13 @@ types:
   UserEventEvent: UserEventName
   UserHwidDevicesEventEvent: UserHwidDevicesEventName
 
+  # Одну анонимную форму отдают несвязанные эндпоинты. Склейка верна, но
+  # имя достаётся тому, кто идёт первым, и указывает на чужака.
+  GeocheckByNode: JobRef             # {jobId}, ещё connections by user/node
+  HostsTags: Tags                    # {tags} девяти листингов
+  ReorderHostsBodyHost: ReorderItem  # {viewPosition, uuid} восьми reorder
+  ReorderNodePluginsBody: ReorderBody
+
 secret_fields:
   User:
     - trojanPassword

@@ -223,7 +223,7 @@ class OAuth2CallbackBody:
 
 
 @dataclass(frozen=True, slots=True)
-class HostsTags:
+class Tags:
     tags: list[str]
 
 
@@ -261,14 +261,14 @@ class SyncSnippetBody:
 
 
 @dataclass(frozen=True, slots=True)
-class ReorderHostsBodyHost:
+class ReorderItem:
     view_position: int
     uuid: UUID
 
 
 @dataclass(frozen=True, slots=True)
-class ReorderNodePluginsBody:
-    items: list[ReorderHostsBodyHost]
+class ReorderBody:
+    items: list[ReorderItem]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1157,7 +1157,7 @@ class RestartNodeBody:
 
 @dataclass(frozen=True, slots=True)
 class ReorderNodesBody:
-    nodes: list[ReorderHostsBodyHost]
+    nodes: list[ReorderItem]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1494,7 +1494,7 @@ class Hosts:
 
 @dataclass(frozen=True, slots=True)
 class ReorderHostsBody:
-    hosts: list[ReorderHostsBodyHost]
+    hosts: list[ReorderItem]
 
 
 @dataclass(frozen=True, slots=True)
@@ -2236,7 +2236,7 @@ class UpdateSubscriptionSettingsBody:
 
 
 @dataclass(frozen=True, slots=True)
-class GeocheckByNode:
+class JobRef:
     job_id: str
 
 

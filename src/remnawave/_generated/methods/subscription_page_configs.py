@@ -5,12 +5,12 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     CloneNodePluginBody,
-    HostsTags,
     NodePluginsTags,
-    ReorderNodePluginsBody,
+    ReorderBody,
     SubpageConfig,
     SubpageConfigs,
     SyncSnippetBody,
+    Tags,
     UpdateSubpageConfigBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -19,10 +19,10 @@ from remnawave.operations import (
     Operation,
 )
 
-GET_TAGS: Operation[HostsTags] = Operation(
+GET_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/subscription-page-configs/tags",
-    HostsTags,
+    Tags,
 )
 SET_TAGS: Operation[NodePluginsTags] = Operation(
     "PATCH",
@@ -65,7 +65,7 @@ CLONE_SUBSCRIPTION_PAGE_CONFIG: Operation[SubpageConfig] = Operation(
 
 
 class SubscriptionPageConfigsApi(SyncGroup):
-    def get_tags(self) -> HostsTags:
+    def get_tags(self) -> Tags:
         """Get tags of Subpage Configs."""
         return self._executor.execute(GET_TAGS)
 
@@ -94,7 +94,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
         return self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
     def reorder_subscription_page_configs(
-        self, body: ReorderNodePluginsBody
+        self, body: ReorderBody
     ) -> SubpageConfigs:
         """Reorder subscription page configs."""
         return self._executor.execute(
@@ -109,7 +109,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
 
 
 class AsyncSubscriptionPageConfigsApi(AsyncGroup):
-    async def get_tags(self) -> HostsTags:
+    async def get_tags(self) -> Tags:
         """Get tags of Subpage Configs."""
         return await self._executor.execute(GET_TAGS)
 
@@ -142,7 +142,7 @@ class AsyncSubscriptionPageConfigsApi(AsyncGroup):
         return await self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
     async def reorder_subscription_page_configs(
-        self, body: ReorderNodePluginsBody
+        self, body: ReorderBody
     ) -> SubpageConfigs:
         """Reorder subscription page configs."""
         return await self._executor.execute(

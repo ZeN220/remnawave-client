@@ -301,9 +301,6 @@ from remnawave._generated.models import (
     Filter as Filter,
 )
 from remnawave._generated.models import (
-    GeocheckByNode as GeocheckByNode,
-)
-from remnawave._generated.models import (
     GeocheckByNodeBody as GeocheckByNodeBody,
 )
 from remnawave._generated.models import (
@@ -335,9 +332,6 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     Hosts as Hosts,
-)
-from remnawave._generated.models import (
-    HostsTags as HostsTags,
 )
 from remnawave._generated.models import (
     HttpStats as HttpStats,
@@ -425,6 +419,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     InternalSquadUserUsageDayNode as InternalSquadUserUsageDayNode,
+)
+from remnawave._generated.models import (
+    JobRef as JobRef,
 )
 from remnawave._generated.models import (
     Login as Login,
@@ -625,13 +622,13 @@ from remnawave._generated.models import (
     RemnawaveSettingsPasskeySetting as RemnawaveSettingsPasskeySetting,
 )
 from remnawave._generated.models import (
+    ReorderBody as ReorderBody,
+)
+from remnawave._generated.models import (
     ReorderHostsBody as ReorderHostsBody,
 )
 from remnawave._generated.models import (
-    ReorderHostsBodyHost as ReorderHostsBodyHost,
-)
-from remnawave._generated.models import (
-    ReorderNodePluginsBody as ReorderNodePluginsBody,
+    ReorderItem as ReorderItem,
 )
 from remnawave._generated.models import (
     ReorderNodesBody as ReorderNodesBody,
@@ -800,6 +797,9 @@ from remnawave._generated.models import (
 )
 from remnawave._generated.models import (
     SyncSnippetBody as SyncSnippetBody,
+)
+from remnawave._generated.models import (
+    Tags as Tags,
 )
 from remnawave._generated.models import (
     Template as Template,

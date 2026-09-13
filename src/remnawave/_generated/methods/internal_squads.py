@@ -7,13 +7,13 @@ from uuid import UUID
 from remnawave._generated.models import (
     BulkDeleteUsersBody,
     CreateInternalSquadBody,
-    HostsTags,
     InternalSquad,
     InternalSquadAccessibleNodes,
     InternalSquads,
     InternalSquadUsage,
     NodePluginsTags,
-    ReorderNodePluginsBody,
+    ReorderBody,
+    Tags,
     UpdateInternalSquadBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -22,10 +22,10 @@ from remnawave.operations import (
     Operation,
 )
 
-GET_TAGS: Operation[HostsTags] = Operation(
+GET_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/internal-squads/tags",
-    HostsTags,
+    Tags,
 )
 SET_TAGS: Operation[NodePluginsTags] = Operation(
     "PATCH",
@@ -87,7 +87,7 @@ REMOVE_MANY_USERS_FROM_INTERNAL_SQUAD = NoContentOperation(
 
 
 class InternalSquadsApi(SyncGroup):
-    def get_tags(self) -> HostsTags:
+    def get_tags(self) -> Tags:
         """Get tags of Internal Squads."""
         return self._executor.execute(GET_TAGS)
 
@@ -166,9 +166,7 @@ class InternalSquadsApi(SyncGroup):
             REMOVE_USERS_FROM_INTERNAL_SQUAD, path={"uuid": uuid}
         )
 
-    def reorder_internal_squads(
-        self, body: ReorderNodePluginsBody
-    ) -> InternalSquads:
+    def reorder_internal_squads(self, body: ReorderBody) -> InternalSquads:
         """Reorder internal squads."""
         return self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)
 
@@ -192,7 +190,7 @@ class InternalSquadsApi(SyncGroup):
 
 
 class AsyncInternalSquadsApi(AsyncGroup):
-    async def get_tags(self) -> HostsTags:
+    async def get_tags(self) -> Tags:
         """Get tags of Internal Squads."""
         return await self._executor.execute(GET_TAGS)
 
@@ -272,7 +270,7 @@ class AsyncInternalSquadsApi(AsyncGroup):
         )
 
     async def reorder_internal_squads(
-        self, body: ReorderNodePluginsBody
+        self, body: ReorderBody
     ) -> InternalSquads:
         """Reorder internal squads."""
         return await self._executor.execute(REORDER_INTERNAL_SQUADS, body=body)

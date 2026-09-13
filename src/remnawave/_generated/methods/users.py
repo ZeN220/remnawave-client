@@ -13,10 +13,10 @@ from remnawave._generated.models import (
     CreateUserBody,
     ExtendUserBody,
     Filter,
-    HostsTags,
     ResolveUserBody,
     RevokeUserSubscriptionBody,
     Sorting,
+    Tags,
     UpdateUserBody,
     User,
     UserAccessibleNodes,
@@ -59,10 +59,10 @@ GET_USERS_STREAM: Operation[UsersStream] = Operation(
     "/api/users/stream",
     UsersStream,
 )
-GET_USERS_TAGS: Operation[HostsTags] = Operation(
+GET_USERS_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/users/tags",
-    HostsTags,
+    Tags,
 )
 GET_USER_ACCESSIBLE_NODES: Operation[UserAccessibleNodes] = Operation(
     "GET",
@@ -195,7 +195,7 @@ class UsersApi(SyncGroup):
             },
         )
 
-    def get_users_tags(self) -> HostsTags:
+    def get_users_tags(self) -> Tags:
         """Get users tags."""
         return self._executor.execute(GET_USERS_TAGS)
 
@@ -342,7 +342,7 @@ class AsyncUsersApi(AsyncGroup):
             },
         )
 
-    async def get_users_tags(self) -> HostsTags:
+    async def get_users_tags(self) -> Tags:
         """Get users tags."""
         return await self._executor.execute(GET_USERS_TAGS)
 

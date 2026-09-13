@@ -7,11 +7,11 @@ from remnawave._generated.models import (
     BulkNodesActionsBody,
     BulkNodesUpdateBody,
     CreateNodeBody,
-    HostsTags,
     Node,
     ProfileModificationBody,
     ReorderNodesBody,
     RestartNodeBody,
+    Tags,
     UpdateNodeBody,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -20,10 +20,10 @@ from remnawave.operations import (
     Operation,
 )
 
-GET_NODES_TAGS: Operation[HostsTags] = Operation(
+GET_NODES_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/nodes/tags",
-    HostsTags,
+    Tags,
 )
 CREATE_NODE: Operation[Node] = Operation(
     "POST",
@@ -74,7 +74,7 @@ BULK_NODES_UPDATE = NoContentOperation("POST", "/api/nodes/bulk-actions/update")
 
 
 class NodesApi(SyncGroup):
-    def get_nodes_tags(self) -> HostsTags:
+    def get_nodes_tags(self) -> Tags:
         """Get nodes tags."""
         return self._executor.execute(GET_NODES_TAGS)
 
@@ -138,7 +138,7 @@ class NodesApi(SyncGroup):
 
 
 class AsyncNodesApi(AsyncGroup):
-    async def get_nodes_tags(self) -> HostsTags:
+    async def get_nodes_tags(self) -> Tags:
         """Get nodes tags."""
         return await self._executor.execute(GET_NODES_TAGS)
 

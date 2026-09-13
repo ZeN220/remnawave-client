@@ -8,18 +8,18 @@ from uuid import UUID
 from remnawave._generated.models import (
     CloneNodePluginBody,
     Filter,
-    HostsTags,
     NodePlugin,
     NodePlugins,
     NodePluginsTags,
     PluginExecutorBody,
     Record,
-    ReorderNodePluginsBody,
+    ReorderBody,
     SharedList,
     SharedLists,
     Sorting,
     SyncNodePluginBody,
     SyncSnippetBody,
+    Tags,
     TorrentBlockerReports,
     TorrentBlockerReportsStats,
     UpdateNodePluginBody,
@@ -47,10 +47,10 @@ GET_TORRENT_BLOCKER_REPORTS_STATS: Operation[TorrentBlockerReportsStats] = (
 TRUNCATE_TORRENT_BLOCKER_REPORTS = NoContentOperation(
     "DELETE", "/api/node-plugins/torrent-blocker/truncate"
 )
-GET_TAGS: Operation[HostsTags] = Operation(
+GET_TAGS: Operation[Tags] = Operation(
     "GET",
     "/api/node-plugins/tags",
-    HostsTags,
+    Tags,
 )
 SET_TAGS: Operation[NodePluginsTags] = Operation(
     "PATCH",
@@ -157,7 +157,7 @@ class NodePluginsApi(SyncGroup):
         """Truncate Torrent Blocker Reports."""
         return self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
-    def get_tags(self) -> HostsTags:
+    def get_tags(self) -> Tags:
         """Get tags of Node Plugins."""
         return self._executor.execute(GET_TAGS)
 
@@ -211,7 +211,7 @@ class NodePluginsApi(SyncGroup):
         """Delete Node Plugin."""
         return self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
-    def reorder_node_plugins(self, body: ReorderNodePluginsBody) -> NodePlugins:
+    def reorder_node_plugins(self, body: ReorderBody) -> NodePlugins:
         """Reorder Node Plugins."""
         return self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
@@ -272,7 +272,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Truncate Torrent Blocker Reports."""
         return await self._executor.execute(TRUNCATE_TORRENT_BLOCKER_REPORTS)
 
-    async def get_tags(self) -> HostsTags:
+    async def get_tags(self) -> Tags:
         """Get tags of Node Plugins."""
         return await self._executor.execute(GET_TAGS)
 
@@ -328,9 +328,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Delete Node Plugin."""
         return await self._executor.execute(DELETE_CONFIG, path={"uuid": uuid})
 
-    async def reorder_node_plugins(
-        self, body: ReorderNodePluginsBody
-    ) -> NodePlugins:
+    async def reorder_node_plugins(self, body: ReorderBody) -> NodePlugins:
         """Reorder Node Plugins."""
         return await self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
