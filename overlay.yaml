@@ -9,17 +9,18 @@ methods:
 # Авто-правило (самое короткое имя-кандидат без ведущего глагола) даёт
 # осмысленный результат почти везде; здесь только то, где оно промахнулось.
 types:
-  # Одинаковые по форме сущности, различённые генератором цифрой.
+  # Несколько форм претендуют на одно имя. Проигравшие берут свой
+  # следующий кандидат: цифра зависела бы от порядка обхода спеки.
   Record: TorrentBlockerReport
-  Record2: InfraBillingRecord
-  Record3: SubscriptionRequest
+  InfraBillingRecordRecord: InfraBillingRecord
+  SubscriptionRequestHistoryRecord: SubscriptionRequest
   User2: UserRef
-  User3: TopUserByDevices
+  TopUsersByHwidDevicesUser: TopUserByDevices
 
   # Элементы query-параметров filters и sorting у листингов.
   # Безымянные объекты в спеке, поэтому имя пришло из operationId.
   UsersControllerGetUser: QueryFilter
-  UsersControllerGetUser2: QuerySort
+  HwidUserDevicesControllerGetAllUser: QuerySort
 
   Users: UsersPage
   Subscriptions: SubscriptionsPage

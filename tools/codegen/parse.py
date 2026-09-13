@@ -100,6 +100,17 @@ def _shorten(hint: str, busy: set[str]) -> str:
     return hint if short == hint or short in busy else short
 
 
+def _pick(candidates: set[str], taken: set[str], busy: set[str]) -> str:
+    """Имя из кандидатов, а не цифра: цифра зависела бы от порядка обхода."""
+    for hint in sorted(candidates, key=lambda c: (len(c), c)):
+        name = _shorten(hint, busy | taken)
+        if name not in taken:
+            taken.add(name)
+            return name
+    shortest = min(sorted(candidates), key=len)
+    return _unique(_shorten(shortest, busy | taken), taken)
+
+
 Names = dict[str, str]
 Models = tuple[Model, ...]
 Enums = tuple[Enum, ...]
@@ -286,8 +297,7 @@ class Builder:
 
         enums = []
         for shape, candidates in sorted(self._enum_names.items()):
-            hint = _shorten(min(sorted(candidates), key=len), reserved | taken)
-            auto = _unique(hint, taken)
+            auto = _pick(candidates, taken, reserved)
             name = self._overlay.types.get(auto, auto)
             names[f"#e{shape}#"] = name
             values = next(v for v, s in self._enum_shapes.items() if s == shape)
@@ -295,8 +305,7 @@ class Builder:
             enums.append(Enum(name=name, members=members))
 
         for shape, candidates in sorted(self._model_names.items()):
-            hint = _shorten(min(sorted(candidates), key=len), reserved | taken)
-            auto = _unique(hint, taken)
+            auto = _pick(candidates, taken, reserved)
             names[f"#m{shape}#"] = self._overlay.types.get(auto, auto)
 
         models = []
