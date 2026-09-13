@@ -151,7 +151,7 @@ class VerifyPasskeyRegistrationBody:
 
 
 @dataclass(frozen=True, slots=True)
-class PasskeyPasskey:
+class Passkey:
     id: str
     name: str
     created_at: datetime
@@ -159,8 +159,8 @@ class PasskeyPasskey:
 
 
 @dataclass(frozen=True, slots=True)
-class Passkey:
-    passkeys: list[PasskeyPasskey]
+class Passkeys:
+    passkeys: list[Passkey]
 
 
 @dataclass(frozen=True, slots=True)
@@ -794,15 +794,15 @@ class Inbounds:
 
 
 @dataclass(frozen=True, slots=True)
-class SnippetSnippet:
+class Snippet:
     name: str
     snippet: Any
 
 
 @dataclass(frozen=True, slots=True)
-class Snippet:
+class Snippets:
     total: int
-    snippets: list[SnippetSnippet]
+    snippets: list[Snippet]
 
 
 @dataclass(frozen=True, slots=True)

@@ -13,6 +13,14 @@ types:
   # ничего не объясняет. Форма — {id, username, shortUuid}.
   User2: UserRef
 
+  # Обёртка заняла имя элемента: хинт Passkey плюс поле passkeys даёт
+  # PasskeyPasskey. Имя возвращаем элементу, обёртку ставим во
+  # множественное число — как в спеке и как у прочих листингов.
+  Passkey: Passkeys
+  PasskeyPasskey: Passkey
+  Snippet: Snippets
+  SnippetSnippet: Snippet
+
 secret_fields:
   User:
     - trojanPassword

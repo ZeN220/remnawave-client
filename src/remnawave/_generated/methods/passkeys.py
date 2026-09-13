@@ -5,7 +5,7 @@ from typing import Any
 
 from remnawave._generated.models import (
     DeletePasskeyBody,
-    Passkey,
+    Passkeys,
     UpdatePasskeyBody,
     VerifyPasskeyRegistration,
     VerifyPasskeyRegistrationBody,
@@ -26,16 +26,16 @@ PASSKEY_REGISTRATION_VERIFY: Operation[VerifyPasskeyRegistration] = Operation(
     "/api/passkeys/registration/verify",
     VerifyPasskeyRegistration,
 )
-GET_ACTIVE_PASSKEYS: Operation[Passkey] = Operation(
+GET_ACTIVE_PASSKEYS: Operation[Passkeys] = Operation(
     "GET",
     "/api/passkeys",
-    Passkey,
+    Passkeys,
 )
 DELETE_PASSKEY = NoContentOperation("DELETE", "/api/passkeys")
-UPDATE_PASSKEY: Operation[Passkey] = Operation(
+UPDATE_PASSKEY: Operation[Passkeys] = Operation(
     "PATCH",
     "/api/passkeys",
-    Passkey,
+    Passkeys,
 )
 
 
@@ -50,7 +50,7 @@ class PasskeysApi(SyncGroup):
         """Verify registration for passkey."""
         return self._executor.execute(PASSKEY_REGISTRATION_VERIFY, body=body)
 
-    def get_active_passkeys(self) -> Passkey:
+    def get_active_passkeys(self) -> Passkeys:
         """Get passkeys."""
         return self._executor.execute(GET_ACTIVE_PASSKEYS)
 
@@ -58,7 +58,7 @@ class PasskeysApi(SyncGroup):
         """Delete a passkey by ID."""
         return self._executor.execute(DELETE_PASSKEY, body=body)
 
-    def update_passkey(self, body: UpdatePasskeyBody) -> Passkey:
+    def update_passkey(self, body: UpdatePasskeyBody) -> Passkeys:
         """Update passkey."""
         return self._executor.execute(UPDATE_PASSKEY, body=body)
 
@@ -76,7 +76,7 @@ class AsyncPasskeysApi(AsyncGroup):
             PASSKEY_REGISTRATION_VERIFY, body=body
         )
 
-    async def get_active_passkeys(self) -> Passkey:
+    async def get_active_passkeys(self) -> Passkeys:
         """Get passkeys."""
         return await self._executor.execute(GET_ACTIVE_PASSKEYS)
 
@@ -84,6 +84,6 @@ class AsyncPasskeysApi(AsyncGroup):
         """Delete a passkey by ID."""
         return await self._executor.execute(DELETE_PASSKEY, body=body)
 
-    async def update_passkey(self, body: UpdatePasskeyBody) -> Passkey:
+    async def update_passkey(self, body: UpdatePasskeyBody) -> Passkeys:
         """Update passkey."""
         return await self._executor.execute(UPDATE_PASSKEY, body=body)

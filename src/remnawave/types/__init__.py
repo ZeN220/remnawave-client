@@ -535,7 +535,7 @@ from remnawave._generated.models import (
     Passkey as Passkey,
 )
 from remnawave._generated.models import (
-    PasskeyPasskey as PasskeyPasskey,
+    Passkeys as Passkeys,
 )
 from remnawave._generated.models import (
     PluginExecutorBody as PluginExecutorBody,
@@ -673,7 +673,7 @@ from remnawave._generated.models import (
     Snippet as Snippet,
 )
 from remnawave._generated.models import (
-    SnippetSnippet as SnippetSnippet,
+    Snippets as Snippets,
 )
 from remnawave._generated.models import (
     Sorting as Sorting,
