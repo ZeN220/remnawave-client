@@ -272,7 +272,7 @@ class ReorderBody:
 
 
 @dataclass(frozen=True, slots=True)
-class CloneNodePluginBody:
+class CloneHostBody:
     clone_from_uuid: UUID
 
 

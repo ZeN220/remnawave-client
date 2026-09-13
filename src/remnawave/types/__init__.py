@@ -133,7 +133,7 @@ from remnawave._generated.models import (
     BulkUpdateUsersSquadsBody as BulkUpdateUsersSquadsBody,
 )
 from remnawave._generated.models import (
-    CloneNodePluginBody as CloneNodePluginBody,
+    CloneHostBody as CloneHostBody,
 )
 from remnawave._generated.models import (
     ConfigProfile as ConfigProfile,

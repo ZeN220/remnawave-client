@@ -6,4 +6,4 @@ from remnawave.client import (
 )
 
 __version__ = "3.4.3"
-API_VERSION = "3.4.3"
+API_VERSION = "3.4.4"

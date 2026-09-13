@@ -6,7 +6,7 @@ from typing import Any
 from uuid import UUID
 
 from remnawave._generated.models import (
-    CloneNodePluginBody,
+    CloneHostBody,
     Filter,
     NodePlugin,
     NodePlugins,
@@ -215,7 +215,7 @@ class NodePluginsApi(SyncGroup):
         """Reorder Node Plugins."""
         return self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
-    def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
+    def clone_node_plugin(self, body: CloneHostBody) -> NodePlugin:
         """Clone Node Plugin."""
         return self._executor.execute(CLONE_NODE_PLUGIN, body=body)
 
@@ -332,7 +332,7 @@ class AsyncNodePluginsApi(AsyncGroup):
         """Reorder Node Plugins."""
         return await self._executor.execute(REORDER_NODE_PLUGINS, body=body)
 
-    async def clone_node_plugin(self, body: CloneNodePluginBody) -> NodePlugin:
+    async def clone_node_plugin(self, body: CloneHostBody) -> NodePlugin:
         """Clone Node Plugin."""
         return await self._executor.execute(CLONE_NODE_PLUGIN, body=body)
 

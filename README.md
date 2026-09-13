@@ -17,7 +17,7 @@ for every minor release of the panel from 2.0 onwards, so pin the one matching
 your deployment:
 
 ```bash
-pip install remnawave-client==3.0.0
+pip install remnawave-client==<your panel version>
 ```
 
 ## Quick start
@@ -90,10 +90,17 @@ re-serialising parsed JSON breaks verification.
 ## Regenerating
 
 `src/remnawave/_generated/` is machine-written and must not be edited by hand.
-To target another panel version, drop its specification into `specs/` and run:
+Regenerating it against the version the package declares takes no arguments:
 
 ```bash
-python -m tools.codegen 3.4.3
+python -m tools.codegen
+```
+
+To move the project onto a newer panel release, drop its specification into
+`specs/` and pass the version once:
+
+```bash
+python -m tools.codegen <version>
 ```
 
 Where the specification is wrong or awkward, `overlay.yaml` patches it before

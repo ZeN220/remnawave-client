@@ -4,7 +4,7 @@
 from uuid import UUID
 
 from remnawave._generated.models import (
-    CloneNodePluginBody,
+    CloneHostBody,
     NodePluginsTags,
     ReorderBody,
     SubpageConfig,
@@ -102,7 +102,7 @@ class SubscriptionPageConfigsApi(SyncGroup):
         )
 
     def clone_subscription_page_config(
-        self, body: CloneNodePluginBody
+        self, body: CloneHostBody
     ) -> SubpageConfig:
         """Clone subscription page config."""
         return self._executor.execute(CLONE_SUBSCRIPTION_PAGE_CONFIG, body=body)
@@ -150,7 +150,7 @@ class AsyncSubscriptionPageConfigsApi(AsyncGroup):
         )
 
     async def clone_subscription_page_config(
-        self, body: CloneNodePluginBody
+        self, body: CloneHostBody
     ) -> SubpageConfig:
         """Clone subscription page config."""
         return await self._executor.execute(

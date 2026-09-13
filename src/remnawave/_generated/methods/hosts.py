@@ -4,6 +4,7 @@
 from uuid import UUID
 
 from remnawave._generated.models import (
+    CloneHostBody,
     CreateHostBody,
     Host,
     Hosts,
@@ -43,6 +44,11 @@ GET_ONE_HOST: Operation[Host] = Operation(
     Host,
 )
 DELETE_HOST = NoContentOperation("DELETE", "/api/hosts/{uuid}")
+CLONE_HOST: Operation[Host] = Operation(
+    "POST",
+    "/api/hosts/actions/clone",
+    Host,
+)
 REORDER_HOSTS: Operation[Hosts] = Operation(
     "POST",
     "/api/hosts/actions/reorder",
@@ -75,6 +81,10 @@ class HostsApi(SyncGroup):
         """Delete a host by UUID."""
         return self._executor.execute(DELETE_HOST, path={"uuid": uuid})
 
+    def clone_host(self, body: CloneHostBody) -> Host:
+        """Clone host."""
+        return self._executor.execute(CLONE_HOST, body=body)
+
     def reorder_hosts(self, body: ReorderHostsBody) -> Hosts:
         """Reorder hosts."""
         return self._executor.execute(REORDER_HOSTS, body=body)
@@ -104,6 +114,10 @@ class AsyncHostsApi(AsyncGroup):
     async def delete_host(self, uuid: UUID) -> None:
         """Delete a host by UUID."""
         return await self._executor.execute(DELETE_HOST, path={"uuid": uuid})
+
+    async def clone_host(self, body: CloneHostBody) -> Host:
+        """Clone host."""
+        return await self._executor.execute(CLONE_HOST, body=body)
 
     async def reorder_hosts(self, body: ReorderHostsBody) -> Hosts:
         """Reorder hosts."""
