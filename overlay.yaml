@@ -21,6 +21,15 @@ types:
   Snippet: Snippets
   SnippetSnippet: Snippet
 
+  # Поле event у вебхука — это имя события. Модель события и её поле
+  # хотят одно имя, суффикс обязан быть у кого-то из двух: оставляем
+  # хорошее имя модели.
+  CrmEventEvent: CrmEventName
+  NodeEventEvent: NodeEventName
+  ServiceEventEvent: ServiceEventName
+  UserEventEvent: UserEventName
+  UserHwidDevicesEventEvent: UserHwidDevicesEventName
+
 secret_fields:
   User:
     - trojanPassword

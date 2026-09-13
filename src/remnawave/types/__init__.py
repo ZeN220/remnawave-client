@@ -7,7 +7,7 @@ from remnawave._generated.enums import (
     BulkNodesActionsBodyAction as BulkNodesActionsBodyAction,
 )
 from remnawave._generated.enums import (
-    CrmEventEvent as CrmEventEvent,
+    CrmEventName as CrmEventName,
 )
 from remnawave._generated.enums import (
     HostAlpn as HostAlpn,
@@ -22,7 +22,7 @@ from remnawave._generated.enums import (
     HostSecurityLayer as HostSecurityLayer,
 )
 from remnawave._generated.enums import (
-    NodeEventEvent as NodeEventEvent,
+    NodeEventName as NodeEventName,
 )
 from remnawave._generated.enums import (
     NodeIpStatus as NodeIpStatus,
@@ -34,7 +34,7 @@ from remnawave._generated.enums import (
     ServiceEventDataSubpageConfigAction as ServiceEventDataSubpageConfigAction,
 )
 from remnawave._generated.enums import (
-    ServiceEventEvent as ServiceEventEvent,
+    ServiceEventName as ServiceEventName,
 )
 from remnawave._generated.enums import (
     SrrMatcherMatchedRuleConditionOperator as SrrMatcherMatchedRuleConditionOperator,
@@ -58,10 +58,10 @@ from remnawave._generated.enums import (
     UpdateUserBodyStatus as UpdateUserBodyStatus,
 )
 from remnawave._generated.enums import (
-    UserEventEvent as UserEventEvent,
+    UserEventName as UserEventName,
 )
 from remnawave._generated.enums import (
-    UserHwidDevicesEventEvent as UserHwidDevicesEventEvent,
+    UserHwidDevicesEventName as UserHwidDevicesEventName,
 )
 from remnawave._generated.enums import (
     UserStatus as UserStatus,

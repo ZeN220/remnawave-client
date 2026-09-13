@@ -9,24 +9,24 @@ from adaptix import Omittable, Omitted
 from remnawave._generated.enums import (
     ApiTokenScopesResourceEndpointKind,
     BulkNodesActionsBodyAction,
-    CrmEventEvent,
+    CrmEventName,
     HostAlpn,
     HostInternalSquadMode,
     HostMihomoIpVersion,
     HostSecurityLayer,
-    NodeEventEvent,
+    NodeEventName,
     NodeIpStatus,
     OAuth2CallbackBodyProvider,
     ServiceEventDataSubpageConfigAction,
-    ServiceEventEvent,
+    ServiceEventName,
     SrrMatcherMatchedRuleConditionOperator,
     SrrMatcherMatchedRuleOperator,
     SrrMatcherMatchedRuleResponseModificationEncryptionMethod,
     SrrMatcherResponseType,
     TemplateType,
     UpdateUserBodyStatus,
-    UserEventEvent,
-    UserHwidDevicesEventEvent,
+    UserEventName,
+    UserHwidDevicesEventName,
     UserStatus,
     UserTrafficLimitStrategy,
 )
@@ -2348,7 +2348,7 @@ class CrmEventData:
 @dataclass(frozen=True, slots=True)
 class CrmEvent:
     scope: Literal["crm"]
-    event: CrmEventEvent
+    event: CrmEventName
     timestamp: datetime
     data: CrmEventData
 
@@ -2369,7 +2369,7 @@ class ErrorsEvent:
 @dataclass(frozen=True, slots=True)
 class NodeEvent:
     scope: Literal["node"]
-    event: NodeEventEvent
+    event: NodeEventName
     timestamp: datetime
     data: Node
 
@@ -2408,7 +2408,7 @@ class ServiceEventData:
 @dataclass(frozen=True, slots=True)
 class ServiceEvent:
     scope: Literal["service"]
-    event: ServiceEventEvent
+    event: ServiceEventName
     timestamp: datetime
     data: ServiceEventData
 
@@ -2437,7 +2437,7 @@ class UserEventMeta:
 @dataclass(frozen=True, slots=True)
 class UserEvent:
     scope: Literal["user"]
-    event: UserEventEvent
+    event: UserEventName
     timestamp: datetime
     data: User
     meta: UserEventMeta | None
@@ -2452,6 +2452,6 @@ class UserHwidDevicesEventData:
 @dataclass(frozen=True, slots=True)
 class UserHwidDevicesEvent:
     scope: Literal["user_hwid_devices"]
-    event: UserHwidDevicesEventEvent
+    event: UserHwidDevicesEventName
     timestamp: datetime
     data: UserHwidDevicesEventData

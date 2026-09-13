@@ -139,7 +139,7 @@ class SrrMatcherMatchedRuleResponseModificationEncryptionMethod(StrEnum):
     AGE1PQ1 = "age1pq1"
 
 
-class CrmEventEvent(StrEnum):
+class CrmEventName(StrEnum):
     CRM_INFRA_BILLING_NODE_PAYMENT_IN_7_DAYS = (
         "crm.infra_billing_node_payment_in_7_days"
     )
@@ -163,7 +163,7 @@ class CrmEventEvent(StrEnum):
     )
 
 
-class NodeEventEvent(StrEnum):
+class NodeEventName(StrEnum):
     NODE_CREATED = "node.created"
     NODE_MODIFIED = "node.modified"
     NODE_DISABLED = "node.disabled"
@@ -174,7 +174,7 @@ class NodeEventEvent(StrEnum):
     NODE_TRAFFIC_NOTIFY = "node.traffic_notify"
 
 
-class ServiceEventEvent(StrEnum):
+class ServiceEventName(StrEnum):
     SERVICE_PANEL_STARTED = "service.panel_started"
     SERVICE_LOGIN_ATTEMPT_FAILED = "service.login_attempt_failed"
     SERVICE_LOGIN_ATTEMPT_SUCCESS = "service.login_attempt_success"
@@ -189,7 +189,7 @@ class ServiceEventDataSubpageConfigAction(StrEnum):
     DELETED = "DELETED"
 
 
-class UserEventEvent(StrEnum):
+class UserEventName(StrEnum):
     USER_CREATED = "user.created"
     USER_MODIFIED = "user.modified"
     USER_DELETED = "user.deleted"
@@ -207,6 +207,6 @@ class UserEventEvent(StrEnum):
     USER_EXPIRATION = "user.expiration"
 
 
-class UserHwidDevicesEventEvent(StrEnum):
+class UserHwidDevicesEventName(StrEnum):
     USER_HWID_DEVICES_ADDED = "user_hwid_devices.added"
     USER_HWID_DEVICES_DELETED = "user_hwid_devices.deleted"
