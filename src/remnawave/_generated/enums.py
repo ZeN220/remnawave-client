@@ -48,7 +48,7 @@ class HostMihomoIpVersion(StrEnum):
     IPV6_PREFER = "ipv6-prefer"
 
 
-class TemplateTemplateType(StrEnum):
+class TemplateType(StrEnum):
     XRAY_JSON = "XRAY_JSON"
     XRAY_BASE64 = "XRAY_BASE64"
     MIHOMO = "MIHOMO"

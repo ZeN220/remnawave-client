@@ -23,7 +23,7 @@ from remnawave._generated.enums import (
     SrrMatcherMatchedRuleOperator,
     SrrMatcherMatchedRuleResponseModificationEncryptionMethod,
     SrrMatcherResponseType,
-    TemplateTemplateType,
+    TemplateType,
     UpdateUserBodyStatus,
     UserEventEvent,
     UserHwidDevicesEventEvent,
@@ -283,7 +283,7 @@ class UserActiveInternalSquad:
 
 
 @dataclass(frozen=True, slots=True)
-class UserUserTraffic:
+class UserTraffic:
     used_traffic_bytes: int
     lifetime_used_traffic_bytes: int
     online_at: datetime | None
@@ -316,7 +316,7 @@ class User:
     updated_at: datetime
     subscription_url: str = field(repr=False)
     active_internal_squads: list[UserActiveInternalSquad]
-    user_traffic: UserUserTraffic
+    user_traffic: UserTraffic
 
 
 @dataclass(frozen=True, slots=True)
@@ -584,7 +584,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
 class RawSubscriptionByShortUuidResolvedProxyConfigMetadata:
     uuid: UUID
     tags: list[str]
-    exclude_from_subscription_types: list[TemplateTemplateType]
+    exclude_from_subscription_types: list[TemplateType]
     inbound_tag: str
     config_profile_uuid: UUID | None
     config_profile_inbound_uuid: UUID | None
@@ -643,7 +643,7 @@ class Template:
     view_position: int
     name: str
     tags: list[str]
-    template_type: TemplateTemplateType
+    template_type: TemplateType
     template_json: Any
     encoded_template_yaml: str | None
 
@@ -665,7 +665,7 @@ class UpdateTemplateBody:
 @dataclass(frozen=True, slots=True)
 class CreateSubscriptionTemplateBody:
     name: str
-    template_type: TemplateTemplateType
+    template_type: TemplateType
 
 
 @dataclass(frozen=True, slots=True)
@@ -903,7 +903,7 @@ class ExternalSquadInfo:
 @dataclass(frozen=True, slots=True)
 class ExternalSquadTemplate:
     template_uuid: UUID
-    template_type: TemplateTemplateType
+    template_type: TemplateType
 
 
 @dataclass(frozen=True, slots=True)
@@ -1392,7 +1392,7 @@ class Host:
     mihomo_ip_version: HostMihomoIpVersion | None
     nodes: list[UUID]
     xray_json_template_uuid: UUID | None
-    exclude_from_subscription_types: list[TemplateTemplateType]
+    exclude_from_subscription_types: list[TemplateType]
     mapper: HostMapper
     internal_squads: HostInternalSquad
     security_layer: HostSecurityLayer | None = None
@@ -1446,9 +1446,7 @@ class CreateHostBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
-        OMITTED
-    )
+    exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
@@ -1484,9 +1482,7 @@ class UpdateHostBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
-        OMITTED
-    )
+    exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
@@ -1537,9 +1533,7 @@ class UpdateManyHostsBody:
     mihomo_ip_version: Omittable[HostMihomoIpVersion | None] = OMITTED
     nodes: Omittable[list[UUID]] = OMITTED
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
-    exclude_from_subscription_types: Omittable[list[TemplateTemplateType]] = (
-        OMITTED
-    )
+    exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
@@ -1768,7 +1762,7 @@ class CreateInfraBillingRecordBody:
 
 
 @dataclass(frozen=True, slots=True)
-class InfraBillingNodeBillingNodeProvider:
+class InfraBillingNodeProvider:
     uuid: UUID
     name: str
     login_url: str | None
@@ -1781,7 +1775,7 @@ class InfraBillingNodeBillingNode:
     node_uuid: UUID | None
     name: str | None
     provider_uuid: UUID
-    provider: InfraBillingNodeBillingNodeProvider
+    provider: InfraBillingNodeProvider
     node: RecordNode | None
     next_billing_at: datetime
     created_at: datetime
@@ -2100,7 +2094,7 @@ class DebugSrrMatcherBodyResponseRuleSetting:
 
 
 @dataclass(frozen=True, slots=True)
-class DebugSrrMatcherBodyResponseRuleRuleResponseModification:
+class DebugSrrMatcherBodyResponseRuleResponseModification:
     headers: Omittable[
         list[SrrMatcherMatchedRuleResponseModificationHeader]
     ] = OMITTED
@@ -2126,7 +2120,7 @@ class DebugSrrMatcherBodyResponseRuleRule:
     response_type: SrrMatcherResponseType
     description: Omittable[str] = OMITTED
     response_modifications: Omittable[
-        DebugSrrMatcherBodyResponseRuleRuleResponseModification
+        DebugSrrMatcherBodyResponseRuleResponseModification
     ] = OMITTED
 
 
@@ -2254,24 +2248,24 @@ class ConnectionsByUserResultProgress:
 
 
 @dataclass(frozen=True, slots=True)
-class ConnectionsByNodeResultResultUserIp:
+class ConnectionsByNodeResultUserIp:
     ip: str
     last_seen: datetime
 
 
 @dataclass(frozen=True, slots=True)
-class ConnectionsByUserResultResultNode:
+class ConnectionsByUserResultNode:
     node_uuid: UUID
     node_name: str
     country_code: str
-    ips: list[ConnectionsByNodeResultResultUserIp]
+    ips: list[ConnectionsByNodeResultUserIp]
 
 
 @dataclass(frozen=True, slots=True)
 class ConnectionsByUserResultResult:
     success: bool
     user_id: int
-    nodes: list[ConnectionsByUserResultResultNode]
+    nodes: list[ConnectionsByUserResultNode]
 
 
 @dataclass(frozen=True, slots=True)
@@ -2289,16 +2283,16 @@ class DropConnectionsBody:
 
 
 @dataclass(frozen=True, slots=True)
-class ConnectionsByNodeResultResultUser:
+class ConnectionsByNodeResultUser:
     user_id: int
-    ips: list[ConnectionsByNodeResultResultUserIp]
+    ips: list[ConnectionsByNodeResultUserIp]
 
 
 @dataclass(frozen=True, slots=True)
 class ConnectionsByNodeResultResult:
     success: bool
     node_uuid: UUID
-    users: list[ConnectionsByNodeResultResultUser]
+    users: list[ConnectionsByNodeResultUser]
 
 
 @dataclass(frozen=True, slots=True)
@@ -2315,7 +2309,7 @@ class GeocheckByNodeBody:
 
 
 @dataclass(frozen=True, slots=True)
-class GeocheckByNodeResultResultImage:
+class GeocheckByNodeResultImage:
     format: Literal["svg"]
     media_type: Literal["image/svg+xml"]
     encoding: Literal["base64"]
@@ -2326,7 +2320,7 @@ class GeocheckByNodeResultResultImage:
 class GeocheckByNodeResultResult:
     success: bool
     node_uuid: UUID
-    image: GeocheckByNodeResultResultImage | None
+    image: GeocheckByNodeResultImage | None
     raw_report: dict[str, Any] | None
     message: str | None
 

@@ -52,7 +52,7 @@ from remnawave._generated.enums import (
     SubscriptionControllerGetSubscriptionByClientType as SubscriptionControllerGetSubscriptionByClientType,
 )
 from remnawave._generated.enums import (
-    TemplateTemplateType as TemplateTemplateType,
+    TemplateType as TemplateType,
 )
 from remnawave._generated.enums import (
     UpdateUserBodyStatus as UpdateUserBodyStatus,
@@ -166,22 +166,22 @@ from remnawave._generated.models import (
     ConnectionsByNodeResultResult as ConnectionsByNodeResultResult,
 )
 from remnawave._generated.models import (
-    ConnectionsByNodeResultResultUser as ConnectionsByNodeResultResultUser,
+    ConnectionsByNodeResultUser as ConnectionsByNodeResultUser,
 )
 from remnawave._generated.models import (
-    ConnectionsByNodeResultResultUserIp as ConnectionsByNodeResultResultUserIp,
+    ConnectionsByNodeResultUserIp as ConnectionsByNodeResultUserIp,
 )
 from remnawave._generated.models import (
     ConnectionsByUserResult as ConnectionsByUserResult,
+)
+from remnawave._generated.models import (
+    ConnectionsByUserResultNode as ConnectionsByUserResultNode,
 )
 from remnawave._generated.models import (
     ConnectionsByUserResultProgress as ConnectionsByUserResultProgress,
 )
 from remnawave._generated.models import (
     ConnectionsByUserResultResult as ConnectionsByUserResultResult,
-)
-from remnawave._generated.models import (
-    ConnectionsByUserResultResultNode as ConnectionsByUserResultResultNode,
 )
 from remnawave._generated.models import (
     CreateApiTokenBody as CreateApiTokenBody,
@@ -241,10 +241,10 @@ from remnawave._generated.models import (
     DebugSrrMatcherBodyResponseRule as DebugSrrMatcherBodyResponseRule,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherBodyResponseRuleRule as DebugSrrMatcherBodyResponseRuleRule,
+    DebugSrrMatcherBodyResponseRuleResponseModification as DebugSrrMatcherBodyResponseRuleResponseModification,
 )
 from remnawave._generated.models import (
-    DebugSrrMatcherBodyResponseRuleRuleResponseModification as DebugSrrMatcherBodyResponseRuleRuleResponseModification,
+    DebugSrrMatcherBodyResponseRuleRule as DebugSrrMatcherBodyResponseRuleRule,
 )
 from remnawave._generated.models import (
     DebugSrrMatcherBodyResponseRuleSetting as DebugSrrMatcherBodyResponseRuleSetting,
@@ -307,10 +307,10 @@ from remnawave._generated.models import (
     GeocheckByNodeResult as GeocheckByNodeResult,
 )
 from remnawave._generated.models import (
-    GeocheckByNodeResultResult as GeocheckByNodeResultResult,
+    GeocheckByNodeResultImage as GeocheckByNodeResultImage,
 )
 from remnawave._generated.models import (
-    GeocheckByNodeResultResultImage as GeocheckByNodeResultResultImage,
+    GeocheckByNodeResultResult as GeocheckByNodeResultResult,
 )
 from remnawave._generated.models import (
     GetNodeUsageBody as GetNodeUsageBody,
@@ -370,7 +370,7 @@ from remnawave._generated.models import (
     InfraBillingNodeBillingNode as InfraBillingNodeBillingNode,
 )
 from remnawave._generated.models import (
-    InfraBillingNodeBillingNodeProvider as InfraBillingNodeBillingNodeProvider,
+    InfraBillingNodeProvider as InfraBillingNodeProvider,
 )
 from remnawave._generated.models import (
     InfraBillingNodeStat as InfraBillingNodeStat,
@@ -937,7 +937,7 @@ from remnawave._generated.models import (
     UserSubscriptionRequestHistoryRecord as UserSubscriptionRequestHistoryRecord,
 )
 from remnawave._generated.models import (
-    UserUserTraffic as UserUserTraffic,
+    UserTraffic as UserTraffic,
 )
 from remnawave._generated.models import (
     VerifyPasskeyRegistration as VerifyPasskeyRegistration,

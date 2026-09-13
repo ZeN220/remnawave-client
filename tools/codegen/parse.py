@@ -75,6 +75,31 @@ def _primitive(schema: dict[str, Any]) -> str | None:
     return PRIMITIVES.get((schema.get("type"), fmt))
 
 
+# Имя вложенной модели склеивается из подсказки родителя и имени поля,
+# поэтому поле, повторяющее хвост подсказки, даёт UserEventEvent.
+_WORDS = re.compile(r"[A-Z][a-z0-9]*|[A-Z]+(?![a-z])")
+
+
+def _dedupe(name: str) -> str:
+    """Убираем подряд идущий повтор слов: UserEventEvent -> UserEvent."""
+    words = _WORDS.findall(name)
+    if "".join(words) != name:
+        return name
+    for size in range(len(words) // 2, 0, -1):
+        for start in range(len(words) - 2 * size + 1):
+            repeat = words[start : start + size]
+            if repeat == words[start + size : start + 2 * size]:
+                head = words[: start + size]
+                return "".join(head + words[start + 2 * size :])
+    return name
+
+
+def _shorten(hint: str, busy: set[str]) -> str:
+    """Сокращаем, только если короткое имя не принадлежит другому типу."""
+    short = _dedupe(hint)
+    return hint if short == hint or short in busy else short
+
+
 Names = dict[str, str]
 Models = tuple[Model, ...]
 Enums = tuple[Enum, ...]
@@ -251,9 +276,18 @@ class Builder:
         names: dict[str, str] = {}
         taken: set[str] = set()
 
+        reserved = {
+            min(sorted(candidates), key=len)
+            for candidates in (
+                *self._enum_names.values(),
+                *self._model_names.values(),
+            )
+        }
+
         enums = []
         for shape, candidates in sorted(self._enum_names.items()):
-            auto = _unique(min(sorted(candidates), key=len), taken)
+            hint = _shorten(min(sorted(candidates), key=len), reserved | taken)
+            auto = _unique(hint, taken)
             name = self._overlay.types.get(auto, auto)
             names[f"#e{shape}#"] = name
             values = next(v for v, s in self._enum_shapes.items() if s == shape)
@@ -261,7 +295,8 @@ class Builder:
             enums.append(Enum(name=name, members=members))
 
         for shape, candidates in sorted(self._model_names.items()):
-            auto = _unique(min(sorted(candidates), key=len), taken)
+            hint = _shorten(min(sorted(candidates), key=len), reserved | taken)
+            auto = _unique(hint, taken)
             names[f"#m{shape}#"] = self._overlay.types.get(auto, auto)
 
         models = []

@@ -4,7 +4,7 @@ from adaptix import Provider, name_mapping
 
 from remnawave._generated.models import (
     ExternalSquadCustomRemark,
-    GeocheckByNodeResultResultImage,
+    GeocheckByNodeResultImage,
 )
 
 NAME_MAPPING: tuple[Provider, ...] = (
@@ -16,7 +16,7 @@ NAME_MAPPING: tuple[Provider, ...] = (
         },
     ),
     name_mapping(
-        GeocheckByNodeResultResultImage,
+        GeocheckByNodeResultImage,
         map={
             "media_type": "media_type",
         },
