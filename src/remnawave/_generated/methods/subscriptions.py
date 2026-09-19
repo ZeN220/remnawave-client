@@ -72,7 +72,6 @@ class SubscriptionsApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[Subscription]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_ALL_SUBSCRIPTIONS, page_size)
 
     def get_subscription_by_username(self, username: str) -> Subscription:
@@ -138,7 +137,6 @@ class AsyncSubscriptionsApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[Subscription]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(GET_ALL_SUBSCRIPTIONS, page_size):
             yield item
 

@@ -62,7 +62,6 @@ class SubscriptionRequestHistoryApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[SubscriptionRequestHistoryRecord]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_SUBSCRIPTION_REQUEST_HISTORY, page_size)
 
     def get_subscription_request_history_stats(
@@ -100,7 +99,6 @@ class AsyncSubscriptionRequestHistoryApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[SubscriptionRequestHistoryRecord]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_SUBSCRIPTION_REQUEST_HISTORY, page_size
         ):

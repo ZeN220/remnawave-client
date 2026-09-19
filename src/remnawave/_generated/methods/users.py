@@ -154,7 +154,6 @@ class UsersApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[User]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_USERS, page_size)
 
     def delete_user(self, user_id: int) -> None:
@@ -296,7 +295,6 @@ class AsyncUsersApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[User]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(GET_USERS, page_size):
             yield item
 

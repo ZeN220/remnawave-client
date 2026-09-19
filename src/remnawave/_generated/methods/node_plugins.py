@@ -146,7 +146,6 @@ class NodePluginsApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[Record]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TORRENT_BLOCKER_REPORTS, page_size)
 
     def get_torrent_blocker_reports_stats(self) -> TorrentBlockerReportsStats:
@@ -256,7 +255,6 @@ class AsyncNodePluginsApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[Record]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_TORRENT_BLOCKER_REPORTS, page_size
         ):

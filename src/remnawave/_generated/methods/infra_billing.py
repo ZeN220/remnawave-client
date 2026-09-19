@@ -123,7 +123,6 @@ class InfraBillingApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[InfraBillingRecordRecord]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_INFRA_BILLING_RECORDS, page_size)
 
     def delete_infra_billing_record(self, uuid: UUID) -> None:
@@ -204,7 +203,6 @@ class AsyncInfraBillingApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[InfraBillingRecordRecord]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(GET_INFRA_BILLING_RECORDS, page_size):
             yield item
 

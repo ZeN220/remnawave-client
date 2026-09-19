@@ -90,7 +90,6 @@ class HwidUserDevicesApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[Device]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_ALL_USERS, page_size)
 
     def create_user_hwid_device(
@@ -127,7 +126,6 @@ class HwidUserDevicesApi(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[TopUsersByHwidDevicesUser]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate(GET_TOP_USERS_BY_HWID_DEVICES, page_size)
 
     def get_user_hwid_devices(self, user_id: int) -> UserHwidDevice:
@@ -165,7 +163,6 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[Device]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(GET_ALL_USERS, page_size):
             yield item
 
@@ -205,7 +202,6 @@ class AsyncHwidUserDevicesApi(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[TopUsersByHwidDevicesUser]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate(
             GET_TOP_USERS_BY_HWID_DEVICES, page_size
         ):

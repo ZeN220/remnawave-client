@@ -68,7 +68,6 @@ class {{ group.class_name }}(SyncGroup):
         self,
         page_size: int | None = None,
     ) -> Iterator[{{ method.item_type }}]:
-        """Все страницы одним ленивым потоком."""
         yield from self._paginate({{ method.const }}, page_size)
 
 {% endif %}
@@ -93,7 +92,6 @@ class Async{{ group.class_name }}(AsyncGroup):
         self,
         page_size: int | None = None,
     ) -> AsyncIterator[{{ method.item_type }}]:
-        """Все страницы одним ленивым потоком."""
         async for item in self._paginate({{ method.const }}, page_size):
             yield item
 
