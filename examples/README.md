@@ -21,6 +21,7 @@ accepted.
 | `05_errors.py` | the exception hierarchy and what to branch on |
 | `06_customization.py` | custom auth, transport and retry policy |
 | `07_webhooks.py` | receiving webhooks and verifying the signature |
+| `08_jobs.py` | running a background job and waiting for its result |
 
 `07_webhooks.py` takes a different variable — the value of
 `WEBHOOK_SECRET_HEADER` from the panel's `.env`:

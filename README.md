@@ -53,6 +53,21 @@ asyncio.run(main())
 More in [`examples/`](examples/): pagination, partial updates, error handling,
 webhooks and swapping out the client's parts.
 
+## Background jobs
+
+Some checks run as panel jobs: one request starts the job and returns a
+`jobId`, another polls its status. `wait_*` does both and returns the result:
+
+```python
+result = rw.connections.wait_connections_by_user(user_id, timeout=120)
+for node in result.nodes:
+    print(node.node_name, [ip.ip for ip in node.ips])
+```
+
+A job the panel reports as failed raises `JobFailedError`; one still running
+after `timeout` seconds raises `JobTimeoutError`. The underlying start and
+poll methods stay available.
+
 ## Errors
 
 Everything the library raises inherits from `RemnawaveError`. Below it the
