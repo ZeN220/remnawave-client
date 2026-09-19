@@ -37,6 +37,10 @@ class MethodView:
     pagination: str | None
     iter_name: str | None
     item_type: str | None
+    wait_name: str | None
+    wait_signature: str
+    wait_result: str | None
+    wait_type: str | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,6 +148,8 @@ class Renderer:
             if method.pagination:
                 operations.add("Pagination")
                 used |= _references(method.pagination.item_type)
+            if method.job:
+                used |= _references(method.job.value)
             for value in (method.returns, method.body):
                 if value:
                     used |= _references(value)
@@ -179,6 +185,19 @@ def _method_view(method: Method) -> MethodView:
         pagination=_pagination(method),
         iter_name=_iter_name(method),
         item_type=method.pagination.item_type if method.pagination else None,
+        wait_name=f"wait_{method.name}" if method.job else None,
+        wait_signature=_wait_signature(method),
+        wait_result=method.job.result if method.job else None,
+        wait_type=method.job.value if method.job else None,
+    )
+
+
+def _wait_signature(method: Method) -> str:
+    signature = _signature(method)
+    marker = "" if ", *," in signature else ", *"
+    return (
+        f"{signature}{marker}, interval: float = 1.0,"
+        " timeout: float | None = 60.0"
     )
 
 

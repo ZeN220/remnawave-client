@@ -5,10 +5,13 @@ from uuid import UUID
 
 from remnawave._generated.models import (
     ConnectionsByNodeResult,
+    ConnectionsByNodeResultResult,
     ConnectionsByUserResult,
+    ConnectionsByUserResultResult,
     DropConnectionsBody,
     GeocheckByNodeBody,
     GeocheckByNodeResult,
+    GeocheckByNodeResultResult,
     JobRef,
 )
 from remnawave.execution import AsyncGroup, SyncGroup
@@ -57,6 +60,21 @@ class ConnectionsApi(SyncGroup):
             CONNECTIONS_BY_USER, path={"userId": user_id}
         )
 
+    def wait_connections_by_user(
+        self,
+        user_id: int,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> ConnectionsByUserResultResult:
+        return self._wait(
+            CONNECTIONS_BY_USER,
+            path={"userId": user_id},
+            result=CONNECTIONS_BY_USER_RESULT,
+            interval=interval,
+            timeout=timeout,
+        )
+
     def connections_by_user_result(
         self, job_id: str
     ) -> ConnectionsByUserResult:
@@ -75,6 +93,21 @@ class ConnectionsApi(SyncGroup):
             CONNECTIONS_BY_NODE, path={"nodeUuid": node_uuid}
         )
 
+    def wait_connections_by_node(
+        self,
+        node_uuid: UUID,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> ConnectionsByNodeResultResult:
+        return self._wait(
+            CONNECTIONS_BY_NODE,
+            path={"nodeUuid": node_uuid},
+            result=CONNECTIONS_BY_NODE_RESULT,
+            interval=interval,
+            timeout=timeout,
+        )
+
     def connections_by_node_result(
         self, job_id: str
     ) -> ConnectionsByNodeResult:
@@ -91,6 +124,23 @@ class ConnectionsApi(SyncGroup):
             GEOCHECK_BY_NODE, path={"nodeUuid": node_uuid}, body=body
         )
 
+    def wait_geocheck_by_node(
+        self,
+        node_uuid: UUID,
+        body: GeocheckByNodeBody,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> GeocheckByNodeResultResult:
+        return self._wait(
+            GEOCHECK_BY_NODE,
+            path={"nodeUuid": node_uuid},
+            body=body,
+            result=GEOCHECK_BY_NODE_RESULT,
+            interval=interval,
+            timeout=timeout,
+        )
+
     def geocheck_by_node_result(self, job_id: str) -> GeocheckByNodeResult:
         """Get Geocheck for Node by Job ID."""
         return self._executor.execute(
@@ -103,6 +153,21 @@ class AsyncConnectionsApi(AsyncGroup):
         """Request Connections for User."""
         return await self._executor.execute(
             CONNECTIONS_BY_USER, path={"userId": user_id}
+        )
+
+    async def wait_connections_by_user(
+        self,
+        user_id: int,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> ConnectionsByUserResultResult:
+        return await self._wait(
+            CONNECTIONS_BY_USER,
+            path={"userId": user_id},
+            result=CONNECTIONS_BY_USER_RESULT,
+            interval=interval,
+            timeout=timeout,
         )
 
     async def connections_by_user_result(
@@ -123,6 +188,21 @@ class AsyncConnectionsApi(AsyncGroup):
             CONNECTIONS_BY_NODE, path={"nodeUuid": node_uuid}
         )
 
+    async def wait_connections_by_node(
+        self,
+        node_uuid: UUID,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> ConnectionsByNodeResultResult:
+        return await self._wait(
+            CONNECTIONS_BY_NODE,
+            path={"nodeUuid": node_uuid},
+            result=CONNECTIONS_BY_NODE_RESULT,
+            interval=interval,
+            timeout=timeout,
+        )
+
     async def connections_by_node_result(
         self, job_id: str
     ) -> ConnectionsByNodeResult:
@@ -137,6 +217,23 @@ class AsyncConnectionsApi(AsyncGroup):
         """Request Geocheck for Node."""
         return await self._executor.execute(
             GEOCHECK_BY_NODE, path={"nodeUuid": node_uuid}, body=body
+        )
+
+    async def wait_geocheck_by_node(
+        self,
+        node_uuid: UUID,
+        body: GeocheckByNodeBody,
+        *,
+        interval: float = 1.0,
+        timeout: float | None = 60.0,
+    ) -> GeocheckByNodeResultResult:
+        return await self._wait(
+            GEOCHECK_BY_NODE,
+            path={"nodeUuid": node_uuid},
+            body=body,
+            result=GEOCHECK_BY_NODE_RESULT,
+            interval=interval,
+            timeout=timeout,
         )
 
     async def geocheck_by_node_result(

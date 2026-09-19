@@ -71,6 +71,16 @@ class {{ group.class_name }}(SyncGroup):
         yield from self._paginate({{ method.const }}, page_size)
 
 {% endif %}
+{% if method.wait_name %}
+    def {{ method.wait_name }}(self{{ method.wait_signature }}) -> {{ method.wait_type }}:
+        return self._wait(
+            {{ method.call }},
+            result={{ method.wait_result }},
+            interval=interval,
+            timeout=timeout,
+        )
+
+{% endif %}
 {% endfor %}
 
 class Async{{ group.class_name }}(AsyncGroup):
@@ -94,6 +104,16 @@ class Async{{ group.class_name }}(AsyncGroup):
     ) -> AsyncIterator[{{ method.item_type }}]:
         async for item in self._paginate({{ method.const }}, page_size):
             yield item
+
+{% endif %}
+{% if method.wait_name %}
+    async def {{ method.wait_name }}(self{{ method.wait_signature }}) -> {{ method.wait_type }}:
+        return await self._wait(
+            {{ method.call }},
+            result={{ method.wait_result }},
+            interval=interval,
+            timeout=timeout,
+        )
 
 {% endif %}
 {% endfor %}

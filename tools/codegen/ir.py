@@ -40,6 +40,12 @@ class Pagination:
 
 
 @dataclass(frozen=True, slots=True)
+class Job:
+    result: str
+    value: str
+
+
+@dataclass(frozen=True, slots=True)
 class Method:
     name: str
     http: str
@@ -51,6 +57,7 @@ class Method:
     path_params: tuple[Param, ...] = ()
     query_params: tuple[Param, ...] = ()
     pagination: Pagination | None = None
+    job: Job | None = None
 
 
 @dataclass(frozen=True, slots=True)

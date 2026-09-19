@@ -1,5 +1,6 @@
 import re
 from collections.abc import Iterable
+from dataclasses import replace
 from typing import Any
 
 from .ir import (
@@ -7,6 +8,7 @@ from .ir import (
     Enum,
     Field,
     Group,
+    Job,
     Method,
     Model,
     Pagination,
@@ -125,6 +127,23 @@ def _pick(candidates: set[str], taken: set[str], busy: set[str]) -> str:
     return _unique(_shorten(shortest, busy | taken), taken)
 
 
+_JOB_PARAM = "jobId"
+_JOB_STATUS = {"isCompleted", "isFailed", "result"}
+
+
+def _job_prefix(path: str) -> str:
+    return path.rpartition("/")[0]
+
+
+def _job_values(models: Iterable[Model]) -> dict[str, str]:
+    values = {}
+    for model in models:
+        fields = {f.wire: f.type for f in model.fields}
+        if fields.keys() >= _JOB_STATUS:
+            values[model.name] = fields["result"].removesuffix(" | None")
+    return values
+
+
 Names = dict[str, str]
 Models = tuple[Model, ...]
 Enums = tuple[Enum, ...]
@@ -174,11 +193,12 @@ class Builder:
         groups = self._groups()
         hooks = self._webhooks()
         models, enums, names = self._named()
+        values = _job_values(models)
         return Api(
             version=self._spec["info"]["version"],
             enums=enums,
             models=models,
-            groups=tuple(_resolve_group(g, names) for g in groups),
+            groups=tuple(_resolve_group(g, names, values) for g in groups),
             webhooks=tuple(
                 Webhook(
                     scope=w.scope,
@@ -354,7 +374,7 @@ class Builder:
         return renames
 
     def _groups(self) -> list[Group]:
-        collected: dict[str, list[Method]] = {}
+        collected: dict[str, list[tuple[dict[str, Any], Method]]] = {}
         docs: dict[str, str] = {}
         for path, item in self._spec["paths"].items():
             for http, op in item.items():
@@ -364,16 +384,44 @@ class Builder:
                 group = self._overlay.groups.get(tag) or snake(_clean_tag(tag))
                 docs[group] = tag
                 method = self._method(path, http.upper(), op)
-                collected.setdefault(group, []).append(method)
+                collected.setdefault(group, []).append((op, method))
         return [
             Group(
                 name=name,
                 class_name=f"{pascal(name)}Api",
                 doc=docs[name],
-                methods=tuple(methods),
+                methods=self._jobs(entries),
             )
-            for name, methods in sorted(collected.items())
+            for name, entries in sorted(collected.items())
         ]
+
+    def _jobs(
+        self,
+        entries: list[tuple[dict[str, Any], Method]],
+    ) -> tuple[Method, ...]:
+        polls = {
+            _job_prefix(m.path): m
+            for op, m in entries
+            if m.http == "GET"
+            and m.path.endswith(f"/{{{_JOB_PARAM}}}")
+            and self._response_keys(op) >= _JOB_STATUS
+        }
+        methods = []
+        for op, method in entries:
+            poll = polls.get(_job_prefix(method.path))
+            starts = self._response_keys(op) == {_JOB_PARAM}
+            if poll is None or poll is method or not starts:
+                methods.append(method)
+                continue
+            job = Job(result=poll.name.upper(), value=poll.returns or "")
+            methods.append(replace(method, job=job))
+        return tuple(methods)
+
+    def _response_keys(self, op: dict[str, Any]) -> set[str]:
+        _, schema = self._success(op)
+        if schema is None:
+            return set()
+        return set(schema["inner"].get("properties") or {})
 
     def _method(self, path: str, http: str, op: dict[str, Any]) -> Method:
         operation_id: str = op["operationId"]
@@ -577,7 +625,21 @@ def _resolve_params(
     )
 
 
-def _resolve_group(group: Group, names: dict[str, str]) -> Group:
+def _resolve_job(
+    job: Job | None,
+    names: dict[str, str],
+    values: dict[str, str],
+) -> Job | None:
+    if job is None:
+        return None
+    return Job(result=job.result, value=values[_substitute(job.value, names)])
+
+
+def _resolve_group(
+    group: Group,
+    names: dict[str, str],
+    values: dict[str, str],
+) -> Group:
     return Group(
         name=group.name,
         class_name=group.class_name,
@@ -594,6 +656,7 @@ def _resolve_group(group: Group, names: dict[str, str]) -> Group:
                 path_params=_resolve_params(m.path_params, names),
                 query_params=_resolve_params(m.query_params, names),
                 pagination=_resolve_pagination(m.pagination, names),
+                job=_resolve_job(m.job, names, values),
             )
             for m in group.methods
         ),

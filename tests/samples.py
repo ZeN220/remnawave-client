@@ -28,3 +28,15 @@ class Box(Generic[T]):
 class SamplePage:
     total: int
     users: list[Sample]
+
+
+@dataclass
+class JobRef:
+    job_id: str
+
+
+@dataclass
+class JobStatus:
+    is_completed: bool
+    is_failed: bool
+    result: int | None

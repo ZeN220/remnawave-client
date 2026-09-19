@@ -65,3 +65,17 @@ class ServerError(ApiError):
 
 class WebhookSignatureError(RemnawaveError):
     pass
+
+
+class JobError(RemnawaveError):
+    def __init__(self, message: str, job_id: str) -> None:
+        super().__init__(message)
+        self.job_id = job_id
+
+
+class JobFailedError(JobError):
+    pass
+
+
+class JobTimeoutError(JobError):
+    pass

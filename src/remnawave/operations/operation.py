@@ -3,14 +3,14 @@ from typing import Any, Generic, TypeAlias, TypeVar
 
 from .pagination import Pagination
 
-T = TypeVar("T")
+T_co = TypeVar("T_co", covariant=True)
 
 
 @dataclass(frozen=True, slots=True)
-class Operation(Generic[T]):
+class Operation(Generic[T_co]):
     method: str
     path: str
-    returns: type[T]
+    returns: type[T_co]
     pagination: Pagination | None = None
 
 
