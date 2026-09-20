@@ -1034,8 +1034,8 @@ class NodeSystemInfo:
 @dataclass(frozen=True, slots=True)
 class NodeSystemStatInterface:
     interface: str
-    rx_bytes_per_sec: int
-    tx_bytes_per_sec: int
+    rx_bytes_per_sec: float
+    tx_bytes_per_sec: float
     rx_total: int
     tx_total: int
 
@@ -1045,7 +1045,7 @@ class NodeSystemStat:
     memory_free: int
     memory_used: int
     uptime: float
-    load_avg: list[int]
+    load_avg: list[float]
     interface: NodeSystemStatInterface | None
 
 
@@ -1659,7 +1659,7 @@ class HwidDevicesStatsByPlatform:
 class HwidDevicesStatsStat:
     total_unique_devices: int
     total_hwid_devices: int
-    average_hwid_devices_per_user: int
+    average_hwid_devices_per_user: float
 
 
 @dataclass(frozen=True, slots=True)
@@ -1683,7 +1683,7 @@ class TopUsersByHwidDevices:
 
 @dataclass(frozen=True, slots=True)
 class InfraProviderBillingHistory:
-    total_amount: int
+    total_amount: float
     total_bills: int
 
 
@@ -1743,7 +1743,7 @@ class RecordProvider:
 class InfraBillingRecordRecord:
     uuid: UUID
     provider_uuid: UUID
-    amount: int
+    amount: float
     billed_at: datetime
     provider: RecordProvider
 
@@ -1757,7 +1757,7 @@ class InfraBillingRecord:
 @dataclass(frozen=True, slots=True)
 class CreateInfraBillingRecordBody:
     provider_uuid: UUID
-    amount: int
+    amount: float
     billed_at: datetime
 
 
@@ -1785,8 +1785,8 @@ class InfraBillingNodeBillingNode:
 @dataclass(frozen=True, slots=True)
 class InfraBillingNodeStat:
     upcoming_nodes_count: int
-    current_month_payments: int
-    total_spent: int
+    current_month_payments: float
+    total_spent: float
 
 
 @dataclass(frozen=True, slots=True)
@@ -1876,9 +1876,9 @@ class Metadata:
 @dataclass(frozen=True, slots=True)
 class ConfigurationNotification:
     webhook: bool
-    bandwidth_usage: list[int] | None
-    not_connected_after: list[int] | None
-    expiration_notifications: list[int] | None
+    bandwidth_usage: list[float] | None
+    not_connected_after: list[float] | None
+    expiration_notifications: list[float] | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -2430,8 +2430,8 @@ class TorrentBlockerEvent:
 
 @dataclass(frozen=True, slots=True)
 class UserEventMeta:
-    not_connected_after_hours: int | None = None
-    expiration: int | None = None
+    not_connected_after_hours: float | None = None
+    expiration: float | None = None
 
 
 @dataclass(frozen=True, slots=True)
