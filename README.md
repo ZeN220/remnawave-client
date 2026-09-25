@@ -12,12 +12,17 @@ Requires Python 3.11 or newer.
 
 ## Versions
 
-The library version equals the API version it was generated from. A tag exists
-for every minor release of the panel from 2.0 onwards, so pin the one matching
-your deployment:
+The first three numbers of the library version are the panel version it was
+generated from; a fourth one counts the library's own releases on top of it.
+`1.2.3` is the first release for panel 1.2.3, `1.2.3.1` and `1.2.3.2` bring
+fixes and features of the library itself while the API stays the same.
+
+A release exists for every minor version of the panel from 2.0 onwards. Pin the
+panel version you run and let the fourth number float, so library fixes still
+arrive:
 
 ```bash
-pip install remnawave-client==<your panel version>
+pip install "remnawave-client==1.2.3.*"
 ```
 
 ## Quick start
