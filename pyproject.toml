@@ -23,6 +23,11 @@ dependencies = [
 "Homepage" = "https://github.com/zen220/remnawave-client"
 "Bug Tracker" = "https://github.com/zen220/remnawave-client/issues"
 
+[project.optional-dependencies]
+streams = [
+    "redis>=4.2",
+]
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
@@ -33,6 +38,7 @@ dev = [
     "pyyaml>=6.0",
     "types-PyYAML>=6.0",
     "pytest-cov>=6.0",
+    "fakeredis>=2.38.0",
 ]
 
 [build-system]

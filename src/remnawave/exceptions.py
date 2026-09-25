@@ -79,3 +79,9 @@ class JobFailedError(JobError):
 
 class JobTimeoutError(JobError):
     pass
+
+
+class StreamMessageError(SerializationError):
+    def __init__(self, message: str, entry_id: str) -> None:
+        super().__init__(message)
+        self.entry_id = entry_id
