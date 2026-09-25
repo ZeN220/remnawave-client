@@ -102,6 +102,47 @@ if event.scope == "user":
 Pass the raw request body: the signature covers those exact bytes, so
 re-serialising parsed JSON breaks verification.
 
+## Redis streams
+
+With `EXPORT_TO_STREAM_ENABLED=true` the panel exports per-user traffic,
+subscription requests and node connections to Redis streams. Install the
+`streams` extra and read them through a consumer group on the panel's Redis:
+
+```bash
+pip install "remnawave-client[streams]"
+```
+
+```python
+from redis import Redis
+from remnawave.streams.redis import RedisStreams
+
+streams = RedisStreams(Redis(), group="billing")
+usage = streams.user_usage()
+
+for entry in usage:
+    for record in entry.message.records:
+        print(entry.message.node_id, record.user_id, record.total_bytes)
+    usage.ack(entry)
+```
+
+`user_usage()`, `subscription_requests()` and `node_connections()` each return
+a consumer of one stream; `AsyncRedisStreams` does the same over a
+`redis.asyncio.Redis`. Every service needs a group of its own: consumers
+sharing a group split the messages between them. Several workers of one service
+share a group and pass distinct `name`s; a single worker can leave the default.
+The group is created on the first read and starts at the end of the stream
+(`start_id="0"` reads what the panel still keeps). Delivery is at-least-once:
+an entry stays pending until acknowledged and is delivered again after a
+restart. A message that does not parse raises `StreamMessageError`; acknowledge
+its `entry_id` to skip it. With `auto_ack=True` a batch is acknowledged when
+the next `read()` starts, so iterating acknowledges whatever the loop body got
+through; the batch in hand when the process dies comes back after a restart.
+The panel trims the streams (`EXPORT_TO_STREAM_MAXLEN`, one hour for node
+connections), so a consumer that falls behind loses entries.
+
+Without a consumer, `USER_USAGE.parse(fields)` from `remnawave.streams.stream`
+turns the fields of one stream entry into a message.
+
 ## Regenerating
 
 `src/remnawave/_generated/` is machine-written and must not be edited by hand.

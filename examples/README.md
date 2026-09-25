@@ -22,6 +22,7 @@ accepted.
 | `06_customization.py` | custom auth, transport and retry policy |
 | `07_webhooks.py` | receiving webhooks and verifying the signature |
 | `08_jobs.py` | running a background job and waiting for its result |
+| `09_streams.py` | all three Redis streams: `read()` and iterating a consumer |
 
 `07_webhooks.py` takes a different variable — the value of
 `WEBHOOK_SECRET_HEADER` from the panel's `.env`:
@@ -35,6 +36,15 @@ It listens on port 8080 through `http.server` so the example does not pull in
 a web framework. In your own application pass the **raw request body** to
 `receive()` unchanged: the signature is computed over those exact bytes, and
 re-serialising parsed JSON breaks the comparison.
+
+`09_streams.py` needs the `streams` extra and the panel's Redis, with
+`EXPORT_TO_STREAM_ENABLED=true` in the panel's `.env`:
+
+```bash
+pip install "remnawave-client[streams]"
+export REDIS_URL=redis://localhost:6379
+python examples/09_streams.py
+```
 
 ## Notes
 
