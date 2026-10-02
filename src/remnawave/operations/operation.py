@@ -6,7 +6,7 @@ from .pagination import Pagination
 T_co = TypeVar("T_co", covariant=True)
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Operation(Generic[T_co]):
     method: str
     path: str
@@ -14,13 +14,13 @@ class Operation(Generic[T_co]):
     pagination: Pagination | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NoContentOperation:
     method: str
     path: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawOperation:
     """
     For subscription-raw endpoints

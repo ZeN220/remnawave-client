@@ -34,14 +34,14 @@ from remnawave._generated.enums import (
 OMITTED = Omitted()
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsPasskeySetting:
     enabled: bool
     rp_id: str | None
     origin: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2SettingGithub:
     enabled: bool
     client_id: str | None
@@ -49,7 +49,7 @@ class RemnawaveSettingsOauth2SettingGithub:
     allowed_emails: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2SettingPocketid:
     enabled: bool
     client_id: str | None
@@ -59,7 +59,7 @@ class RemnawaveSettingsOauth2SettingPocketid:
     allowed_emails: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2SettingKeycloak:
     enabled: bool
     realm: str | None
@@ -70,7 +70,7 @@ class RemnawaveSettingsOauth2SettingKeycloak:
     allowed_emails: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2SettingGeneric:
     enabled: bool
     client_id: str | None
@@ -82,7 +82,7 @@ class RemnawaveSettingsOauth2SettingGeneric:
     allowed_emails: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2SettingTelegram:
     enabled: bool
     client_id: str | None
@@ -91,7 +91,7 @@ class RemnawaveSettingsOauth2SettingTelegram:
     frontend_domain: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettingsOauth2Setting:
     github: RemnawaveSettingsOauth2SettingGithub
     pocketid: RemnawaveSettingsOauth2SettingPocketid
@@ -101,18 +101,18 @@ class RemnawaveSettingsOauth2Setting:
     telegram: RemnawaveSettingsOauth2SettingTelegram | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatusAuthenticationPasskey:
     enabled: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatusBranding:
     title: str | None
     logo_url: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveSettings:
     passkey_settings: RemnawaveSettingsPasskeySetting | None
     oauth2_settings: RemnawaveSettingsOauth2Setting | None
@@ -120,7 +120,7 @@ class RemnawaveSettings:
     branding_settings: StatusBranding | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateRemnawaveSettingsBodyOauth2Setting:
     github: RemnawaveSettingsOauth2SettingGithub
     pocketid: RemnawaveSettingsOauth2SettingPocketid
@@ -130,7 +130,7 @@ class UpdateRemnawaveSettingsBodyOauth2Setting:
     telegram: Omittable[RemnawaveSettingsOauth2SettingTelegram] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateRemnawaveSettingsBody:
     passkey_settings: Omittable[RemnawaveSettingsPasskeySetting] = OMITTED
     oauth2_settings: Omittable[UpdateRemnawaveSettingsBodyOauth2Setting] = (
@@ -140,17 +140,17 @@ class UpdateRemnawaveSettingsBody:
     branding_settings: Omittable[StatusBranding] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class VerifyPasskeyRegistration:
     verified: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class VerifyPasskeyRegistrationBody:
     response: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Passkey:
     id: str
     name: str
@@ -158,46 +158,46 @@ class Passkey:
     last_used_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Passkeys:
     passkeys: list[Passkey]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DeletePasskeyBody:
     id: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdatePasskeyBody:
     id: str
     name: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Login:
     access_token: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class LoginBody:
     username: str
     password: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatusAuthenticationOauth2:
     providers: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatusAuthentication:
     passkey: StatusAuthenticationPasskey
     oauth2: StatusAuthenticationOauth2
     password: StatusAuthenticationPasskey
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Status:
     is_login_allowed: bool
     is_register_allowed: bool
@@ -205,35 +205,35 @@ class Status:
     branding: StatusBranding
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class OAuth2Authorize:
     authorization_url: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class OAuth2AuthorizeBody:
     provider: OAuth2CallbackBodyProvider
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class OAuth2CallbackBody:
     provider: OAuth2CallbackBodyProvider
     code: str
     state: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Tags:
     tags: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodePluginsTags:
     uuid: UUID
     tags: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubpageConfig:
     uuid: UUID
     view_position: int
@@ -242,47 +242,47 @@ class SubpageConfig:
     config: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubpageConfigs:
     total: int
     configs: list[SubpageConfig]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateSubpageConfigBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
     config: Omittable[Any] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SyncSnippetBody:
     name: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ReorderItem:
     view_position: int
     uuid: UUID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ReorderBody:
     items: list[ReorderItem]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CloneHostBody:
     clone_from_uuid: UUID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserActiveInternalSquad:
     uuid: UUID
     name: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserTraffic:
     used_traffic_bytes: int
     lifetime_used_traffic_bytes: int
@@ -291,7 +291,7 @@ class UserTraffic:
     last_connected_node_uuid: UUID | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class User:
     id: int
     short_uuid: str
@@ -319,7 +319,7 @@ class User:
     user_traffic: UserTraffic
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateUserBody:
     username: str
     expire_at: datetime
@@ -341,7 +341,7 @@ class CreateUserBody:
     external_squad_uuid: Omittable[UUID | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateUserBody:
     username: Omittable[str] = OMITTED
     id: Omittable[int] = OMITTED
@@ -358,38 +358,38 @@ class UpdateUserBody:
     external_squad_uuid: Omittable[UUID | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Filter:
     id: str
     value: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Sorting:
     id: str
     desc: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Users:
     users: list[User]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UsersStream:
     users: list[User]
     next_cursor: str | None
     has_more: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserAccessibleNodesActiveNodeActiveSquad:
     squad_name: str
     active_inbounds: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserAccessibleNodesActiveNode:
     uuid: UUID
     node_name: str
@@ -399,13 +399,13 @@ class UserAccessibleNodesActiveNode:
     active_squads: list[UserAccessibleNodesActiveNodeActiveSquad]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserAccessibleNodes:
     user_id: int
     active_nodes: list[UserAccessibleNodesActiveNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserSubscriptionRequestHistoryRecord:
     id: int
     user_id: int
@@ -416,48 +416,48 @@ class UserSubscriptionRequestHistoryRecord:
     srr_rule_name: str | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserSubscriptionRequestHistory:
     total: int
     records: list[UserSubscriptionRequestHistoryRecord]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RevokeUserSubscriptionBody:
     revoke_only_passwords: Omittable[bool] = OMITTED
     short_uuid: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExtendUserBody:
     days: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserRef:
     id: int
     username: str
     short_uuid: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ResolveUserBody:
     id: Omittable[int] = OMITTED
     short_uuid: Omittable[str] = OMITTED
     username: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkDeleteUsersByStatusBody:
     status: UserStatus
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkDeleteUsersBody:
     user_ids: list[int]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkUpdateUsersBodyField:
     status: Omittable[UserStatus] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
@@ -471,25 +471,25 @@ class BulkUpdateUsersBodyField:
     external_squad_uuid: Omittable[UUID | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkUpdateUsersBody:
     user_ids: list[int]
     fields: BulkUpdateUsersBodyField
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkUpdateUsersSquadsBody:
     user_ids: list[int]
     active_internal_squads: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkExtendExpirationDateBody:
     user_ids: list[int]
     extend_days: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkAllUpdateUsersBody:
     status: Omittable[UserStatus] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
@@ -502,12 +502,12 @@ class BulkAllUpdateUsersBody:
     hwid_device_limit: Omittable[int | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkAllExtendExpirationDateBody:
     extend_days: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionUser:
     short_uuid: str
     days_left: int
@@ -524,7 +524,7 @@ class SubscriptionUser:
     traffic_limit_strategy: UserTrafficLimitStrategy
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Subscription:
     is_found: bool
     user: SubscriptionUser
@@ -533,13 +533,13 @@ class Subscription:
     subscription_url: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Subscriptions:
     subscriptions: list[Subscription]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidConvertedUserInfoHwidCheckup:
     subscription_allowed: bool
     max_device_reached: bool
@@ -547,7 +547,7 @@ class RawSubscriptionByShortUuidConvertedUserInfoHwidCheckup:
     limit_bypassed: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidConvertedUserInfo:
     days_left: int
     traffic_limit: str
@@ -556,13 +556,13 @@ class RawSubscriptionByShortUuidConvertedUserInfo:
     hwid_checkup: RawSubscriptionByShortUuidConvertedUserInfoHwidCheckup | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfigStreamOverride:
     final_mask: Any
     sockopt: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HostMapper:
     xray_json: list[Any] | None = None
     mihomo: list[Any] | None = None
@@ -570,7 +570,7 @@ class HostMapper:
     singbox: list[Any] | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
     shuffle_host: bool
     mihomo_x25519: bool
@@ -580,7 +580,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfigClientOverride:
     mapper: HostMapper
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfigMetadata:
     uuid: UUID
     tags: list[str]
@@ -596,7 +596,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfigMetadata:
     raw_inbound: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuidResolvedProxyConfig:
     final_remark: str
     address: str
@@ -611,7 +611,7 @@ class RawSubscriptionByShortUuidResolvedProxyConfig:
     metadata: RawSubscriptionByShortUuidResolvedProxyConfigMetadata
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RawSubscriptionByShortUuid:
     user: User
     converted_user_info: RawSubscriptionByShortUuidConvertedUserInfo
@@ -619,25 +619,25 @@ class RawSubscriptionByShortUuid:
     resolved_proxy_configs: list[RawSubscriptionByShortUuidResolvedProxyConfig]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubpageConfigByShortUuid:
     subpage_config_uuid: UUID | None
     webpage_allowed: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GetSubpageConfigByShortUuidBody:
     request_headers: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionKeysByUserId:
     enabled_keys: list[str]
     hidden_keys: list[str]
     disabled_keys: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Template:
     uuid: UUID
     view_position: int
@@ -648,13 +648,13 @@ class Template:
     encoded_template_yaml: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Templates:
     total: int
     templates: list[Template]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateTemplateBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
@@ -662,13 +662,13 @@ class UpdateTemplateBody:
     encoded_template_yaml: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateSubscriptionTemplateBody:
     name: str
     template_type: TemplateType
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiToken:
     uuid: UUID
     name: str
@@ -679,14 +679,14 @@ class ApiToken:
     token: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateApiTokenBody:
     name: str
     expires_in_days: int
     scopes: Omittable[list[str]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiTokensToken:
     uuid: UUID
     name: str
@@ -696,12 +696,12 @@ class ApiTokensToken:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiTokens:
     tokens: list[ApiTokensToken]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiTokenScopesResourceEndpoint:
     key: str
     kind: ApiTokenScopesResourceEndpointKind
@@ -710,20 +710,20 @@ class ApiTokenScopesResourceEndpoint:
     description: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiTokenScopesResource:
     resource: str
     resource_scopes: list[str]
     endpoints: list[ApiTokenScopesResourceEndpoint]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiTokenScopes:
     wildcard: str
     resources: list[ApiTokenScopesResource]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigProfileInbound:
     uuid: UUID
     profile_uuid: UUID
@@ -735,14 +735,14 @@ class ConfigProfileInbound:
     raw_inbound: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordNode:
     uuid: UUID
     name: str
     country_code: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigProfile:
     uuid: UUID
     view_position: int
@@ -755,26 +755,26 @@ class ConfigProfile:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigProfiles:
     total: int
     config_profiles: list[ConfigProfile]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SharedList:
     name: str
     config: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateConfigProfileBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
     config: Omittable[dict[str, Any]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InboundsInbound:
     uuid: UUID
     profile_uuid: UUID
@@ -787,37 +787,37 @@ class InboundsInbound:
     active_squads: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Inbounds:
     total: int
     inbounds: list[InboundsInbound]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Snippet:
     name: str
     snippet: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Snippets:
     total: int
     snippets: list[Snippet]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateSnippetBody:
     name: str
     snippet: list[dict[str, Any]]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadInfo:
     members_count: int
     inbounds_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquad:
     uuid: UUID
     view_position: int
@@ -829,26 +829,26 @@ class InternalSquad:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquads:
     total: int
     internal_squads: list[InternalSquad]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateInternalSquadBody:
     name: str
     inbounds: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateInternalSquadBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
     inbounds: Omittable[list[UUID]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadAccessibleNodesAccessibleNode:
     uuid: UUID
     node_name: str
@@ -858,19 +858,19 @@ class InternalSquadAccessibleNodesAccessibleNode:
     active_inbounds: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadAccessibleNodes:
     squad_uuid: UUID
     accessible_nodes: list[InternalSquadAccessibleNodesAccessibleNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeUsageNodeUser:
     id: int
     total_bytes: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadUsage:
     squad_uuid: UUID
     users: list[NodeUsageNodeUser]
@@ -878,55 +878,55 @@ class InternalSquadUsage:
     has_more: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadUserUsageDayNode:
     uuid: UUID
     total_bytes: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadUserUsageDay:
     date: str
     nodes: list[InternalSquadUserUsageDayNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InternalSquadUserUsage:
     days: list[InternalSquadUserUsageDay]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadInfo:
     members_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadTemplate:
     template_uuid: UUID
     template_type: TemplateType
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadSubscriptionSetting:
     serve_json_at_base_subscription: bool | None = None
     is_show_custom_remarks: bool | None = None
     randomize_hosts: bool | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadHostOverride:
     server_description: str | None = None
     vless_route_id: int | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadHwidSetting:
     enabled: bool
     fallback_device_limit: int
     max_devices_announce: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquadCustomRemark:
     expired_users: list[str]
     limited_users: list[str]
@@ -936,7 +936,7 @@ class ExternalSquadCustomRemark:
     hwid_not_supported: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquad:
     uuid: UUID
     view_position: int
@@ -955,26 +955,26 @@ class ExternalSquad:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ExternalSquads:
     total: int
     external_squads: list[ExternalSquad]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateExternalSquadBodySubscriptionSetting:
     serve_json_at_base_subscription: Omittable[bool] = OMITTED
     is_show_custom_remarks: Omittable[bool] = OMITTED
     randomize_hosts: Omittable[bool] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateExternalSquadBodyHostOverride:
     server_description: Omittable[str | None] = OMITTED
     vless_route_id: Omittable[int | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateExternalSquadBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
@@ -990,24 +990,24 @@ class UpdateExternalSquadBody:
     subpage_config_uuid: Omittable[UUID | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeSecretKey:
     secret_key: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeIp:
     ip: str
     status: NodeIpStatus
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeConfigProfile:
     active_config_profile_uuid: UUID | None
     active_inbounds: list[ConfigProfileInbound]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeProvider:
     uuid: UUID
     name: str
@@ -1017,7 +1017,7 @@ class NodeProvider:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeSystemInfo:
     arch: str
     cpus: int
@@ -1031,7 +1031,7 @@ class NodeSystemInfo:
     network_interfaces: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeSystemStatInterface:
     interface: str
     rx_bytes_per_sec: float
@@ -1040,7 +1040,7 @@ class NodeSystemStatInterface:
     tx_total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeSystemStat:
     memory_free: int
     memory_used: int
@@ -1049,19 +1049,19 @@ class NodeSystemStat:
     interface: NodeSystemStatInterface | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeSystem:
     info: NodeSystemInfo
     stats: NodeSystemStat
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeVersion:
     xray: str
     node: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Node:
     uuid: UUID
     id: int
@@ -1099,13 +1099,13 @@ class Node:
     note: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateNodeBodyConfigProfile:
     active_config_profile_uuid: UUID
     active_inbounds: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateNodeBody:
     name: str
     address: str
@@ -1127,7 +1127,7 @@ class CreateNodeBody:
     ips: Omittable[list[NodeIp]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateNodeBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
@@ -1150,29 +1150,29 @@ class UpdateNodeBody:
     ips: Omittable[list[NodeIp]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RestartNodeBody:
     force_restart: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ReorderNodesBody:
     nodes: list[ReorderItem]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ProfileModificationBody:
     uuids: list[UUID]
     config_profile: CreateNodeBodyConfigProfile
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkNodesActionsBody:
     uuids: list[UUID]
     action: BulkNodesActionsBodyAction
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkNodesUpdateBodyField:
     country_code: Omittable[str] = OMITTED
     consumption_multiplier: Omittable[float] = OMITTED
@@ -1184,18 +1184,18 @@ class BulkNodesUpdateBodyField:
     note: Omittable[str | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkNodesUpdateBody:
     uuids: list[UUID]
     fields: BulkNodesUpdateBodyField
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordUser:
     username: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordReportActionReport:
     blocked: bool
     ip: str
@@ -1205,7 +1205,7 @@ class RecordReportActionReport:
     processed_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordReportXrayReport:
     email: str | None
     level: int | None
@@ -1222,13 +1222,13 @@ class RecordReportXrayReport:
     ts: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordReport:
     action_report: RecordReportActionReport
     xray_report: RecordReportXrayReport
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Record:
     id: int
     user_id: int
@@ -1239,13 +1239,13 @@ class Record:
     created_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerReports:
     records: list[Record]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerReportsStatsStat:
     distinct_nodes: int
     distinct_users: int
@@ -1253,7 +1253,7 @@ class TorrentBlockerReportsStatsStat:
     reports_last24_hours: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerReportsStatsTopUser:
     user_id: int
     color: str
@@ -1261,7 +1261,7 @@ class TorrentBlockerReportsStatsTopUser:
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerReportsStatsTopNode:
     uuid: UUID
     country_code: str
@@ -1270,27 +1270,27 @@ class TorrentBlockerReportsStatsTopNode:
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerReportsStats:
     stats: TorrentBlockerReportsStatsStat
     top_users: list[TorrentBlockerReportsStatsTopUser]
     top_nodes: list[TorrentBlockerReportsStatsTopNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SharedListsSharedList:
     name: str
     type: str
     items_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SharedLists:
     total: int
     shared_lists: list[SharedListsSharedList]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodePlugin:
     uuid: UUID
     view_position: int
@@ -1299,31 +1299,31 @@ class NodePlugin:
     plugin_config: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodePlugins:
     total: int
     node_plugins: list[NodePlugin]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateNodePluginBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
     plugin_config: Omittable[Any] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SyncNodePluginBody:
     uuid: UUID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class PluginExecutorBody:
     command: Any
     target_nodes: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeIntegration:
     uuid: UUID
     name: str
@@ -1331,20 +1331,20 @@ class NodeIntegration:
     config: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeIntegrations:
     total: int
     node_integrations: list[NodeIntegration]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateNodeIntegrationBody:
     name: str
     config: dict[str, Any]
     description: Omittable[str | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateNodeIntegrationBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
@@ -1353,19 +1353,19 @@ class UpdateNodeIntegrationBody:
     restart_nodes: Omittable[bool] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HostInbound:
     config_profile_uuid: UUID | None
     config_profile_inbound_uuid: UUID | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HostInternalSquad:
     mode: HostInternalSquadMode
     squads: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Host:
     uuid: UUID
     view_position: int
@@ -1402,13 +1402,13 @@ class Host:
     keep_sni_blank: bool | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateHostBodyInbound:
     config_profile_uuid: UUID
     config_profile_inbound_uuid: UUID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateHostBodyMapper:
     xray_json: Omittable[list[Any]] = OMITTED
     mihomo: Omittable[list[Any]] = OMITTED
@@ -1416,7 +1416,7 @@ class CreateHostBodyMapper:
     singbox: Omittable[list[Any]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateHostBody:
     inbound: CreateHostBodyInbound
     remark: str
@@ -1451,7 +1451,7 @@ class CreateHostBody:
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateHostBody:
     uuid: UUID
     inbound: Omittable[CreateHostBodyInbound] = OMITTED
@@ -1487,22 +1487,22 @@ class UpdateHostBody:
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Hosts:
     is_updated: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ReorderHostsBody:
     hosts: list[ReorderItem]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BulkDeleteHostsBody:
     uuids: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateManyHostsBody:
     uuids: list[UUID]
     inbound: Omittable[CreateHostBodyInbound] = OMITTED
@@ -1538,37 +1538,37 @@ class UpdateManyHostsBody:
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeUsageNode:
     uuid: UUID
     users: list[NodeUsageNodeUser]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeUsage:
     nodes: list[NodeUsageNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GetNodeUsageBody:
     nodes_uuids: list[UUID]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsNodeUsersUsageTopUser:
     color: str
     username: str
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsNodeUsersUsage:
     categories: list[str]
     sparkline_data: list[int]
     top_users: list[StatsNodeUsersUsageTopUser]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsUserUsageTopNode:
     uuid: UUID
     color: str
@@ -1577,7 +1577,7 @@ class StatsUserUsageTopNode:
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsUserUsageSery:
     uuid: UUID
     name: str
@@ -1587,7 +1587,7 @@ class StatsUserUsageSery:
     data: list[int]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsUserUsage:
     categories: list[str]
     sparkline_data: list[int]
@@ -1595,7 +1595,7 @@ class StatsUserUsage:
     series: list[StatsUserUsageSery]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Device:
     hwid: str
     user_id: int
@@ -1608,19 +1608,19 @@ class Device:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HwidDevicesQuery:
     devices: list[Device]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserHwidDevice:
     total: int
     devices: list[Device]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateUserHwidDeviceBody:
     hwid: str
     user_id: int
@@ -1631,75 +1631,75 @@ class CreateUserHwidDeviceBody:
     request_ip: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DeleteUserHwidDeviceBody:
     user_id: int
     hwid: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DeleteAllUserHwidDevicesBody:
     user_id: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HwidDevicesStatsByPlatformByApp:
     app: str
     count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HwidDevicesStatsByPlatform:
     platform: str
     count: int
     by_app: list[HwidDevicesStatsByPlatformByApp]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HwidDevicesStatsStat:
     total_unique_devices: int
     total_hwid_devices: int
     average_hwid_devices_per_user: float
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HwidDevicesStats:
     by_platform: list[HwidDevicesStatsByPlatform]
     stats: HwidDevicesStatsStat
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TopUsersByHwidDevicesUser:
     id: int
     username: str
     devices_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TopUsersByHwidDevices:
     users: list[TopUsersByHwidDevicesUser]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraProviderBillingHistory:
     total_amount: float
     total_bills: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraProviderBillingNodeDetail:
     node_uuid: UUID
     country_code: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraProviderBillingNode:
     name: str
     details: InfraProviderBillingNodeDetail | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraProvider:
     uuid: UUID
     name: str
@@ -1711,20 +1711,20 @@ class InfraProvider:
     billing_nodes: list[InfraProviderBillingNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraProviders:
     total: int
     providers: list[InfraProvider]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateInfraProviderBody:
     name: str
     favicon_link: Omittable[str] = OMITTED
     login_url: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateInfraProviderBody:
     uuid: UUID
     name: Omittable[str] = OMITTED
@@ -1732,14 +1732,14 @@ class UpdateInfraProviderBody:
     login_url: Omittable[str | None] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecordProvider:
     uuid: UUID
     name: str
     favicon_link: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingRecordRecord:
     uuid: UUID
     provider_uuid: UUID
@@ -1748,20 +1748,20 @@ class InfraBillingRecordRecord:
     provider: RecordProvider
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingRecord:
     records: list[InfraBillingRecordRecord]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateInfraBillingRecordBody:
     provider_uuid: UUID
     amount: float
     billed_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingNodeProvider:
     uuid: UUID
     name: str
@@ -1769,7 +1769,7 @@ class InfraBillingNodeProvider:
     favicon_link: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingNodeBillingNode:
     uuid: UUID
     node_uuid: UUID | None
@@ -1782,14 +1782,14 @@ class InfraBillingNodeBillingNode:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingNodeStat:
     upcoming_nodes_count: int
     current_month_payments: float
     total_spent: float
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class InfraBillingNode:
     total_billing_nodes: int
     billing_nodes: list[InfraBillingNodeBillingNode]
@@ -1798,13 +1798,13 @@ class InfraBillingNode:
     stats: InfraBillingNodeStat
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateInfraBillingNodeBody:
     uuids: list[UUID]
     next_billing_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CreateInfraBillingNodeBody:
     provider_uuid: UUID
     node_uuid: UUID | None
@@ -1812,7 +1812,7 @@ class CreateInfraBillingNodeBody:
     next_billing_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionRequestHistoryRecord:
     id: int
     user_id: int
@@ -1823,57 +1823,57 @@ class SubscriptionRequestHistoryRecord:
     request_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionRequestHistory:
     records: list[SubscriptionRequestHistoryRecord]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionRequestHistoryStatsHourlyRequestStat:
     date_time: datetime
     request_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionRequestHistoryStats:
     by_parsed_app: list[HwidDevicesStatsByPlatformByApp]
     hourly_request_stats: list[SubscriptionRequestHistoryStatsHourlyRequestStat]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class MetadataBuild:
     time: str
     number: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class MetadataGitBackend:
     commit_sha: str
     branch: str
     commit_url: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class MetadataGitFrontend:
     commit_sha: str
     commit_url: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class MetadataGit:
     backend: MetadataGitBackend
     frontend: MetadataGitFrontend
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Metadata:
     version: str
     build: MetadataBuild
     git: MetadataGit
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigurationNotification:
     webhook: bool
     bandwidth_usage: list[float] | None
@@ -1881,7 +1881,7 @@ class ConfigurationNotification:
     expiration_notifications: list[float] | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigurationService:
     clean_usage_history: bool
     disable_user_usage_records: bool
@@ -1889,39 +1889,39 @@ class ConfigurationService:
     export_to_redis_stream: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConfigurationMisc:
     short_uuid_length: int
     sub_public_domain: str
     user_usage_ignore_below_bytes: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Configuration:
     notifications: ConfigurationNotification
     service: ConfigurationService
     misc: ConfigurationMisc
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsCpu:
     cores: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsMemory:
     total: int
     free: int
     used: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsUser:
     status_counts: dict[str, Any]
     total_users: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsOnlineStat:
     last_day: int
     last_week: int
@@ -1929,13 +1929,13 @@ class StatsOnlineStat:
     online_now: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsNode:
     total_online: int
     total_bytes_lifetime: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Stats:
     cpu: StatsCpu
     memory: StatsMemory
@@ -1946,14 +1946,14 @@ class Stats:
     nodes: StatsNode
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BandwidthStatsBandwidthLast30Day:
     current: str
     previous: str
     difference: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class BandwidthStats:
     bandwidth_last_two_days: BandwidthStatsBandwidthLast30Day
     bandwidth_last_seven_days: BandwidthStatsBandwidthLast30Day
@@ -1962,19 +1962,19 @@ class BandwidthStats:
     bandwidth_current_year: BandwidthStatsBandwidthLast30Day
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodesStatisticsLastSevenDay:
     node_name: str
     date: str
     total_bytes: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodesStatistics:
     last_seven_days: list[NodesStatisticsLastSevenDay]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveHealthRuntimeMetric:
     rss: int
     heap_used: int
@@ -1991,19 +1991,19 @@ class RemnawaveHealthRuntimeMetric:
     instance_type: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RemnawaveHealth:
     runtime_metrics: list[RemnawaveHealthRuntimeMetric]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodesMetricsNodeInboundsStat:
     tag: str
     upload: str
     download: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodesMetricsNode:
     node_uuid: str
     node_name: str
@@ -2014,23 +2014,23 @@ class NodesMetricsNode:
     outbounds_stats: list[NodesMetricsNodeInboundsStat]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodesMetrics:
     nodes: list[NodesMetricsNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class X25519Keypair:
     public_key: str
     private_key: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class X25519:
     keypairs: list[X25519Keypair]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcherMatchedRuleCondition:
     header_name: str
     operator: SrrMatcherMatchedRuleConditionOperator
@@ -2038,19 +2038,19 @@ class SrrMatcherMatchedRuleCondition:
     case_sensitive: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcherMatchedRuleResponseModificationHeader:
     key: str
     value: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcherMatchedRuleResponseModificationEncryption:
     method: SrrMatcherMatchedRuleResponseModificationEncryptionMethod
     key: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcherMatchedRuleResponseModification:
     headers: list[SrrMatcherMatchedRuleResponseModificationHeader] | None = None
     apply_headers_to_end: bool | None = None
@@ -2066,7 +2066,7 @@ class SrrMatcherMatchedRuleResponseModification:
     respond_with_remarks: list[str] | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcherMatchedRule:
     name: str
     enabled: bool
@@ -2079,7 +2079,7 @@ class SrrMatcherMatchedRule:
     )
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SrrMatcher:
     matched: bool
     response_type: SrrMatcherResponseType
@@ -2088,12 +2088,12 @@ class SrrMatcher:
     output_headers: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DebugSrrMatcherBodyResponseRuleSetting:
     disable_subscription_access_by_path: Omittable[bool] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DebugSrrMatcherBodyResponseRuleResponseModification:
     headers: Omittable[
         list[SrrMatcherMatchedRuleResponseModificationHeader]
@@ -2111,7 +2111,7 @@ class DebugSrrMatcherBodyResponseRuleResponseModification:
     respond_with_remarks: Omittable[list[str]] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DebugSrrMatcherBodyResponseRuleRule:
     name: str
     enabled: bool
@@ -2124,25 +2124,25 @@ class DebugSrrMatcherBodyResponseRuleRule:
     ] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DebugSrrMatcherBodyResponseRule:
     version: Literal["1"]
     rules: list[DebugSrrMatcherBodyResponseRuleRule]
     settings: Omittable[DebugSrrMatcherBodyResponseRuleSetting] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DebugSrrMatcherBody:
     response_rules: DebugSrrMatcherBodyResponseRule
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecapThisMonth:
     users: int
     traffic: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class RecapTotal:
     users: int
     nodes: int
@@ -2152,7 +2152,7 @@ class RecapTotal:
     distinct_countries: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Recap:
     this_month: RecapThisMonth
     total: RecapTotal
@@ -2160,56 +2160,56 @@ class Recap:
     init_date: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsDigestUser:
     created_count: int
     expired_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsDigestTraffic:
     total_bytes: str
     by_users_created_in_range_bytes: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsDigestHwidDevice:
     created_count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StatsDigest:
     users: StatsDigestUser
     traffic: StatsDigestTraffic
     hwid_devices: StatsDigestHwidDevice
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HttpStatsRoute:
     method: str
     route: str
     count: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class HttpStats:
     routes: list[HttpStatsRoute]
     total: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionSettingsResponseRuleSetting:
     disable_subscription_access_by_path: bool | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionSettingsResponseRule:
     version: Literal["1"]
     rules: list[SrrMatcherMatchedRule]
     settings: SubscriptionSettingsResponseRuleSetting | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionSettings:
     uuid: UUID
     serve_json_at_base_subscription: bool
@@ -2223,7 +2223,7 @@ class SubscriptionSettings:
     updated_at: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UpdateSubscriptionSettingsBody:
     uuid: UUID
     serve_json_at_base_subscription: Omittable[bool] = OMITTED
@@ -2235,25 +2235,25 @@ class UpdateSubscriptionSettingsBody:
     hwid_settings: Omittable[ExternalSquadHwidSetting] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class JobRef:
     job_id: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByUserResultProgress:
     total: int
     completed: int
     percent: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByNodeResultUserIp:
     ip: str
     last_seen: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByUserResultNode:
     node_uuid: UUID
     node_name: str
@@ -2261,14 +2261,14 @@ class ConnectionsByUserResultNode:
     ips: list[ConnectionsByNodeResultUserIp]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByUserResultResult:
     success: bool
     user_id: int
     nodes: list[ConnectionsByUserResultNode]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByUserResult:
     is_completed: bool
     is_failed: bool
@@ -2276,39 +2276,39 @@ class ConnectionsByUserResult:
     result: ConnectionsByUserResultResult | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class DropConnectionsBody:
     drop_by: Any
     target_nodes: Any
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByNodeResultUser:
     user_id: int
     ips: list[ConnectionsByNodeResultUserIp]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByNodeResultResult:
     success: bool
     node_uuid: UUID
     users: list[ConnectionsByNodeResultUser]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ConnectionsByNodeResult:
     is_completed: bool
     is_failed: bool
     result: ConnectionsByNodeResultResult | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GeocheckByNodeBody:
     ip: Omittable[str] = OMITTED
     interface: Omittable[str] = OMITTED
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GeocheckByNodeResultImage:
     format: Literal["svg"]
     media_type: Literal["image/svg+xml"]
@@ -2316,7 +2316,7 @@ class GeocheckByNodeResultImage:
     data: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GeocheckByNodeResultResult:
     success: bool
     node_uuid: UUID
@@ -2325,19 +2325,19 @@ class GeocheckByNodeResultResult:
     message: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GeocheckByNodeResult:
     is_completed: bool
     is_failed: bool
     result: GeocheckByNodeResultResult | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeMetadata:
     metadata: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CrmEventData:
     provider_name: str
     node_name: str
@@ -2345,7 +2345,7 @@ class CrmEventData:
     login_url: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class CrmEvent:
     scope: Literal["crm"]
     event: CrmEventName
@@ -2353,12 +2353,12 @@ class CrmEvent:
     data: CrmEventData
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ErrorsEventData:
     description: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ErrorsEvent:
     scope: Literal["errors"]
     event: Literal["errors.bandwidth_usage_threshold_reached_max_notifications"]
@@ -2366,7 +2366,7 @@ class ErrorsEvent:
     data: ErrorsEventData
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeEvent:
     scope: Literal["node"]
     event: NodeEventName
@@ -2374,7 +2374,7 @@ class NodeEvent:
     data: Node
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ServiceEventDataLoginAttempt:
     username: str
     ip: str
@@ -2383,13 +2383,13 @@ class ServiceEventDataLoginAttempt:
     password: str | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ServiceEventDataSubpageConfig:
     action: ServiceEventDataSubpageConfigAction
     uuid: UUID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ServiceEventDataApiToken:
     name: str
     uuid: UUID
@@ -2397,7 +2397,7 @@ class ServiceEventDataApiToken:
     scopes: list[str]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ServiceEventData:
     login_attempt: ServiceEventDataLoginAttempt | None = None
     panel_version: str | None = None
@@ -2405,7 +2405,7 @@ class ServiceEventData:
     api_token: ServiceEventDataApiToken | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ServiceEvent:
     scope: Literal["service"]
     event: ServiceEventName
@@ -2413,14 +2413,14 @@ class ServiceEvent:
     data: ServiceEventData
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerEventData:
     node: Node
     user: User
     report: RecordReport
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class TorrentBlockerEvent:
     scope: Literal["torrent_blocker"]
     event: Literal["torrent_blocker.report"]
@@ -2428,13 +2428,13 @@ class TorrentBlockerEvent:
     data: TorrentBlockerEventData
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserEventMeta:
     not_connected_after_hours: float | None = None
     expiration: float | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserEvent:
     scope: Literal["user"]
     event: UserEventName
@@ -2443,13 +2443,13 @@ class UserEvent:
     meta: UserEventMeta | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserHwidDevicesEventData:
     user: User
     hwid_user_device: Device
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserHwidDevicesEvent:
     scope: Literal["user_hwid_devices"]
     event: UserHwidDevicesEventName

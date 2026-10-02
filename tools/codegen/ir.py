@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Field:
     name: str
     type: str
@@ -10,21 +10,21 @@ class Field:
     secret: bool = False
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Model:
     name: str
     fields: tuple[Field, ...]
     doc: str | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Enum:
     name: str
     members: tuple[tuple[str, str], ...]
     doc: str | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Param:
     name: str
     wire: str
@@ -32,20 +32,20 @@ class Param:
     required: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Pagination:
     items_field: str
     item_type: str
     max_page_size: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Job:
     result: str
     value: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Method:
     name: str
     http: str
@@ -60,7 +60,7 @@ class Method:
     job: Job | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Group:
     name: str
     class_name: str
@@ -68,13 +68,13 @@ class Group:
     methods: tuple[Method, ...] = ()
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Webhook:
     scope: str
     type_name: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Api:
     version: str
     enums: tuple[Enum, ...] = ()

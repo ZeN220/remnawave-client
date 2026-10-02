@@ -37,12 +37,12 @@ ERROR_STATUS = 400
 SERVER_ERROR_STATUS = 500
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class _Envelope(Generic[T]):
     response: T
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ErrorBody:
     message: str | None = None
     error_code: str | None = None

@@ -5,7 +5,7 @@ from typing import Any
 import yaml
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Overlay:
     groups: dict[str, str] = field(default_factory=dict)
     methods: dict[str, str] = field(default_factory=dict)

@@ -18,7 +18,7 @@ OMITTED = Omitted()
 
 {% for model in models %}
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class {{ model.name }}:
 {% for f in model.fields %}
     {{ f | field_line }}

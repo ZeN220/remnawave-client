@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Request:
     method: str
     url: str
@@ -11,7 +11,7 @@ class Request:
     content: bytes | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Response:
     status: int
     headers: dict[str, str] = field(default_factory=dict)

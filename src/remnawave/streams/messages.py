@@ -7,20 +7,20 @@ from remnawave._generated.enums import SrrMatcherResponseType
 T = TypeVar("T")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserUsageRecord:
     user_id: int
     total_bytes: int
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class UserUsageMessage:
     node_id: int
     timestamp: datetime
     records: list[UserUsageRecord]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class SubscriptionRequestMessage:
     user_id: int
     request_at: datetime
@@ -30,26 +30,26 @@ class SubscriptionRequestMessage:
     srr_rule_name: str | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeConnectionIp:
     ip: str
     last_seen: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeConnectionUser:
     user_id: int
     ips: list[NodeConnectionIp]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class NodeConnectionsMessage:
     node_id: int
     timestamp: datetime
     users: list[NodeConnectionUser]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class StreamEntry(Generic[T]):
     id: str
     message: T

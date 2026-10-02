@@ -24,7 +24,7 @@ RETURN_BY_KIND = {"no_content": "None", "raw": "bytes"}
 _DEFAULTS = {"Omitted()": "OMITTED"}
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class MethodView:
     name: str
     const: str
@@ -43,7 +43,7 @@ class MethodView:
     wait_type: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class GroupView:
     name: str
     class_name: str
