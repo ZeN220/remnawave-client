@@ -1,8 +1,11 @@
 from remnawave.client import (
-    AsyncRemnawave as AsyncRemnawave,
+    AsyncRemnawave,
+    Remnawave,
 )
-from remnawave.client import (
-    Remnawave as Remnawave,
+
+__all__ = (
+    "AsyncRemnawave",
+    "Remnawave",
 )
 
 __version__ = "3.4.3"

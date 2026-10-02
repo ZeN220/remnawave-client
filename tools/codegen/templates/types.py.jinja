@@ -2,11 +2,17 @@
 
 from remnawave._generated.enums import (
 {% for name in enums %}
-    {{ name }} as {{ name }},
+    {{ name }},
 {% endfor %}
 )
 from remnawave._generated.models import (
 {% for name in models %}
-    {{ name }} as {{ name }},
+    {{ name }},
+{% endfor %}
+)
+
+__all__ = (
+{% for name in names %}
+    "{{ name }}",
 {% endfor %}
 )
