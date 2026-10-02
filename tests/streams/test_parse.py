@@ -39,10 +39,10 @@ def test_user_usage() -> None:
 
     assert message.node_id == 3
     assert message.timestamp == AT
-    assert message.records == (
+    assert message.records == [
         UserUsageRecord(user_id=42, total_bytes=1024),
         UserUsageRecord(user_id=7, total_bytes=18446744073709551615),
-    )
+    ]
 
 
 def test_bytes_fields() -> None:
@@ -77,9 +77,9 @@ def test_node_connections() -> None:
     )
 
     assert message.node_id == 3
-    assert message.users == (
-        NodeConnectionUser(user_id=42, ips=(NodeConnectionIp("1.2.3.4", AT),)),
-    )
+    assert message.users == [
+        NodeConnectionUser(user_id=42, ips=[NodeConnectionIp("1.2.3.4", AT)]),
+    ]
 
 
 @pytest.mark.parametrize(

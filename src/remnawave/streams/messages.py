@@ -17,7 +17,7 @@ class UserUsageRecord:
 class UserUsageMessage:
     node_id: int
     timestamp: datetime
-    records: tuple[UserUsageRecord, ...]
+    records: list[UserUsageRecord]
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,14 +39,14 @@ class NodeConnectionIp:
 @dataclass(frozen=True, slots=True)
 class NodeConnectionUser:
     user_id: int
-    ips: tuple[NodeConnectionIp, ...]
+    ips: list[NodeConnectionIp]
 
 
 @dataclass(frozen=True, slots=True)
 class NodeConnectionsMessage:
     node_id: int
     timestamp: datetime
-    users: tuple[NodeConnectionUser, ...]
+    users: list[NodeConnectionUser]
 
 
 @dataclass(frozen=True, slots=True)
