@@ -62,8 +62,3 @@ field_types:
   totalAmount: float
   totalSpent: float
   currentMonthPayments: float
-
-# snake() would turn HWID into h_w_i_d.
-field_names:
-  HWIDMaxDevicesExceeded: hwid_max_devices_exceeded
-  HWIDNotSupported: hwid_not_supported
