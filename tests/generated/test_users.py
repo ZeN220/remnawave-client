@@ -32,6 +32,7 @@ def test_secret_repr(sync_transport: FakeSyncTransport) -> None:
     user = client.users.get_user_by_id(42)
 
     assert "trojan_password" not in repr(user)
+    assert "short_uuid" not in repr(user)
 
 
 async def test_async_group(async_transport: FakeAsyncTransport) -> None:

@@ -35,10 +35,58 @@ types:
 
 secret_fields:
   User:
+    - shortUuid
     - trojanPassword
     - ssPassword
     - vlessUuid
     - subscriptionUrl
+  CreateUserBody:
+    - shortUuid
+    - trojanPassword
+    - ssPassword
+    - vlessUuid
+  UserRef:
+    - shortUuid
+  SubscriptionUser:
+    - shortUuid
+  Subscription:
+    - subscriptionUrl
+  RevokeUserSubscriptionBody:
+    - shortUuid
+  ResolveUserBody:
+    - shortUuid
+  ConnectionKeysByUserId:
+    - enabledKeys
+    - hiddenKeys
+    - disabledKeys
+  Node:
+    - proxyUrl
+  CreateNodeBody:
+    - proxyUrl
+  UpdateNodeBody:
+    - proxyUrl
+  Login:
+    - accessToken
+  LoginBody:
+    - password
+  ServiceEventDataLoginAttempt:
+    - password
+  ApiToken:
+    - token
+  NodeSecretKey:
+    - secretKey
+  X25519Keypair:
+    - privateKey
+  RemnawaveSettingsOauth2SettingGithub:
+    - clientSecret
+  RemnawaveSettingsOauth2SettingPocketid:
+    - clientSecret
+  RemnawaveSettingsOauth2SettingKeycloak:
+    - clientSecret
+  RemnawaveSettingsOauth2SettingGeneric:
+    - clientSecret
+  RemnawaveSettingsOauth2SettingTelegram:
+    - clientSecret
 
 # Fractional values the panel declares as a plain number. Checked against
 # remnawave/backend 3.4.5 and remnawave/node 3.4.2: only what a division, an average

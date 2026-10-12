@@ -45,7 +45,7 @@ class RemnawaveSettingsPasskeySetting:
 class RemnawaveSettingsOauth2SettingGithub:
     enabled: bool
     client_id: str | None
-    client_secret: str | None
+    client_secret: str | None = field(repr=False)
     allowed_emails: list[str]
 
 
@@ -53,7 +53,7 @@ class RemnawaveSettingsOauth2SettingGithub:
 class RemnawaveSettingsOauth2SettingPocketid:
     enabled: bool
     client_id: str | None
-    client_secret: str | None
+    client_secret: str | None = field(repr=False)
     frontend_domain: str | None
     plain_domain: str | None
     allowed_emails: list[str]
@@ -64,7 +64,7 @@ class RemnawaveSettingsOauth2SettingKeycloak:
     enabled: bool
     realm: str | None
     client_id: str | None
-    client_secret: str | None
+    client_secret: str | None = field(repr=False)
     frontend_domain: str | None
     keycloak_domain: str | None
     allowed_emails: list[str]
@@ -74,7 +74,7 @@ class RemnawaveSettingsOauth2SettingKeycloak:
 class RemnawaveSettingsOauth2SettingGeneric:
     enabled: bool
     client_id: str | None
-    client_secret: str | None
+    client_secret: str | None = field(repr=False)
     with_pkce: bool
     authorization_url: str | None
     token_url: str | None
@@ -86,7 +86,7 @@ class RemnawaveSettingsOauth2SettingGeneric:
 class RemnawaveSettingsOauth2SettingTelegram:
     enabled: bool
     client_id: str | None
-    client_secret: str | None
+    client_secret: str | None = field(repr=False)
     allowed_ids: list[str]
     frontend_domain: str | None
 
@@ -176,13 +176,13 @@ class UpdatePasskeyBody:
 
 @dataclass(slots=True)
 class Login:
-    access_token: str
+    access_token: str = field(repr=False)
 
 
 @dataclass(slots=True)
 class LoginBody:
     username: str
-    password: str
+    password: str = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -294,7 +294,7 @@ class UserTraffic:
 @dataclass(slots=True)
 class User:
     id: int
-    short_uuid: str
+    short_uuid: str = field(repr=False)
     username: str
     status: UserStatus
     traffic_limit_bytes: int
@@ -324,10 +324,10 @@ class CreateUserBody:
     username: str
     expire_at: datetime
     status: Omittable[UserStatus] = OMITTED
-    short_uuid: Omittable[str] = OMITTED
-    trojan_password: Omittable[str] = OMITTED
-    vless_uuid: Omittable[UUID] = OMITTED
-    ss_password: Omittable[str] = OMITTED
+    short_uuid: Omittable[str] = field(repr=False, default=OMITTED)
+    trojan_password: Omittable[str] = field(repr=False, default=OMITTED)
+    vless_uuid: Omittable[UUID] = field(repr=False, default=OMITTED)
+    ss_password: Omittable[str] = field(repr=False, default=OMITTED)
     traffic_limit_bytes: Omittable[int] = OMITTED
     traffic_limit_strategy: Omittable[UserTrafficLimitStrategy] = OMITTED
     created_at: Omittable[datetime] = OMITTED
@@ -425,7 +425,7 @@ class UserSubscriptionRequestHistory:
 @dataclass(slots=True)
 class RevokeUserSubscriptionBody:
     revoke_only_passwords: Omittable[bool] = OMITTED
-    short_uuid: Omittable[str] = OMITTED
+    short_uuid: Omittable[str] = field(repr=False, default=OMITTED)
 
 
 @dataclass(slots=True)
@@ -437,13 +437,13 @@ class ExtendUserBody:
 class UserRef:
     id: int
     username: str
-    short_uuid: str
+    short_uuid: str = field(repr=False)
 
 
 @dataclass(slots=True)
 class ResolveUserBody:
     id: Omittable[int] = OMITTED
-    short_uuid: Omittable[str] = OMITTED
+    short_uuid: Omittable[str] = field(repr=False, default=OMITTED)
     username: Omittable[str] = OMITTED
 
 
@@ -509,7 +509,7 @@ class BulkAllExtendExpirationDateBody:
 
 @dataclass(slots=True)
 class SubscriptionUser:
-    short_uuid: str
+    short_uuid: str = field(repr=False)
     days_left: int
     traffic_used: str
     traffic_limit: str
@@ -530,7 +530,7 @@ class Subscription:
     user: SubscriptionUser
     links: list[str]
     ss_conf_links: dict[str, Any]
-    subscription_url: str
+    subscription_url: str = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -632,9 +632,9 @@ class GetSubpageConfigByShortUuidBody:
 
 @dataclass(slots=True)
 class ConnectionKeysByUserId:
-    enabled_keys: list[str]
-    hidden_keys: list[str]
-    disabled_keys: list[str]
+    enabled_keys: list[str] = field(repr=False)
+    hidden_keys: list[str] = field(repr=False)
+    disabled_keys: list[str] = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -676,7 +676,7 @@ class ApiToken:
     scopes: list[str]
     created_at: datetime
     updated_at: datetime
-    token: str
+    token: str = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -992,7 +992,7 @@ class UpdateExternalSquadBody:
 
 @dataclass(slots=True)
 class NodeSecretKey:
-    secret_key: str
+    secret_key: str = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -1068,7 +1068,7 @@ class Node:
     name: str
     address: str
     port: int | None
-    proxy_url: str | None
+    proxy_url: str | None = field(repr=False)
     is_connected: bool
     is_disabled: bool
     is_connecting: bool
@@ -1111,7 +1111,7 @@ class CreateNodeBody:
     address: str
     config_profile: CreateNodeBodyConfigProfile
     port: Omittable[int] = OMITTED
-    proxy_url: Omittable[str | None] = OMITTED
+    proxy_url: Omittable[str | None] = field(repr=False, default=OMITTED)
     is_traffic_tracking_active: Omittable[bool] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     notify_percent: Omittable[int] = OMITTED
@@ -1133,7 +1133,7 @@ class UpdateNodeBody:
     name: Omittable[str] = OMITTED
     address: Omittable[str] = OMITTED
     port: Omittable[int] = OMITTED
-    proxy_url: Omittable[str | None] = OMITTED
+    proxy_url: Omittable[str | None] = field(repr=False, default=OMITTED)
     is_traffic_tracking_active: Omittable[bool] = OMITTED
     traffic_limit_bytes: Omittable[int] = OMITTED
     notify_percent: Omittable[int] = OMITTED
@@ -2022,7 +2022,7 @@ class NodesMetrics:
 @dataclass(slots=True)
 class X25519Keypair:
     public_key: str
-    private_key: str
+    private_key: str = field(repr=False)
 
 
 @dataclass(slots=True)
@@ -2380,7 +2380,7 @@ class ServiceEventDataLoginAttempt:
     ip: str
     user_agent: str
     description: str | None = None
-    password: str | None = None
+    password: str | None = field(repr=False, default=None)
 
 
 @dataclass(slots=True)
