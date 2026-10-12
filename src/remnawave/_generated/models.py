@@ -1876,9 +1876,9 @@ class Metadata:
 @dataclass(slots=True)
 class ConfigurationNotification:
     webhook: bool
-    bandwidth_usage: list[float] | None
-    not_connected_after: list[float] | None
-    expiration_notifications: list[float] | None
+    bandwidth_usage: list[int] | None
+    not_connected_after: list[int] | None
+    expiration_notifications: list[int] | None
 
 
 @dataclass(slots=True)
@@ -2430,8 +2430,8 @@ class TorrentBlockerEvent:
 
 @dataclass(slots=True)
 class UserEventMeta:
-    not_connected_after_hours: float | None = None
-    expiration: float | None = None
+    not_connected_after_hours: int | None = None
+    expiration: int | None = None
 
 
 @dataclass(slots=True)

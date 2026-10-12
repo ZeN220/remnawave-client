@@ -41,7 +41,7 @@ secret_fields:
     - subscriptionUrl
 
 # Fractional values the panel declares as a plain number. Checked against
-# remnawave/backend 3.4.4 and remnawave/node: only what a division, an average
+# remnawave/backend 3.4.5 and remnawave/node 3.4.2: only what a division, an average
 # or a Float column can reach is listed here, the rest of the numbers are whole.
 field_types:
   # fromNanoToNumber() of the stored nano value.
@@ -57,15 +57,6 @@ field_types:
   txBytesPerSec: float
   # Devices over users, rounded to two decimals.
   averageHwidDevicesPerUser: float
-  # Notification thresholds come from env as z.array(z.number()) with no
-  # integer bound: BANDWIDTH_USAGE_NOTIFICATIONS_THRESHOLD holds ratios like
-  # 0.8, and nothing stops half an hour or half a day in the other two.
-  bandwidthUsage: list[float]
-  notConnectedAfter: list[float]
-  expirationNotifications: list[float]
-  # The same env values, as the webhook meta of a single notification.
-  notConnectedAfterHours: float
-  expiration: float
   # Infra billing money: a Float column and round(sum(amount)::numeric, 2).
   amount: float
   totalAmount: float
