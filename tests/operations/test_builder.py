@@ -128,3 +128,28 @@ def test_complex_query_is_rejected(builder: RequestBuilder) -> None:
 
     with pytest.raises(ValueError, match="wire format"):
         builder.build(operation, query={"filters": [{"id": "a"}]})
+
+
+@pytest.mark.parametrize(
+    "base_url",
+    ["http://remnawave:3000", "HTTP://remnawave:3000"],
+)
+def test_plain_http_passes_proxy_check(
+    base_url: str,
+    serializer: AdaptixSerializer,
+) -> None:
+    operation: Operation[Sample] = Operation("GET", "/api/users", Sample)
+
+    request = RequestBuilder(base_url, serializer).build(operation)
+
+    assert request.headers["X-Forwarded-For"] == "127.0.0.1"
+    assert request.headers["X-Forwarded-Proto"] == "https"
+
+
+def test_https_sends_no_forwarded_headers(builder: RequestBuilder) -> None:
+    operation: Operation[Sample] = Operation("GET", "/api/users", Sample)
+
+    request = builder.build(operation)
+
+    assert "X-Forwarded-For" not in request.headers
+    assert "X-Forwarded-Proto" not in request.headers

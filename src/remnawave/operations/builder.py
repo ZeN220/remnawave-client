@@ -1,7 +1,7 @@
 from datetime import UTC, date, datetime
 from enum import Enum
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 from uuid import UUID
 
 from remnawave.http import Request
@@ -9,11 +9,20 @@ from remnawave.serialization import Serializer
 
 from .operation import AnyOperation, RawOperation
 
+# The panel drops connections that did not come through an HTTPS reverse proxy.
+_PLAIN_HTTP_HEADERS = {
+    "X-Forwarded-For": "127.0.0.1",
+    "X-Forwarded-Proto": "https",
+}
+
 
 class RequestBuilder:
     def __init__(self, base_url: str, serializer: Serializer) -> None:
         self._base_url = base_url.rstrip("/")
         self._serializer = serializer
+        self._base_headers = (
+            _PLAIN_HTTP_HEADERS if urlsplit(base_url).scheme == "http" else {}
+        )
 
     def build(
         self,
@@ -22,7 +31,7 @@ class RequestBuilder:
         query: dict[str, Any] | None = None,
         body: object = None,
     ) -> Request:
-        headers: dict[str, str] = {}
+        headers = dict(self._base_headers)
         if not isinstance(operation, RawOperation):
             headers["Accept"] = "application/json"
 
