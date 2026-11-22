@@ -1394,6 +1394,7 @@ class Host:
     xray_json_template_uuid: UUID | None
     exclude_from_subscription_types: list[TemplateType]
     mapper: HostMapper
+    include_in_srr_rules: list[str]
     internal_squads: HostInternalSquad
     security_layer: HostSecurityLayer | None = None
     tags: list[str] | None = None
@@ -1448,6 +1449,7 @@ class CreateHostBody:
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    include_in_srr_rules: Omittable[list[str]] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
@@ -1484,6 +1486,7 @@ class UpdateHostBody:
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    include_in_srr_rules: Omittable[list[str]] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 
@@ -1535,6 +1538,7 @@ class UpdateManyHostsBody:
     xray_json_template_uuid: Omittable[UUID | None] = OMITTED
     exclude_from_subscription_types: Omittable[list[TemplateType]] = OMITTED
     mapper: Omittable[CreateHostBodyMapper] = OMITTED
+    include_in_srr_rules: Omittable[list[str]] = OMITTED
     internal_squads: Omittable[HostInternalSquad] = OMITTED
 
 

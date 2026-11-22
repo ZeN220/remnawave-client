@@ -8,5 +8,5 @@ __all__ = (
     "Remnawave",
 )
 
-__version__ = "3.4.8"
-API_VERSION = "3.4.8"
+__version__ = "3.4.11"
+API_VERSION = "3.4.11"
